@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shar Pone Taw - ဆရာဝန် အသေးစိတ်</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/doctor_detail.css" />
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="detail-header">
+            <a href="doctor_view.html" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> နောက်သို့ </a>
+            <h2>ဆရာဝန် အသေးစိတ်</h2>
+            <div style="width: 40px"></div>
+        </div>
+
+        <div class="detail-content" id="detail-content"></div>
+    </div>
+
+    <script src="../js/booking_doctor_db.js"></script>
+    <script>
+      const selectedDoctorId = Number(localStorage.getItem("selectedDoctorId")) || 101;
+      let generatedDate = "";
+      let generatedTime = "";
+      let currentDocName = "";
+
+      function renderDoctorDetail() {
+        const contentContainer = document.getElementById("detail-content");
+        if (!contentContainer || typeof doctors_db === "undefined") return;
+
+        const doc = doctors_db.find((item) => item.d_id === selectedDoctorId);
+        if (!doc) {
+          contentContainer.innerHTML = `<p class="no-data">ဆရာဝန် အချက်အလက် ရှာမတွေ့ပါ။</p>`;
+          return;
+        }
+
+        currentDocName = doc.name;
+
+        contentContainer.innerHTML = `
+            <div class="profile-main-card">
+                <div class="profile-avatar-box">
+                    <img src="${doc.image}" alt="${doc.name}" class="profile-img" />
+                </div>
+                <h2 class="profile-name">${doc.name}</h2>
+                <p class="profile-cat">${doc.category}</p>
+                
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>${doc.experience}</span>
+                        <small>အတွေ့အကြုံ</small>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-star"></i>
+                        <span>${doc.rating}</span>
+                        <small>Rating</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-section-card">
+                <label class="dropdown-label">ရက်ချိန်း ရယူရန် လကို ရွေးချယ်ပါ</label>
+                <div class="dropdown-wrapper">
+                    <select id="month-select" class="month-dropdown" onchange="generateRandomDateTime()">
+                        <option value="">-- လရွေးချယ်ပါ --</option>
+                        <option value="June">June (ဇွန်လ)</option>
+                        <option value="July">July (ဇူလိုင်လ)</option>
+                        <option value="August">August (သြဂုတ်လ)</option>
+                        <option value="September">September (စက်တင်ဘာလ)</option>
+                        <option value="October">October (အောက်တိုဘာလ)</option>
+                        <option value="November">November (နိုဝင်ဘာလ)</option>
+                        <option value="December">December (ဒီဇင်ဘာလ)</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </div>
+
+                <div id="dynamic-datetime-box" class="datetime-display-box" style="display: none;">
+                    <p><i class="fa-regular fa-calendar-check"></i> ရရှိနိုင်မည့်ရက် - <b id="lbl-date"></b></p>
+                    <p><i class="fa-regular fa-clock"></i> ရရှိနိုင်မည့်အချိန် - <b id="lbl-time"></b></p>
+                </div>
+
+                <button class="confirm-booking-btn" onclick="proceedToTimeSelect()">
+                    ဘိုကင်ရယူမည် <i class="fa-solid fa-check-circle"></i>
+                </button>
+            </div>
+        `;
+      }
+
+      // 🎰 Month ရွေးလိုက်တာနဲ့ ရက်စွဲနှင့် အချိန်ကို Random ထုတ်ပေးမည့် Logic
+      function generateRandomDateTime() {
+        const monthSelect = document.getElementById("month-select");
+        const datetimeBox = document.getElementById("dynamic-datetime-box");
+        
+        if (!monthSelect.value) {
+            datetimeBox.style.display = "none";
+            return;
+        }
+
+        // Random ရက်စွဲတွက်ခြင်း (၁ ရက်မှ ၂၈ ရက်အတွင်း)
+        const randomDay = Math.floor(Math.random() * 28) + 1;
+        generatedDate = `${monthSelect.value} ${randomDay}, 2026`;
+
+        // Random အချိန်တွက်ခြင်း 
+        const timesPool = ["09:00 AM - 11:00 AM", "11:30 AM - 01:30 PM", "02:00 PM - 04:00 PM", "04:30 PM - 06:30 PM"];
+        generatedTime = timesPool[Math.floor(Math.random() * timesPool.length)];
+
+        // UI တွင် ပြသခြင်း
+        document.getElementById("lbl-date").innerText = generatedDate;
+        document.getElementById("lbl-time").innerText = generatedTime;
+        datetimeBox.style.display = "block";
+      }
+
+      // 💾 ဘိုကင်လုပ်ဆောင်ချက်အောင်မြင်ပြီး LocalStorage ထဲသို့ Data သိမ်းဆည်းခြင်း
+      function proceedToTimeSelect() {
+        const monthSelect = document.getElementById("month-select").value;
+        if (!monthSelect) {
+            alert("ကျေးဇူးပြု၍ ရက်ချိန်းယူရန် လကို အရင်ရွေးချယ်ပေးပါဗျာ။");
+            return;
+        }
+
+        // လက်ရှိ သိမ်းထားပြီးသား စာရင်းဟောင်းများကို အရင်ဆွဲထုတ်ခြင်း
+        let currentBookings = JSON.parse(localStorage.getItem("myBookings")) || [];
+
+        // Booking Data အသစ် တည်ဆောက်ခြင်း
+        const newBooking = {
+            id: Date.now(), // ဖြတ်ရလွယ်အောင် ထူးခြားတဲ့ ID ပေးခြင်း
+            doctorName: currentDocName,
+            date: generatedDate,
+            time: generatedTime
+        };
+
+        // စာရင်းထဲသို့ အသစ်ထည့်ပြီး LocalStorage တွင် ပြန်သိမ်းခြင်း
+        currentBookings.push(newBooking);
+        localStorage.setItem("myBookings", JSON.stringify(currentBookings));
+
+        alert("🎉 ဘိုကင်ရယူပြီးပါပြီ။");
+        
+        // 📌 အောက်ခြေဘားက ဘိုကင်စာမျက်နှာ (booking_list.html) သို့ တိုက်ရိုက်သွားရန်
+        window.location.href = "booking_list.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", renderDoctorDetail);
+    </script>
+</body>
+</html>

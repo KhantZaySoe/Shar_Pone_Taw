@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - ဆေးရုံများ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/booking_hospital.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+      <div class="hospital-header">
+        <a href="homepage.html" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> နောက်သို့ </a>
+        <h2>ဆေးရုံများ</h2>
+        <div style="width: 40px"></div>
+      </div>
+
+      <div class="hospital-content">
+        <div id="hospital-grid" class="hospital-grid"></div>
+      </div>
+    </div>
+
+    <script src="../js/hospital_db.js"></script>
+    <script>
+      // ဆေးရုံများကို UI ပေါ်တွင် 2-Column Grid ဖြင့် Render လုပ်ပေးမည့် ဖန်ရှင်
+      function renderHospitalGrid() {
+        const gridContainer = document.getElementById("hospital-grid");
+        if (!gridContainer || typeof hospital_db === "undefined") return;
+
+        gridContainer.innerHTML = hospital_db
+          .map(
+            (hospital) => `
+                <div class="hospital-card" style="background-image: url('${hospital.image}');">
+                    <div class="card-overlay"></div>
+                    
+                    <!-- ပြင်ဆင်ချက်: ထောက်လိုက်လျှင် အလယ်၌ ပေါ်လာမည့် ရွေးမည် ခလုတ် -->
+                    <button class="select-hosp-btn" onclick=" localStorage.setItem('selectedHospitalId',${hospital.h_id}); window.location.href= 'doctor_view.html';">ရွေးမည်</button>
+                    
+                    <div class="hospital-card-info">
+                        <h3 class="hospital-name">${hospital.name}</h3>
+                        <div class="hospital-details">
+                            <span class="hospital-loc">
+                                <i class="fa-solid fa-location-dot"></i> ${hospital.location}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      // စာမျက်နှာပွင့်သည်နှင့် ဆေးရုံများကို Render လုပ်ရန် စတင်စေခြင်း
+      document.addEventListener("DOMContentLoaded", renderHospitalGrid);
+    </script>
+  </body>
+</html>

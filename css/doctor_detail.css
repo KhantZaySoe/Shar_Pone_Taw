@@ -1,0 +1,317 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+}
+
+body {
+    background-color: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Container Core Logic (All Device Responsive) --- */
+.mobile-container {
+    width: 100%;
+    max-width: 360px;
+    height: 740px;
+    background: #f8fafc;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-container::-webkit-scrollbar {
+    width: 0px;
+}
+
+@media (max-width: 991px) {
+    .mobile-container {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+}
+
+/* --- Top Sticky Header --- */
+.detail-header {
+    background: #ffffff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.detail-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3c72;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.back-btn {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* --- Detail Content Area --- */
+.detail-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+/* --- 🌟 1. Profile Main Card --- */
+.profile-main-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px 16px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.profile-avatar-box {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 14px auto;
+    border: 4px solid #eff6ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.profile-cat {
+    font-size: 12px;
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 18px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* Stats (Exp & Rating) */
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-box i {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.stat-box i.fa-briefcase { color: #3b82f6; }
+.stat-box i.fa-star { color: #ffb703; }
+
+.stat-box span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.stat-box  {
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 2px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* --- 🏥 2. Info Section Card --- */
+.info-section-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.info-section-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e3c72;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.schedule-days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.day-badge {
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.schedule-time {
+    font-size: 12px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* --- 📅 3. Dropdown Booking Card --- */
+.booking-section-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.dropdown-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 10px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* Dropdown Container Wrapper */
+.dropdown-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.month-dropdown {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    outline: none;
+    cursor: pointer;
+    appearance: none; /* Default Browser arrow ကို ဖျောက်ခြင်း */
+    -webkit-appearance: none;
+    font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+    transition: border-color 0.2s;
+}
+
+.month-dropdown:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+}
+
+/* Custom Dropdown Arrow */
+.dropdown-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 12px;
+    pointer-events: none; /* Icon ကြောင့် drop click မပိတ်စေရန် */
+}
+
+/* Confirm Button */
+.confirm-booking-btn {
+    width: 100%;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.confirm-booking-btn:hover {
+    background-color: #2563eb;
+}
+
+.confirm-booking-btn:active {
+    transform: scale(0.98);
+}
+
+.no-data {
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 40px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+
+/* Random ပြသမည့် ရက်စွဲနှင့် အချိန် Display Box */
+.datetime-display-box {
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.datetime-display-box p {
+  font-size: 12px;
+  color: #1e3c72;
+  margin-bottom: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+.datetime-display-box p:last-child { margin-bottom: 0; }
+.datetime-display-box b { color: #0f172a; font-weight: 700; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

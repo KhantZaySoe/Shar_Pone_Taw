@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/homepage.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+      <!--Header-->
+      <div class="header-profile">
+        <div class="welcome-text">
+          <h2>ရှာပုံတော်</h2>
+        </div>
+
+        <div class="header-actions">
+          <a href="wallet.html" style="text-decoration: none">
+            <i class="fa-solid fa-wallet wallet-logo"></i>
+          </a>
+
+          <div class="avatar-container">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="Profile" class="avatar" />
+          </div>
+        </div>
+      </div>
+
+      <!--Main content-->
+      <div class="main-content">
+        <div id="home-view" class="view-section active">
+          <!--Photo banner-->
+          <div class="promo-banner">
+            <div class="promo-text">
+              <h2>ရှာပုံတော်</h2>
+              <p>သင့်ကျန်းမာရေး အတွက် အမြဲရှိနေမည်။</p>
+              <button class="promo-btn">စစ်ဆေးမည်</button>
+            </div>
+
+            <div class="slider-dots">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <img src="../images/doctor.png" alt="Doctor" class="promo-doctor-img" />
+          </div>
+
+          <!--emergency card-->
+          <div class="emergency-card">
+            <div class="emergency-info">
+              <div class="emergency-title">
+                <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+                <h3>အရေးပေါ်ခေါ်ဆိုရန်</h3>
+              </div>
+              <p>၂၄ နာရီပတ်လုံး အရေးပေါ်ဆရာဝန်များနှင့် တိုက်ရိုက်ချိတ်ဆက်ပါ။</p>
+            </div>
+
+            <a href="tel:199" class="emergency-btn">
+              <i class="fa-solid fa-phone"></i>
+              <span>ခေါ်ဆိုမည်</span>
+            </a>
+          </div>
+        </div>
+
+        <!--Medical form card-->
+        <div class="medical-form-card">
+          <h3 class="form-main-title">သင့်ရောဂါအတွက် အကောင်းဆုံး ဆရာဝန်ကို ရှာဖွေပါ</h3>
+
+          <form action="#">
+            <div class="inner-form-group">
+              <fieldset class="form-field full-width">
+                <legend>လူနာအမည်</legend>
+                <input type="text" />
+              </fieldset>
+
+              <fieldset class="form-field">
+                <legend>အသက်</legend>
+                <input type="number" min="1" max="90" onkeypress="return event.charCode >= 48 && event.charCode <= 57;" />
+              </fieldset>
+
+              <fieldset class="form-field">
+                <legend>ရောဂါဖြစ်သောရက်</legend>
+                <input type="text" />
+              </fieldset>
+
+              <fieldset class="form-field full-width">
+                <legend>ဖြစ်ပွားနေသော ရောဂါလက္ခဏာ</legend>
+                <input type="text" />
+              </fieldset>
+
+              <fieldset class="form-field full-width">
+                <legend>တ်မတည့်သော ဆေးဝါးများ</legend>
+                <input type="text" />
+              </fieldset>
+
+              <fieldset class="form-field full-width">
+                <legend>ရောဂါဟောင်း</legend>
+                <input type="text" />
+              </fieldset>
+            </div>
+
+            <button type="submit" class="search-doctor-btn"><i class="fa-solid fa-magnifying-glass"></i> ဆရာဝန်ရှာဖွေမည်</button>
+          </form>
+        </div>
+
+        <!--Hospital booking card-->
+        <div class="hospital-booking-card">
+          <div class="card-overlay"></div>
+
+          <div class="booking-card-content">
+            <div class="booking-info">
+              <h3>ဆေးရုံပြသရန် ရက်ချိန်းယူပါ</h3>
+              <p>လူကြိတ်ကြိတ်တိုး စောင့်ဆိုင်းရခြင်းမရှိဘဲ မိမိပြသလိုသော ဆရာဝန်များနှင့် ကြိုတင်ရက်ချိန်း ရယူလိုက်ပါ။</p>
+            </div>
+
+            <button class="booking-action-btn" onclick="window.location.href = 'booking_hospital.html'">
+              <i class="fa-solid fa-calendar-check"></i> ဘိုကင်ရယူရန်
+            </button>
+          </div>
+        </div>
+
+        <!--Bottom bar-->
+        <div class="button-container">
+          <button class="button active" title="အိမ်">
+            <i class="fa-solid fa-house"></i>
+            <span>အိမ်</span>
+          </button>
+
+          <button class="button" title="ဒေါက်တာ">
+            <i class="fa-solid fa-stethoscope"></i>
+            <span>ဒေါက်တာ</span>
+          </button>
+
+          <a href="news.html" class="button" title="ဆောင်းပါး" style="text-decoration: none">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>ဆောင်းပါး</span>
+          </a>
+
+          <a href="booking_list.html" class="button" title="ဘိုကင်" style="text-decoration: none">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>ဘိုကင်</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* အင်္ဂလိပ်စာကော မြန်မာစာပါ သေသပ်လှပအောင် Font တွဲပေးထားပါသည် */
+    font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+}
+
+body {
+    background-color: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Container Core Logic (Desktop & Laptop Size အတွက် မူလအတိုင်း) --- */
+.mobile-container {
+    width: 100%;
+    max-width: 360px; /* iPhone 15 Pro Max / Standard App Size */
+    height: 740px;    /* Sign Up Form ရဲ့ Content များ ဆန့်ရန် အမြင့်ကို ချိန်ထားသည် */
+    background: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* ဖုန်းအသေးလေးတွေမှာ အောက်ကို Scroll ဆွဲလို့ရစေရန် */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Scrollbar ကို ဖျောက်ထားပြီး App ပုံစံ ပိုပေါက်စေရန် */
+.mobile-container::-webkit-scrollbar {
+    width: 0px;
+}
+
+/* --- 📱 🖥️ Responsive Layout For ALL Mobiles and ALL Tablets --- */
+@media (max-width: 991px) {
+    .mobile-container {
+        max-width: 100%;
+        height: 100vh;
+        border: none;       /* ဖုန်းနဲ့ Tablet Screen ပေါ်တွင် ဘောင်အမည်းလိုင်း ဖျောက်ရန် */
+        border-radius: 0px;  /* Screen အပြည့်ဖြစ်သွားစေရန် */
+        box-shadow: none;
+    }
+    
+    /* Tablet ကြီးတွေမှာ ဘေးဘောင်တွေ အလွန်ကျယ်မသွားဘဲ ကြည့်ကောင်းအောင် Padding ချိန်ခြင်း */
+    .form-card {
+        padding: 35px 10% 20px 10% !important; 
+    }
+}
+
+/* --- Top Abstract Gradient Section --- */
+.top-gradient {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6dd5ed 100%);
+    height: 150px;
+    position: relative;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* --- Form Main Card Wrapper --- */
+.form-card {
+    background: #ffffff;
+    border-radius: 30px 30px 0 0;
+    margin-top: -40px;
+    flex: 1;
+    padding: 35px 25px 20px 25px;
+    z-index: 2;
+}
+
+h2 {
+    color: #2b5cbf;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* --- Input Styles --- */
+.input-group {
+    position: relative;
+    margin-bottom: 20px; /* Space ကို ပိုပြီး ကြည့်ကောင်းအောင် ညှိထားသည် */
+}
+
+.input-group label {
+    position: absolute;
+    left: 15px;
+    top: -9px;
+    background: #ffffff;
+    padding: 0 6px;
+    font-size: 12px;
+    color: #2b5cbf;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #3b71ca;
+    box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.1);
+}
+
+/* --- Checkbox Styles --- */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.checkbox-group input {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: #3b71ca;
+    flex-shrink: 0; /* စာသားရှည်သွားလည်း Checkbox ပုံစံမပျက်စေရန် */
+}
+
+.checkbox-group span strong {
+    color: #3b71ca;
+}
+
+/* --- Primary Action Button --- */
+.btn-submit {
+    width: 100%;
+    background: #3b71ca;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 113, 202, 0.2);
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #2b5cbf;
+}
+
+/* --- Divider --- */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #eee;
+}
+
+.divider:not(:empty)::before { margin-right: .5em; }
+.divider:not(:empty)::after { margin-left: .5em; }
+
+/* --- Social Media Login --- */
+.social-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    border: 1px solid #eef2f7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 18px;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.social-icon.fb { color: #1877f2; }
+.social-icon.tw { color: #1da1f2; }
+.social-icon.gg { color: #ea4335; }
+.social-icon.ap { color: #000000; }
+
+/* --- Bottom Link --- */
+.bottom-text {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.bottom-text a {
+    color: #3b71ca;
+    text-decoration: none;
+    font-weight: 600;
+}

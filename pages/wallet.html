@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shar Pone Taw - Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/wallet.css" />
+</head>
+<body>
+
+    <div class="mobile-container">
+        <div class="wallet-header">
+            <a href="homepage.html" class="back-btn">
+                <i class="fa-solid fa-chevron-left"></i> နောက်သို့
+            </a>
+            <h2>Wallet</h2>
+            <div style="width: 40px;"></div> </div>
+
+        <div class="wallet-content">
+            <div class="wallet-balance-card">
+                <p>လက်ကျန် ပမာဏ</p>
+                <h1 id="wallet-balance">0 MMK</h1>
+            </div>
+
+            <div class="wallet-notice-card">
+                <h3><i class="fa-solid fa-circle-info"></i> အရေးကြီးသော စည်းကမ်းချက်များ</h3>
+                <ul>
+                    <li>အသုံးပြုသူများသည် Wallet ထဲသို့ အနည်းဆုံး <b>9,000 ကျပ်</b> ဖြည့်သွင်းရမည်။</li>
+                    <li>Emergency Consultation အသုံးပြုသည့်အခါ Wallet မှ <b>3,000 ကျပ်</b> အလိုအလျောက် ဖြတ်တောက်မည်။</li>
+                    <li>Online Booking အတွက် Wallet သို့မဟုတ် အခြား Payment Methods (KBZPay, WavePay, AYA Pay စသည်) ဖြင့် ပေးချေနိုင်မည်။</li>
+                    <li><span class="danger-text">Wallet Balance မလုံလောက်ပါက ဝန်ဆောင်မှုကို အသုံးပြုနိုင်မည်မဟုတ်ပါ။</span></li>
+                </ul>
+            </div>
+
+            <div class="wallet-form-card">
+                <label class="form-label">ငွေ ပမာဏ ရိုက်ထည့်ပါ</label>
+                <input type="number" id="deposit-amount" placeholder="ငွေပမာဏ ဥပမာ - 10000" />
+
+                <label class="form-label">ငွေပေးချေမှု ပုံစံ</label>
+                <div class="payment-methods">
+                    <div class="payment-option" id="pay-kpay" onclick="selectPayment('kpay')">
+                        <img src="../images/kpay.jpeg" alt="KBZ Pay" />
+                    </div>
+                    <div class="payment-option" id="pay-wave" onclick="selectPayment('wave')">
+                        <img src="../images/wave.jpeg" alt="Wave Pay" />
+                    </div>
+                    <div class="payment-option" id="pay-aya" onclick="selectPayment('aya')">
+                        <img src="../images/aya.jpeg" alt="AYA Pay" />
+                    </div>
+                </div>
+
+                <button type="button" class="wallet-btn" onclick="confirmDeposit()">ငွေသွင်းမည်</button>
+            </div>
+        </div>
+
+        <div id="qr-scan-modal" class="payment-modal" style="display: none">
+            <div class="payment-card">
+                <h3 id="qr-modal-title">KBZ Pay QR</h3>
+                <p class="modal-desc">အောက်ပါ QR Code ကို Scan ဖတ်ပြီး ငွေလွှဲပေးပါရန်</p>
+
+                <div class="qr-box">
+                    <img id="qr-scan-image" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR Code" />
+                </div>
+
+                <div class="account-info">
+                    <p class="acc-name">Khant Zay Soe</p>
+                    <p class="acc-phone" id="qr-phone-number">09-123456789</p>
+                </div>
+
+                <button class="close-payment-btn" onclick="closeQRModal()">ပိတ်မည်</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMethod = '';
+
+        function selectPayment(method) {
+            selectedMethod = method;
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('active'));
+            if(method === 'kpay') document.getElementById('pay-kpay').classList.add('active');
+            if(method === 'wave') document.getElementById('pay-wave').classList.add('active');
+            if(method === 'aya') document.getElementById('pay-aya').classList.add('active');
+        }
+
+        function confirmDeposit() {
+            const amount = document.getElementById('deposit-amount').value;
+            if(!amount || !selectedMethod) {
+                alert('ငွေပမာဏနှင့် ငွေပေးချေမှုပုံစံကို ရွေးချယ်ပေးပါ');
+                return;
+            }
+            // Dynamic Title for Modal
+            document.getElementById('qr-modal-title').innerText = selectedMethod.toUpperCase() + ' Pay QR';
+            document.getElementById('qr-scan-modal').style.display = 'flex';
+        }
+
+        function closeQRModal() {
+            document.getElementById('qr-scan-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
