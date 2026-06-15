@@ -1,298 +1,315 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
 }
 
 body {
-    background-color: #eef2f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  background-color: #eef2f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 /* --- Container Core Logic (Desktop/Laptop Size) --- */
 .mobile-container {
-    width: 100%;
-    max-width: 360px; /* Standard iPhone/Android Width */
-    height: 740px;
-    background: #f8fafc; /* ခပ်လင်းလင်း App နောက်ခံအရောင် */
-    border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Content တွေများလာရင် အောက်ကို scroll ဆွဲနိုင်ရန် */
-    position: relative;
+  width: 100%;
+  max-width: 360px; /* Standard iPhone/Android Width */
+  height: 740px;
+  background: #f8fafc; /* ခပ်လင်းလင်း App နောက်ခံအရောင် */
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Content တွေများလာရင် အောက်ကို scroll ဆွဲနိုင်ရန် */
+  position: relative;
 }
 
 /* Scrollbar ကို ဖျောက်ထားခြင်း */
 .mobile-container::-webkit-scrollbar {
-    width: 0px;
+  width: 0px;
 }
 
 /* --- 📱 Responsive For ALL Mobiles and ALL Tablets --- */
 @media (max-width: 991px) {
-    .mobile-container {
-        max-width: 100%;
-        height: 100vh;
-        border-radius: 0px;
-        box-shadow: none;
-    }
+  .mobile-container {
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+    box-shadow: none;
+  }
 }
 
 /* --- 📌 Sticky Header Section Styling --- */
 .header-profile {
-    position: sticky;
-    top: 0;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Login/Signup နဲ့ လိုက်ဖက်မယ့် Gradient */
-    padding: 10px;
-    display: flex;
-    justify-content: space-between; /* ဘယ်ဘက်နဲ့ ညာဘက်ကို အစွန်ဆုံးစီ တွန်းထုတ်ခြင်း */
-    align-items: center;
-    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.15);
-    z-index: 100; /* Content အားလုံးရဲ့ အပေါ်မှာ ရှိနေစေရန် */
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(30, 60, 114, 0.15);
+  z-index: 100;
+}
+
+/* 📌 ပြင်ဆင်ချက်: လိုဂိုပုံနှင့် စာသားကို ဘေးချင်းကပ် ညီညာနေစေရန် flex သုံးလိုက်ခြင်း */
+.welcome-text {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* လိုဂိုနှင့် ရှာပုံတော် စာသားကြား အကွာအဝေး */
+}
+
+/* 📌 အသစ်ထည့်ရန်: လိုဂိုပုံအား Div ဘောင်အတွင်း ကွက်တိဖြစ်စေမည့် အရွယ်အစား */
+.header-logo-img {
+  width: 32px; /* မင်းရဲ့ Avatar နီးပါး အချိုးကျ အရွယ်အစားပေးထားခြင်း */
+  height: 32px;
+  object-fit: contain; /* ပုံထွက် မရှုံ့သွားစေရန် */
+  border-radius: 6px; /* လိုဂိုအနားလေးတွေ ဝိုင်းချင်ရင် သုံးနိုင်ပါတယ် (မလိုလျှင် ဖျက်နိုင်သည်) */
 }
 
 /* ဘယ်ဘက်ခြမ်း စာသားပုံစံ */
 .welcome-text span {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 14px;
-    font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .welcome-text h2 {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 2px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 0; /* flex ဖြစ်သွားပြီဖြစ်လို့ margin-top ကို 0 ပြန်ညှိလိုက်ပါတယ် bro */
 }
 
 /* ညာဘက်ခြမ်း Layout (Wallet + Avatar) */
 .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 18px; /* Icon နှင့် Avatar ကြား အကွာအဝေး */
+  display: flex;
+  align-items: center;
+  gap: 18px; /* Icon နှင့် Avatar ကြား အကွာအဝေး */
 }
 
 /* Wallet Icon Styling */
 .wallet-logo {
-    color: #ffffff;
-    font-size: 22px;
-    cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.2s;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s;
 }
 
 .wallet-logo:hover {
-    transform: scale(1.1);
-    opacity: 0.9;
+  transform: scale(1.1);
+  opacity: 0.9;
 }
 
 /* Avatar Styling */
 .avatar-container {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.6); /* ပတ်ပတ်လည် အဖြူရောင် ဘောင်လိုင်းလေး */
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6); /* ပတ်ပတ်လည် အဖြူရောင် ဘောင်လိုင်းလေး */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* --- Dummy Main Content (စမ်းသပ်ရန်အမြင့်) --- */
 .main-content {
-    padding: 20px;
-    height: 1000px; /* Scroll ဆွဲလို့ရမှန်း သိသာစေရန် အမြင့် အများကြီး ကြိုပေးထားခြင်းဖြစ်ပါသည် */
+  padding: 20px;
+  height: 1000px; /* Scroll ဆွဲလို့ရမှန်း သိသာစေရန် အမြင့် အများကြီး ကြိုပေးထားခြင်းဖြစ်ပါသည် */
 }
-
 
 /* --- 🎁 Promo Banner Styling --- */
 .promo-banner {
-    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); /* သုံးနေကျ Blue Gradient */
-    border-radius: 20px;
-    padding: 18px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow: hidden;
-    min-height: 160px;
-    box-shadow: 0 8px 20px rgba(30, 60, 114, 0.15);
+  background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); /* သုံးနေကျ Blue Gradient */
+  border-radius: 20px;
+  padding: 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  min-height: 160px;
+  box-shadow: 0 8px 20px rgba(30, 60, 114, 0.15);
 }
 
 /* ဘယ်ဘက်ခြမ်း ဆရာဝန်ပုံ Styling */
 .promo-doctor-img {
-    width: 40%; /* ဘန်နာရဲ့ ၄၀ ရာခိုင်နှုန်းကို ယူမည် */
-    height: auto;
-    max-height: 200px;
-    object-fit: contain;
-    align-self: flex-end; /* ပုံကို အောက်ခြေနဲ့ ကပ်လျက်ဖြစ်စေရန် */
-    margin-bottom: -20px; /* ပုံက ဘန်နာအောက်ခြေကနေ ထွက်နေသလို ပိုလှအောင် အနုတ် Margin သုံးခြင်း */
-    z-index: 2;
+  width: 40%; /* ဘန်နာရဲ့ ၄၀ ရာခိုင်နှုန်းကို ယူမည် */
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  align-self: flex-end; /* ပုံကို အောက်ခြေနဲ့ ကပ်လျက်ဖြစ်စေရန် */
+  margin-bottom: -20px; /* ပုံက ဘန်နာအောက်ခြေကနေ ထွက်နေသလို ပိုလှအောင် အနုတ် Margin သုံးခြင်း */
+  z-index: 2;
 }
 
 /* ညာဘက်ခြမ်း စာသားအုပ်စု Styling */
 .promo-text {
-    width: 55%; /* စာသားတွေကို ၅၅ ရာခိုင်နှုန်း နေရာပေးမည် */
-    color: #ffffff;
-    z-index: 2;
-    padding-bottom: 10px; /* Slider Dots တွေနဲ့ မညှိစေရန် */
+  width: 55%; /* စာသားတွေကို ၅၅ ရာခိုင်နှုန်း နေရာပေးမည် */
+  color: #ffffff;
+  z-index: 2;
+  padding-bottom: 10px; /* Slider Dots တွေနဲ့ မညှိစေရန် */
 }
 
 .promo-text h2 {
-    font-size: 19px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: #ffffff;
-    text-align: left; /* စာသားများကို ညာဘက်ခြမ်းတွင် ဘယ်ကပ်ထားရန် */
-    font-family: "Noto Sans Myanmar", sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #ffffff;
+  text-align: left; /* စာသားများကို ညာဘက်ခြမ်းတွင် ဘယ်ကပ်ထားရန် */
+  font-family: "Noto Sans Myanmar", sans-serif;
 }
 
 .promo-text p {
-    font-size: 11px;
-    line-height: 1.6;
-    opacity: 0.9;
-    margin-bottom: 12px;
-    font-weight: 400;
-    font-family: "Noto Sans Myanmar", sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 12px;
+  font-weight: 400;
+  font-family: "Noto Sans Myanmar", sans-serif;
 }
 
 /* Check Now Button Styling */
 .promo-btn {
-    background-color: #ffffff;
-    color: #1e3c72;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: "Noto Sans Myanmar", sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, background-color 0.2s;
+  background-color: #ffffff;
+  color: #1e3c72;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
 }
 
 .promo-btn:hover {
-    transform: scale(1.05);
-    background-color: #f8fafc;
+  transform: scale(1.05);
+  background-color: #f8fafc;
 }
 
 /* --- 🔘 Slider Dots Styling --- */
 .slider-dots {
-    position: absolute;
-    bottom: 12px;
-    right: 25px; /* စာသားတွေရှိတဲ့ ညာဘက်အောက်ခြေနားမှာ ပြပေးထားခြင်း */
-    display: flex;
-    gap: 6px;
-    z-index: 3;
+  position: absolute;
+  bottom: 12px;
+  right: 25px; /* စာသားတွေရှိတဲ့ ညာဘက်အောက်ခြေနားမှာ ပြပေးထားခြင်း */
+  display: flex;
+  gap: 6px;
+  z-index: 3;
 }
 
 .dot {
-    width: 6px;
-    height: 6px;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    transition: all 0.3s ease;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
 .dot.active {
-    width: 14px; /* Active ဖြစ်နေတဲ့ Dot ကို ရှည်ရှည်လေးလုပ်ပြီး ပိုလှစေရန် */
-    background-color: #ffffff;
-    border-radius: 3px;
+  width: 14px; /* Active ဖြစ်နေတဲ့ Dot ကို ရှည်ရှည်လေးလုပ်ပြီး ပိုလှစေရန် */
+  background-color: #ffffff;
+  border-radius: 3px;
 }
 /* --- 🚨 Emergency Call Card Styling --- */
 .emergency-card {
-    /* အရေးပေါ် Vibe ရစေမည့် ရဲရဲတောက် Gradient အရောင် */
-    background: linear-gradient(135deg, #d90429 0%, #ef233c 100%);
-    border-radius: 20px;
-    padding: 18px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 8px 25px rgba(217, 4, 41, 0.25);
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
+  /* အရေးပေါ် Vibe ရစေမည့် ရဲရဲတောက် Gradient အရောင် */
+  background: linear-gradient(135deg, #d90429 0%, #ef233c 100%);
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(217, 4, 41, 0.25);
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
 }
 
 /* အရေးပေါ် Card ရဲ့ နောက်ခံမှာ လှိုင်းပုံစံ အလင်းလိုင်းလေး ထည့်ခြင်း (Attractive ဖြစ်စေရန်) */
 .emergency-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -30%;
-    width: 100%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.08);
-    transform: rotate(45deg);
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 100%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+  pointer-events: none;
 }
 
 /* ဘယ်ဘက်ခြမ်း စာသားအုပ်စု */
 .emergency-info {
-    width: 55%; /* Button ကျယ်လာမှုနှင့် အချိုးကျအောင် စာသားနေရာကို ၅၅ ရာခိုင်နှုန်း ညှိထားသည် */
+  width: 55%; /* Button ကျယ်လာမှုနှင့် အချိုးကျအောင် စာသားနေရာကို ၅၅ ရာခိုင်နှုန်း ညှိထားသည် */
 }
 
 .emergency-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 /* သတိပေးချက် အိုင်ကွန်ကို တုန်ခါနေစေရန် */
 .pulse-icon {
-    color: #ffb703; /* ထင်ရှားသည့် ဝါဝါဝင်းဝင်းအရောင် */
-    font-size: 16px;
-    animation: icon-shiver 0.5s infinite linear alternate;
+  color: #ffb703; /* ထင်ရှားသည့် ဝါဝါဝင်းဝင်းအရောင် */
+  font-size: 16px;
+  animation: icon-shiver 0.5s infinite linear alternate;
 }
 
 .emergency-title h3 {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: "Noto Sans Myanmar", sans-serif;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Noto Sans Myanmar", sans-serif;
 }
 
 .emergency-info p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 11px;
-    line-height: 1.5;
-    font-family: "Noto Sans Myanmar", sans-serif;
-    font-weight: 100;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  line-height: 1.5;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  font-weight: 100;
 }
 
 /* --- 📞 ခေါ်ဆိုမည် Button Styling --- */
 .emergency-btn {
-    background-color: #ffffff;
-    color: #d90429;
-    text-decoration: none; /* Link လိုင်းကြောင်း ဖျောက်ရန် */
-    /* ပြင်ဆင်ချက်: အမြင့် (Top/Bottom) ကို 7px သို့ လျှော့ချပြီး အကျယ် (Left/Right) ကို 22px သို့ တိုးမြှင့်ထားပါသည် */
-    padding: 7px 22px; 
-    border-radius: 20px;
-    font-size: 12px; /* Button ကို ပိုကျစ်လစ်သွားစေရန် font စိုက်ကို အနည်းငယ် ညှိထားသည် */
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; /* စာသားနှင့် icon ကို ခလုတ်အလယ်တည့်တည့် ရောက်စေရန် */
-    gap: 6px;
-    font-family: "Noto Sans Myanmar", sans-serif;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s;
-    /* ခလုတ်တစ်ခုလုံးကို သွေးခုန်နှုန်းလိုမျိုး ကျုံ့ချဲ့ဖြစ်နေစေမည့် အထူး Animation */
-    animation: button-pulse 1.5s infinite;
+  background-color: #ffffff;
+  color: #d90429;
+  text-decoration: none; /* Link လိုင်းကြောင်း ဖျောက်ရန် */
+  /* ပြင်ဆင်ချက်: အမြင့် (Top/Bottom) ကို 7px သို့ လျှော့ချပြီး အကျယ် (Left/Right) ကို 22px သို့ တိုးမြှင့်ထားပါသည် */
+  padding: 7px 22px;
+  border-radius: 20px;
+  font-size: 12px; /* Button ကို ပိုကျစ်လစ်သွားစေရန် font စိုက်ကို အနည်းငယ် ညှိထားသည် */
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* စာသားနှင့် icon ကို ခလုတ်အလယ်တည့်တည့် ရောက်စေရန် */
+  gap: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+  /* ခလုတ်တစ်ခုလုံးကို သွေးခုန်နှုန်းလိုမျိုး ကျုံ့ချဲ့ဖြစ်နေစေမည့် အထူး Animation */
+  animation: button-pulse 1.5s infinite;
 }
 
 .emergency-btn:hover {
-    transform: scale(1.05);
-    background-color: #f8fafc;
-    color: #ef233c;
+  transform: scale(1.05);
+  background-color: #f8fafc;
+  color: #ef233c;
 }
-
 
 /* 2. MIDDLE MEDICAL FORM CARD (HOME) - Clean Light Theme */
 .medical-form-card {
@@ -326,9 +343,9 @@ body {
   /* ပြင်ဆင်ချက်: နောက်ခံအလင်းရောင်နှင့် လိုက်ဖက်အောင် Border အရောင်ကို ညိုမှိုင်းမှိုင်းလေး ပြောင်းထားသည် */
   border: 1px solid rgba(30, 60, 114, 0.15);
   border-radius: 12px;
-  padding: 0; 
+  padding: 0;
   margin: 0;
-  min-width: 0; 
+  min-width: 0;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.6); /* Input Box လေးတွေ ပိုထင်ရှားစေရန် ခပ်ဖျော့ဖျော့ နောက်ခံခံပေးခြင်း */
 }
@@ -340,11 +357,11 @@ body {
 .form-field input {
   width: 100%;
   background: transparent;
-  border: none; 
+  border: none;
   outline: none;
   color: #1e3c72; /* ပြင်ဆင်ချက်: စာရိုက်တဲ့အခါ ဖတ်ရလွယ်အောင် စာလုံးအရောင်ကို အမည်း/အပြာရင့် ပြောင်းထားသည် */
   font-size: 13px;
-  padding: 6px 14px 12px 14px; 
+  padding: 6px 14px 12px 14px;
 }
 
 /* Input ရိုက်ရန် နှိပ်လိုက်သည့်အခါ ပေါ်မည့် Effect (Syntax မှားနေသော .form-field focus-within ကို ပုံစံမှန် ပြင်ပေးထားပါသည်) */
@@ -358,8 +375,8 @@ body {
   font-size: 11px;
   font-weight: 600;
   color: #2a5298; /* ပြင်ဆင်ချက်: Field Label လေးတွေကို ပိုမိုသေသပ်သော အပြာရောင် ပြောင်းလဲထားသည် */
-  margin-left: 12px; 
-  padding: 0 6px; 
+  margin-left: 12px;
+  padding: 0 6px;
   line-height: 1;
   font-family: "Noto Sans Myanmar", sans-serif;
 }
@@ -387,7 +404,9 @@ body {
   gap: 8px;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
   font-family: "Noto Sans Myanmar", sans-serif;
-  transition: background 0.2s, transform 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s;
 }
 
 .search-doctor-btn:hover {
@@ -398,19 +417,18 @@ body {
   transform: scale(0.98);
 }
 
-
 /* --- 📱 Bottom Navigation Bar Styling --- */
 .button-container {
   display: flex;
   background-color: #1e3c72; /* App Theme နှင့် လိုက်ဖက်မည့် Standard Navy Blue */
-  width: calc(100% - 40px); 
+  width: calc(100% - 40px);
   max-width: 320px;
   height: 64px; /* ပြင်ဆင်ချက်: စာသားပါ ပါလာသဖြင့် နှိပ်ရလွယ်အောင် အမြင့်ကို 64px သို့ အနည်းငယ်မြှင့်ထားသည် */
   align-items: center;
   justify-content: space-around;
   border-radius: 30px; /* ပိုမိုနူးညံ့ပြီး ခေတ်မီသော အနားလုံးပုံစံပြောင်းလဲခြင်း */
   position: sticky;
-  bottom: 15px; 
+  bottom: 15px;
   left: 0;
   right: 0;
   margin: 10px auto 20px auto; /* နေရာလွတ်အလယ်တည့်တည့်တွင် တည်ရှိစေရန် */
@@ -427,19 +445,19 @@ body {
 .button {
   outline: 0 !important;
   border: 0 !important;
-  
+
   /* ပြင်ဆင်ချက်: နောက်ခံအဝိုင်းရောင် မသုံးတော့သဖြင့် မလိုအပ်သော Padding များကို ဖြုတ်လိုက်ပါသည် */
-  padding: 4px; 
+  padding: 4px;
   background-color: transparent;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px; /* Icon နှင့် စာသားကြား အကွာအဝေး */
-  
+
   /* ပုံမှန်အချိန်တွင် အိုင်ကွန်များနှင့် စာသားများကို သန့်ရှင်းသော အဖြူရောင်ဖျော့ဖျော့ ထားရှိပါမည် */
-  color: rgba(255, 255, 255, 0.65); 
+  color: rgba(255, 255, 255, 0.65);
   transition: all ease-in-out 0.2s;
   cursor: pointer;
 }
@@ -456,14 +474,12 @@ body {
   font-family: "Noto Sans Myanmar", sans-serif;
 }
 
-
-.button.active, .button:hover {
+.button.active,
+.button:hover {
   color: #ffffff; /* မျက်စိအေးပြီး ထင်ရှားစေမည့် Premium Royal Light Blue (အပြာရင့်ရောင်တောက်တောက်) */
   background-color: transparent !important; /* နောက်ခံအရောင် လုံးဝမပေါ်စေရန် */
   transform: translateY(-2px); /* အပေါ်သို့ အနည်းငယ် ကြွတက်မည့် Effect ကို ဆက်ထိန်းထားပါသည် */
 }
-
-
 
 /* --- 📰 News Section & Cards Layout --- */
 #news-container {
@@ -523,11 +539,10 @@ body {
   color: #64748b;
 }
 
-
 /* --- 🏥 Hospital Booking Banner Card Styling --- */
 .hospital-booking-card {
   position: relative;
-  background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=500&q=80');
+  background-image: url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=500&q=80");
   background-size: cover;
   background-position: center;
   border-radius: 20px;
@@ -540,8 +555,10 @@ body {
 /* Image အပေါ်ကနေ စာသားတွေ ထင်းထွက်လာအောင် မှောင်မှောင်ဖျော့ဖျော့ Overlay ခံခြင်း */
 .hospital-booking-card .card-overlay {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(30, 60, 114, 0.5));
   z-index: 1;
 }
@@ -588,7 +605,9 @@ body {
   width: 100%; /* ကတ်အကျယ်အတိုင်း တပြေးညီ ဖြစ်စေရန် */
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   font-family: "Noto Sans Myanmar", sans-serif;
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 
 .booking-action-btn:hover {
@@ -597,4 +616,244 @@ body {
 
 .booking-action-btn:active {
   transform: scale(0.98); /* နှိပ်လိုက်လျှင် ဖုန်း app များကဲ့သို့ တုံ့ပြန်မှုရစေရန် */
+}
+
+/* --- 🚨 Emergency Notice Pop-up Modal CSS --- */
+.notice-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.7); /* အနောက်က UI အား မှောင်ချလိုက်ခြင်း */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* အားလုံးရဲ့ ထိပ်ဆုံးမှာ ရှိနေစေရန် */
+  padding: 20px;
+}
+
+.notice-modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 310px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  animation: popUpScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUpScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.notice-modal-icon {
+  width: 55px;
+  height: 55px;
+  background-color: #fef2f2;
+  color: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 16px auto;
+}
+
+.notice-modal-card h3 {
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.notice-text {
+  font-size: 12.5px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* ခလုတ်များ Layout */
+.notice-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-deposit-now {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-skip-now {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  transition: background-color 0.2s;
+}
+
+.btn-skip-now:hover {
+  background-color: #e2e8f0;
+}
+.btn-deposit-now:active,
+.btn-skip-now:active {
+  transform: scale(0.98);
+}
+
+/* --- 📱 In-App Calling Screen Premium CSS --- */
+.calling-screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #101f3d 0%, #0a1128 100%); /* Premium Calling Dark Background */
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 24px 80px 24px;
+  box-sizing: border-box;
+}
+
+/* ထိပ်ပိုင်းစာသားများ */
+.calling-status-info {
+  text-align: center;
+}
+.calling-lbl {
+  color: #3b82f6;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+.calling-hosp-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 🔄 ဆရာဝန်ပုံရိပ်နှင့် လှိုင်းထနေမည့် Animation ပုံစံ */
+.calling-avatar-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calling-avatar-box {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #3b82f6;
+  z-index: 5;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+.calling-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pulse Wave Rings Animation */
+.pulse-ring {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  animation: wavePulse 2s infinite linear;
+  z-index: 1;
+}
+.ring-2 {
+  animation-delay: 1s;
+}
+
+@keyframes wavePulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* ဆရာဝန်အချက်အလက် */
+.calling-doc-meta {
+  text-align: center;
+}
+.calling-doc-meta h3 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+.calling-doc-meta span {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 📞 ခလုတ်ဝိုင်းများ အပြင်အဆင် */
+.calling-action-row {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  width: 100%;
+}
+.call-btn {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+}
+.call-btn:active {
+  transform: scale(0.9);
+}
+/* ဖုန်းချရန်နီရောင် */
+.decline-btn {
+  background-color: #ef4444;
+}
+.decline-btn i {
+  transform: rotate(0deg); /* ဓါတ်ပုံအရ ဖုန်းချခလုတ်လှည့်ထားခြင်း */
 }

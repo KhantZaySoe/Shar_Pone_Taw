@@ -1,57 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="my">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shar Pone Taw - ဘိုကင်များ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/booking_list.css" />
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="mobile-container">
-        <div class="booking-header">
-            <h2>ဘိုကင်များ</h2>
-            <div style="width: 20px;"></div>
-        </div>
+      <div class="booking-header">
+        <h2>ဘိုကင်များ</h2>
+        <div style="width: 20px"></div>
+      </div>
 
-        <div class="booking-content" id="booking-cards-container">
-            </div>
+      <div class="booking-content" id="booking-cards-container"></div>
 
-        <div class="button-container">
-          <a href="homepage.html" class="button" title="အိမ်" style="text-decoration: none;">
-            <i class="fa-solid fa-house"></i> <span>အိမ်</span>
-          </a>
-          <button class="button" title="ဒေါက်တာ">
-            <i class="fa-solid fa-stethoscope"></i> <span>ဒေါက်တာ</span>
-          </button>
-          <a href="news.html" class="button" title="ဆောင်းပါး" style="text-decoration: none;">
-            <i class="fa-solid fa-newspaper"></i> <span>ဆောင်းပါး</span>
-          </a>
-          <button class="button active" title="ဘိုကင်">
-            <i class="fa-solid fa-calendar-days"></i> <span>ဘိုကင်</span>
-          </button>
-        </div>
+      <div class="button-container">
+        <a href="homepage.html" class="button" title="အိမ်" style="text-decoration: none"> <i class="fa-solid fa-house"></i> <span>အိမ်</span> </a>
+        <button class="button" title="ဒေါက်တာ"><i class="fa-solid fa-stethoscope"></i> <span>ဒေါက်တာ</span></button>
+        <a href="news.html" class="button" title="ဆောင်းပါး" style="text-decoration: none">
+          <i class="fa-solid fa-newspaper"></i> <span>ဆောင်းပါး</span>
+        </a>
+        <button class="button active" title="ဘိုကင်"><i class="fa-solid fa-calendar-days"></i> <span>ဘိုကင်</span></button>
+      </div>
     </div>
 
     <script>
-        // LocalStorage မှ ဘိုကင်စာရင်းများအား Notification Card ပုံစံဖြင့် ထုတ်ပြခြင်း
-        function displayMyBookings() {
-            const container = document.getElementById('booking-cards-container');
-            const bookings = JSON.parse(localStorage.getItem('myBookings')) || [];
+      // LocalStorage မှ ဘိုကင်စာရင်းများအား Notification Card ပုံစံဖြင့် ထုတ်ပြခြင်း
+      function displayMyBookings() {
+        const container = document.getElementById("booking-cards-container");
+        const bookings = JSON.parse(localStorage.getItem("myBookings")) || [];
 
-            if (bookings.length === 0) {
-                container.innerHTML = `
+        if (bookings.length === 0) {
+          container.innerHTML = `
                     <div class="empty-booking-box">
                         <i class="fa-solid fa-calendar-xmark"></i>
                         <p>ရယူထားသော ဘိုကင်မှတ်တမ်း မရှိသေးပါဗျာ။</p>
                     </div>`;
-                return;
-            }
+          return;
+        }
 
-            // နောက်ဆုံးတင်ထားသော ဘိုကင်ကို အပေါ်ဆုံးတွင် ပြသရန် စာရင်းကို ပြောင်းပြန်လှန်ခြင်း (Reverse)
-            container.innerHTML = bookings.slice().reverse().map(book => `
+        // နောက်ဆုံးတင်ထားသော ဘိုကင်ကို အပေါ်ဆုံးတွင် ပြသရန် စာရင်းကို ပြောင်းပြန်လှန်ခြင်း (Reverse)
+        container.innerHTML = bookings
+          .slice()
+          .reverse()
+          .map(
+            (book) => `
                 <div class="notification-card">
                     <div class="notif-badge"><i class="fa-solid fa-bell"></i></div>
                     <div class="notif-body">
@@ -66,23 +65,25 @@
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </div>
-            `).join('');
-        }
+            `,
+          )
+          .join("");
+      }
 
-        // 🗑️ ဘိုကင်စာရင်း ဖျက်သိမ်းသည့် လုပ်ဆောင်ချက်
-        function deleteBooking(id) {
-            if(confirm("ဤဘိုကင်မှတ်တမ်းကို ပယ်ဖျက်ရန် သေချာပါသလား?")) {
-                let bookings = JSON.parse(localStorage.getItem('myBookings')) || [];
-                // ရွေးချယ်လိုက်သော ID မဟုတ်သည့် ဒေတာများကိုသာ ချန်လှပ်၍ စစ်ထုတ်ခြင်း
-                bookings = bookings.filter(book => book.id !== id);
-                localStorage.setItem('myBookings', JSON.stringify(bookings));
-                
-                // UI အား ချက်ချင်း Refresh ပြန်လုပ်ခြင်း
-                displayMyBookings();
-            }
-        }
+      // 🗑️ ဘိုကင်စာရင်း ဖျက်သိမ်းသည့် လုပ်ဆောင်ချက်
+      function deleteBooking(id) {
+        if (confirm("ဤဘိုကင်မှတ်တမ်းကို ပယ်ဖျက်ရန် သေချာပါသလား?")) {
+          let bookings = JSON.parse(localStorage.getItem("myBookings")) || [];
+          // ရွေးချယ်လိုက်သော ID မဟုတ်သည့် ဒေတာများကိုသာ ချန်လှပ်၍ စစ်ထုတ်ခြင်း
+          bookings = bookings.filter((book) => book.id !== id);
+          localStorage.setItem("myBookings", JSON.stringify(bookings));
 
-        document.addEventListener("DOMContentLoaded", displayMyBookings);
+          // UI အား ချက်ချင်း Refresh ပြန်လုပ်ခြင်း
+          displayMyBookings();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", displayMyBookings);
     </script>
-</body>
+  </body>
 </html>

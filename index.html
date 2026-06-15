@@ -66,11 +66,16 @@
         const defaultPassword = "admin123";
 
         if (phone === defaultPhone && password === defaultPassword) {
+            // 📌 ဖြည့်စွက်ချက်: လော့ဂ်အင်ဝင်ပြီးကြောင်း အလံထောင်လိုက်ခြင်း
+            localStorage.setItem("show_announcement", "true");
             window.location.href = "../pages/homepage.html";
         } else {
             alert("ဖုန်းနံပါတ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။");
         }
     });
+
+
+    
 </script>
 
 </body>
