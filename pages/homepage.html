@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/homepage.css" />
   </head>
   <body>
+
     <!--Main content-->
     <div class="mobile-container">
       <!-- 📌 ၁။ မူလ App Content အားလုံးကို အုပ်ပေးမည့် Container အဖွင့် -->
@@ -54,7 +55,6 @@
             <!--Photo banner-->
             <div class="promo-banner">
               <div class="promo-text">
-                <h2>ရှာပုံတော်</h2>
                 <p>သင့်ကျန်းမာရေး အတွက် အမြဲရှိနေမည်။</p>
                 <button class="promo-btn">စစ်ဆေးမည်</button>
               </div>
@@ -104,7 +104,7 @@
                   <input type="text" />
                 </fieldset>
                 <fieldset class="form-field full-width">
-                  <legend>တ်မတည့်သော ဆေးဝါးများ</legend>
+                  <legend>ဓါတ်မတည့်သော ဆေးဝါးများ</legend>
                   <input type="text" />
                 </fieldset>
                 <fieldset class="form-field full-width">
@@ -124,24 +124,33 @@
                 <h3>ဆေးရုံပြသရန် ရက်ချိန်းယူပါ</h3>
                 <p>လူကြိတ်ကြိတ်တိုး စောင့်ဆိုင်းရခြင်းမရှိဘဲ မိမိပြသလိုသော ဆရာဝန်များနှင့် ကြိုတင်ရက်ချိန်း ရယူလိုက်ပါ။</p>
               </div>
-              <button class="booking-action-btn" onclick="window.location.href = 'booking_hospital.html'">
+              <button class="btn-donate" onclick="window.location.href = 'booking_hospital.html'" style="width: 150px; margin: auto">
                 <i class="fa-solid fa-calendar-check"></i> ဘိုကင်ရယူရန်
               </button>
             </div>
           </div>
 
           <!--Bottom bar-->
-          <div class="button-container">
-            <button class="button active" title="အိမ်"><i class="fa-solid fa-house"></i><span>အိမ်</span></button>
-            <button class="button" title="ဒေါက်တာ"><i class="fa-solid fa-stethoscope"></i><span>ဒေါက်တာ</span></button>
-            <a href="news.html" class="button" title="ဆောင်းပါး" style="text-decoration: none"
-              ><i class="fa-solid fa-newspaper"></i><span>ဆောင်းပါး</span></a
-            >
-            <a href="booking_list.html" class="button" title="ဘိုကင်" style="text-decoration: none"
-              ><i class="fa-solid fa-calendar-days"></i><span>ဘိုကင်</span></a
-            >
+          <div class="menu-container">
+            <div class="menu">
+              <a href="#" class="nav-item active" data-view="home-view" title="အိမ်">
+                <i class="fa-solid fa-house"></i>
+                <span>အိမ်</span>
+              </a>
+
+              <a href="#" class="nav-item" data-view="doctors-view" title="ဒေါက်တာ"> <i class="fa-solid fa-stethoscope"></i> <span>ဒေါက်တာ</span> </a>
+
+              <a href="news.html" class="nav-item" data-view="news-view" title="ဆောင်းပါး" style="text-decoration: none">
+                <i class="fa-solid fa-newspaper"></i> <span>ဆောင်းပါး</span>
+              </a>
+
+              <a href="booking_list.html" class="nav-item" data-view="booking-history-view" title="ဘိုကင်" style="text-decoration: none">
+                <i class="fa-solid fa-calendar-days"></i> <span>ဘိုကင်</span>
+              </a>
+            </div>
           </div>
         </div>
+
         <!-- .main-content အပိတ် -->
       </div>
 

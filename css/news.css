@@ -199,3 +199,123 @@ body {
 .close-news-btn:hover {
     background: #2563eb;
 }
+
+
+/* --- 📱 Bottom Navigation Bar Styling --- */
+.menu-container {
+  /* position: absolute; မှ fixed သို့ ပြောင်းလဲလိုက်ခြင်း (ဒါမှ scroll ဆွဲလည်း အောက်မှာ အသေကပ်နေမှာပါ) */
+  position: fixed; 
+  bottom: 20px; /* အောက်ခြေကနေ ကွာဝေးမယ့် အကွာအဝေး (ဖုန်းမျိုးစုံမှာ အဆင်ပြေအောင် 20px ညှိပေးထားပါတယ်) */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 360px; /* အရေးကြီးချက်: မင်းရဲ့ .mobile-container width အတိုင်း 360px အသေထိန်းပေးရပါမယ် */
+  display: flex;
+  justify-content: center;
+  z-index: 9999; /* တခြား ဘယ် content (ဥပမာ- modal သို့မဟုတ် card) ရဲ့ အောက်ကိုမှ ငုပ်မသွားစေရန် z-index ကို အမြင့်ဆုံး ထားခြင်း */
+}
+
+/* Home Indicator မြုပ်မသွားစေရန်နှင့် အောက်ခြေမှာ အသေလိုက်ကပ်နေဖို့ position: fixed ပြောင်းလဲခြင်း */
+.home-indicator {
+  position: fixed;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 9999;
+}
+
+.menu {
+  width: calc(100% - 40px);
+  max-width: 520px;
+  backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  background: rgba(0, 122, 255, 0.404);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  border-radius: 99rem;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 5px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 10px 4px;
+  border-radius: 999rem;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease-in-out;
+}
+
+.menu a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -1px 5px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  color: rgba(0, 122, 255, 0.7);
+}
+
+.menu a i {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.menu a span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+
+.menu a.active {
+  background: rgba(237, 237, 237, 0.6);
+  color: rgba(0, 122, 255, 0.9);
+}
+
+.menu a:active {
+  transform: scale(0.95);
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 11;
+}
