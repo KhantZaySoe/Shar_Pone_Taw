@@ -6,7 +6,7 @@
     <title>AI Doctor App - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
 
@@ -68,7 +68,7 @@
         if (phone === defaultPhone && password === defaultPassword) {
             // 📌 ဖြည့်စွက်ချက်: လော့ဂ်အင်ဝင်ပြီးကြောင်း အလံထောင်လိုက်ခြင်း
             localStorage.setItem("show_announcement", "true");
-            window.location.href = "../pages/homepage.html";
+            window.location.href = "../frontend/pages/homepage.html";
         } else {
             alert("ဖုန်းနံပါတ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။");
         }

@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shar Pone Taw - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="../css/homepage.css" />
   </head>
   <body>
-
     <!--Main content-->
     <div class="mobile-container">
       <!-- 📌 ၁။ မူလ App Content အားလုံးကို အုပ်ပေးမည့် Container အဖွင့် -->
@@ -20,7 +16,8 @@
         <div class="header-profile">
           <div class="welcome-text">
             <img src="../images/logo.png" alt="App Logo" class="header-logo-img" />
-            <h2>ရှာပုံတော်</h2>
+            <img src="../images/Screenshot from 2026-06-19 17-08-57.png" alt="App Logo" class="header-logo-img" />
+           
           </div>
 
           <div class="header-actions">
@@ -93,7 +90,7 @@
                 </fieldset>
                 <fieldset class="form-field">
                   <legend>အသက်</legend>
-                  <input type="number" min="1" max="90" onkeypress="return event.charCode >= 48 && event.charCode <= 57;" />
+                  <input type="number" min="1" max="90" onzkeypress="return event.charCode >= 48 && event.charCode <= 57;" />
                 </fieldset>
                 <fieldset class="form-field">
                   <legend>ရောဂါဖြစ်သောရက်</legend>
@@ -112,7 +109,9 @@
                   <input type="text" />
                 </fieldset>
               </div>
-              <button type="submit" class="search-doctor-btn"><i class="fa-solid fa-magnifying-glass"></i> ဆရာဝန်ရှာဖွေမည်</button>
+               <button class="btn-donate" onclick="window.location.href = 'booking_hospital.html'" style="width: 150px; margin: auto">
+                <i class="fa-solid fa-calendar-check"></i> ဆရာဝန်ရှာဖေမည်
+              </button>
             </form>
           </div>
 
@@ -122,7 +121,6 @@
             <div class="booking-card-content">
               <div class="booking-info">
                 <h3>ဆေးရုံပြသရန် ရက်ချိန်းယူပါ</h3>
-                <p>လူကြိတ်ကြိတ်တိုး စောင့်ဆိုင်းရခြင်းမရှိဘဲ မိမိပြသလိုသော ဆရာဝန်များနှင့် ကြိုတင်ရက်ချိန်း ရယူလိုက်ပါ။</p>
               </div>
               <button class="btn-donate" onclick="window.location.href = 'booking_hospital.html'" style="width: 150px; margin: auto">
                 <i class="fa-solid fa-calendar-check"></i> ဘိုကင်ရယူရန်
