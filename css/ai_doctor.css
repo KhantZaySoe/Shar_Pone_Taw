@@ -365,8 +365,8 @@ body {
   color: white;
   font-family: "Noto Sans Myanmar", sans-serif;
   padding: 0.35em;
-  padding-right: 1.2em;      /* ညာဘက် padding ကို ပုံမှန်ပြန်ထားတယ် */
-  padding-left: 3.3em;       /* ဘယ်ဘက်မှာ အဝိုင်းရှိနေလို့ စာသားကို ညာဘက်တိုးပေးတာ */
+  padding-right: 1.2em; /* ညာဘက် padding ကို ပုံမှန်ပြန်ထားတယ် */
+  padding-left: 3.3em; /* ဘယ်ဘက်မှာ အဝိုင်းရှိနေလို့ စာသားကို ညာဘက်တိုးပေးတာ */
   font-size: 11.5px;
   border-radius: 10em;
   border: none;
@@ -381,14 +381,16 @@ body {
   font-weight: 700;
   width: 85%;
   margin: 0 auto;
-  box-shadow: 0 0 1.2em rgba(183, 33, 255, 0.2), 0 0 1.2em hsla(191, 98%, 56%, 0.2);
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  box-shadow:
+    0 0 1.2em rgba(183, 33, 255, 0.2),
+    0 0 1.2em hsla(191, 98%, 56%, 0.2);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   box-sizing: border-box;
 }
 
 .cssbuttons-io-button .btn-text {
   width: 100%;
-  text-align: center;        /* စာသားကို ကျန်တဲ့အကွက်ထဲမှာ ဗဟိုကျစေရန် */
+  text-align: center; /* စာသားကို ကျန်တဲ့အကွက်ထဲမှာ ဗဟိုကျစေရန် */
 }
 
 /* ⚪ ဘယ်ဘက်ထောင့် (Left) သို့ ပို့လိုက်သော Icon Box */
@@ -401,8 +403,8 @@ body {
   height: 2.2em;
   width: 2.2em;
   border-radius: 10em;
-  left: 0.3em;               /* right: 0.3em ကနေ left သို့ ပြောင်းလဲခြင်း */
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  left: 0.3em; /* right: 0.3em ကနေ left သို့ ပြောင်းလဲခြင်း */
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Hover လုပ်ရင် ဘယ်ဘက်ကနေ ညာဘက်ကို ဆွဲဆန့်သွားမည့်ပုံစံ */
@@ -541,7 +543,6 @@ body {
     font-size: 13px;
     padding: 13px;
   }
-
 }
 
 /* ================================
@@ -565,10 +566,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.45), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.35), transparent 35%),
-    linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.45), transparent 35%), radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.35), transparent 35%), linear-gradient(180deg, #020617 0%, #0f172a 100%);
   display: flex;
   flex-direction: column;
   padding: 22px 18px 28px;
@@ -648,9 +646,7 @@ body {
   margin-bottom: 110px;
   border-radius: 30px;
   overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.95)),
-    url("../images/doctor.png");
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.35), transparent 45%), linear-gradient(135deg, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.95));
   background-size: cover;
   background-position: center;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -663,9 +659,7 @@ body {
 .ai-video-gradient {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(to top, rgba(2, 6, 23, 0.8), transparent 55%),
-    radial-gradient(circle at center, transparent 20%, rgba(15, 23, 42, 0.35));
+  background: linear-gradient(to top, rgba(2, 6, 23, 0.8), transparent 55%), radial-gradient(circle at center, transparent 20%, rgba(15, 23, 42, 0.35));
 }
 
 .ai-doctor-avatar-big {
@@ -746,6 +740,27 @@ body {
   gap: 9px;
   font-size: 12px;
   text-align: center;
+}
+
+.ai-self-camera-off-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  background: rgba(2, 6, 23, 0.92);
+  color: #e2e8f0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ai-self-camera-off-layer i {
+  font-size: 24px;
+  color: #fecaca;
 }
 
 .ai-self-preview-inner i {
@@ -939,7 +954,6 @@ body {
 .cancel-doctor-btn:hover {
   background: #fff2f2 !important;
 }
-
 
 /*History card design*/
 .doctor-history-section {

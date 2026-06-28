@@ -802,18 +802,20 @@
           <p>${safeText(doctor.clinic || "Telehealth Room")}</p>
         </div>
 
-        <div class="ai-camera-off-layer" id="aiCameraOffLayer" style="display: none">
-          <i class="fa-solid fa-video-slash"></i>
-          <p>Camera is off</p>
-        </div>
+
       </div>
 
       <div class="ai-self-preview-card">
-        <div class="ai-self-preview-inner">
-          <i class="fa-solid fa-user"></i>
-          <span>${safeText(patient.patientName || "You")}</span>
-        </div>
-      </div>
+  <div class="ai-self-preview-inner" id="aiSelfPreviewInner">
+    <i class="fa-solid fa-user"></i>
+    <span>${safeText(patient.patientName || "You")}</span>
+  </div>
+
+  <div class="ai-self-camera-off-layer" id="aiSelfCameraOffLayer">
+    <i class="fa-solid fa-video-slash"></i>
+    <span>Camera Off</span>
+  </div>
+</div>
 
       <div class="ai-call-chat-panel" id="aiCallChatPanel" style="display: none">
         <div class="ai-chat-header">
@@ -931,24 +933,30 @@
         aiCallState.cameraOn = !aiCallState.cameraOn;
 
         const videoBtn = document.getElementById("aiVideoBtn");
-        const cameraOffLayer = document.getElementById("aiCameraOffLayer");
+        const selfCameraOffLayer = document.getElementById("aiSelfCameraOffLayer");
 
-        if (!videoBtn || !cameraOffLayer) return;
+        if (!videoBtn || !selfCameraOffLayer) return;
 
         if (aiCallState.cameraOn) {
           videoBtn.classList.remove("off");
+
           videoBtn.innerHTML = `
       <i class="fa-solid fa-video"></i>
       <span>Video</span>
     `;
-          cameraOffLayer.style.display = "none";
+
+          // Only user small preview becomes active again
+          selfCameraOffLayer.style.display = "none";
         } else {
           videoBtn.classList.add("off");
+
           videoBtn.innerHTML = `
       <i class="fa-solid fa-video-slash"></i>
       <span>Off</span>
     `;
-          cameraOffLayer.style.display = "flex";
+
+          // Only user small preview is covered
+          selfCameraOffLayer.style.display = "flex";
         }
       }
 
