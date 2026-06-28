@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - Doctor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/ai_doctor.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+      <div id="main-app-content">
+        <div class="header-profile">
+          <div class="welcome-text">
+            <img src="../images/HealthCare.png" alt="App Logo" class="header-logo-img" />
+            <img src="../images/SPTlogo.png" alt="ရှာပုံတော်" class="header-title-img" />
+          </div>
+
+          <div class="header-actions">
+            <a href="wallet.html" style="text-decoration: none">
+              <i class="fa-solid fa-wallet wallet-logo"></i>
+            </a>
+
+            <div class="avatar-container">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="Profile" class="avatar" />
+            </div>
+          </div>
+        </div>
+
+        <div class="main-content">
+          <div id="doctorSearchResult">
+            <div class="uiverse-empty-card">
+              <div class="blob"></div>
+
+              <div class="bg">
+                <div class="empty-card-content">
+                  <img src="../images/ai_doctor.png" alt="AI Doctor" class="empty-card-img" />
+                  <p class="empty-card-text">AI မှ ရှာဖွေပေးသော ဆရာဝန်ကို ဤနေရာတွင် ပြသပေးမည် ဖြစ်သည်။</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--show history-->
+          <section class="doctor-history-section">
+            <div class="doctor-history-header">
+              <h3>သင့်မှတ်တမ်းများ</h3>
+            </div>
+
+            <div id="doctorHistoryList" class="doctor-history-list"></div>
+          </section>
+        </div>
+
+        <!--bottom bar-->
+        <div class="menu-container">
+          <div class="menu">
+            <a href="booking_hospital.html" class="nav-item" data-nav="hospital" title="ဆေးရုံများ">
+              <i class="fa-solid fa-hospital"></i>
+              <span>ဆေးရုံများ</span>
+            </a>
+
+            <a href="news.html" class="nav-item" data-nav="news" title="ဆောင်းပါး">
+              <i class="fa-solid fa-newspaper"></i>
+              <span>ဆောင်းပါး</span>
+            </a>
+
+            <a href="homepage.html" class="nav-item" data-nav="home" title="အိမ်">
+              <i class="fa-solid fa-house"></i>
+              <span>အိမ်</span>
+            </a>
+
+            <a href="ai_doctor.html" class="nav-item active" data-nav="doctor" title="ဒေါက်တာ">
+              <i class="fa-solid fa-stethoscope"></i>
+              <span>ဒေါက်တာ</span>
+            </a>
+
+            <a href="booking_list.html" class="nav-item" data-nav="history" title="မှတ်တမ်း">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>မှတ်တမ်း</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="ai-doctor-call-screen" class="ai-doctor-call-screen" style="display: none"></div>
+
+      <!--Add summary model-->
+      <div id="historySummaryModal" class="history-summary-modal">
+        <div class="history-summary-card">
+          <button type="button" class="history-modal-close-btn" onclick="closeHistorySummaryModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+
+          <div id="historySummaryModalContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/global_appointment_alert.js"></script>
+    <script src="../js/global_doctor_notification.js"></script>
+    <script src="../js/ai_doctor.js"></script>
+
+    <script>
+      const AI_DOCTOR_REQUEST_KEY = "aiDoctorSearchRequest";
+      const AI_DOCTOR_RESULT_KEY = "aiDoctorSearchResult";
+      const AI_DOCTOR_HISTORY_KEY = "aiDoctorConsultationHistory";
+      const MEDICAL_FORM_LOCK_KEY = "medicalFormLocked";
+      const AI_CALL_DURATION_SECONDS = 45 * 60;
+
+      const DOCTOR_CATEGORY_KEYWORDS = [
+        {
+          category: "နှလုံးအထူးကု ဆရာဝန်",
+          keywords: [
+            "နှလုံး",
+            "နှလုံးရောဂါ",
+            "နှလုံးအောင့်",
+            "နှလုံးခုန်မြန်",
+            "နှလုံးခုန်နှေး",
+            "နှလုံးခုန်မမှန်",
+            "နှလုံးတုန်",
+            "နှလုံးဖောက်",
+            "ရင်ဘတ်အောင့်",
+            "ရင်ဘတ်နာ",
+            "ရင်ဘတ်ထဲအောင့်",
+            "ရင်ထဲအောင့်",
+            "ရင်ကြပ်",
+            "ရင်ပူပြီးမော",
+            "အသက်ရှူမဝ",
+            "အသက်ရှူကြပ်",
+            "မော",
+            "လမ်းလျှောက်ရင်မော",
+            "လှေကားတက်ရင်မော",
+            "အိပ်ရင်မော",
+            "ခြေထောက်ဖော",
+            "ခြေဖော",
+            "ဖောရောင်",
+            "ချွေးစေး",
+            "ချွေးအေး",
+            "ဘယ်လက်နာ",
+            "ဘယ်ဘက်လက်နာ",
+            "လက်မောင်းနာ",
+            "မေးရိုးနာ",
+            "ကျောနာပြီးရင်ဘတ်အောင့်",
+            "သွေးတိုး",
+            "သွေးပေါင်တက်",
+            "သွေးပေါင်ကျ",
+            "သွေးပေါင်မမှန်",
+            "သွေးကြော",
+            "သွေးကြောပိတ်",
+            "ကိုလက်စထရော",
+            "အဆီများ",
+            "heart",
+            "cardio",
+            "cardiac",
+            "chest pain",
+            "chest tightness",
+            "palpitation",
+            "palpitations",
+            "arrhythmia",
+            "hypertension",
+            "blood pressure",
+            "high bp",
+            "low bp",
+            "heart attack",
+            "angina",
+            "shortness of breath",
+            "cholesterol",
+          ],
+        },
+        {
+          category: "ကလေးအထူးကု ဆရာဝန်",
+          keywords: ["ကလေး", "မွေးကင်းစ", "ကလေးဖျား", "ကာကွယ်ဆေး", "နို့မစို့", "baby", "child", "pediatric"],
+        },
+        {
+          category: "အရေပြားအထူးကု ဆရာဝန်",
+          keywords: ["အရေပြား", "ယား", "ဝက်ခြံ", "တင်းတိပ်", "နှင်းခူ", "အနီကွက်", "အဖု", "skin", "acne", "rash", "eczema"],
+        },
+        {
+          category: "ဦးနှောက်နှင့် အာရုံကြော အထူးကုဆရာဝန်",
+          keywords: ["ခေါင်းကိုက်", "မူး", "တက်", "အကြောသေ", "လေဖြတ်", "မှတ်ဉာဏ်", "နာဗ်ကြော", "brain", "stroke", "seizure", "migraine"],
+        },
+        {
+          category: "စိတ်ကျန်းမာရေးအထူးကု ဆရာဝန်",
+          keywords: ["စိတ်ကျ", "စိုးရိမ်", "အိပ်မပျော်", "စိတ်ဖိစီး", "ထိတ်လန့်", "depression", "anxiety", "mental", "panic"],
+        },
+        {
+          category: "မျက်စိအထူးကု ဆရာဝန်",
+          keywords: ["မျက်စိ", "မျက်စိမှုန်", "မျက်စိနာ", "မျက်ရည်", "တိမ်", "eye", "vision", "blurred"],
+        },
+        {
+          category: "နား၊ နှာခေါင်း၊ လည်ချောင်း အထူးကုဆရာဝန်",
+          keywords: ["နား", "နှာခေါင်း", "လည်ချောင်း", "နားအူ", "နှာစေး", "လည်ချောင်းနာ", "ချောင်းဆိုး", "ent", "ear", "nose", "throat"],
+        },
+        {
+          category: "သားဖွားနှင့် မီးယပ်အထူးကု ဆရာဝန်",
+          keywords: ["မီးယပ်", "ရာသီ", "ကိုယ်ဝန်", "သားဖွား", "အမျိုးသမီး", "ဗိုက်အောက်နာ", "pregnancy", "period", "obgyn"],
+        },
+        {
+          category: "ဆီးနှင့် ကျောက်ကပ်၊ မျိုးပွားအင်္ဂါ ခွဲစိတ်ကုဆရာဝန်ကြီး",
+          keywords: ["ဆီး", "ဆီးကျိတ်", "ဆီးပူ", "ဆီးအောင့်", "ဆီးကျောက်", "မျိုးပွား", "urine", "urology", "prostate"],
+        },
+        {
+          category: "အစာအိမ်နှင့် အူလမ်းကြောင်း အထူးကုဆရာဝန်",
+          keywords: ["အစာအိမ်", "ဗိုက်နာ", "အူ", "ဝမ်း", "ဝမ်းလျှော", "အန်", "အသည်း", "stomach", "gastric", "diarrhea", "liver"],
+        },
+        {
+          category: "ဟော်မုန်းနှင့် ဆီးချို၊ သိုင်းရွိက် အထူးကုဆရာဝန်",
+          keywords: ["ဆီးချို", "သိုင်းရွိုက်", "လည်ပင်းကြီး", "ဟော်မုန်း", "diabetes", "thyroid", "hormone"],
+        },
+        {
+          category: "ကျောက်ကပ်အထူးကု ဆရာဝန်",
+          keywords: ["ကျောက်ကပ်", "ကျောက်ကပ်ပျက်", "ကျောက်ကပ်ဆေး", "ဆီးနည်း", "kidney", "renal"],
+        },
+        {
+          category: "အဆုတ်နှင့် အသက်ရှူလမ်းကြောင်း အထူးကုဆရာဝန်",
+          keywords: ["အဆုတ်", "အသက်ရှူ", "ပန်းနာ", "တီဘီ", "ချောင်းဆိုးသွေးပါ", "lung", "asthma", "tb", "breathing"],
+        },
+        {
+          category: "ကင်ဆာရောဂါအထူးကု ဆရာဝန်",
+          keywords: ["ကင်ဆာ", "အကျိတ်", "ဓာတ်ရောင်ခြည်", "ဆေးသွင်း", "cancer", "tumor", "oncology"],
+        },
+        {
+          category: "သွေးရောဂါအထူးကု ဆရာဝန်",
+          keywords: ["သွေးအားနည်း", "သွေး", "သွေးကင်ဆာ", "platelet", "anemia", "blood"],
+        },
+        {
+          category: "အဆစ်အမြစ်ရောင်ရမ်းမှုနှင့် လေးဖက်နာရောဂါ အထူးကုဆရာဝန်",
+          keywords: ["အဆစ်", "အမြစ်", "လေးဖက်နာ", "ဂေါက်", "ခါးနာ", "joint", "arthritis", "gout"],
+        },
+        {
+          category: "ဓာတ်မတည့်မှုနှင့် ကိုယ်ခံအားစနစ် အထူးကုဆရာဝန်",
+          keywords: ["ဓာတ်မတည့်", "allergy", "အင်ပြင်", "ယားယံ", "ကိုယ်ခံအား", "immune"],
+        },
+        {
+          category: "ကူးစက်ရောဂါအထူးကု ဆရာဝန်",
+          keywords: ["ကူးစက်", "ဖျား", "ဗိုင်းရပ်စ်", "ပိုးဝင်", "ရောဂါပိုး", "infection", "virus", "fever"],
+        },
+        {
+          category: "အရေးပေါ်ဌာန ဆရာဝန်",
+          keywords: ["အရေးပေါ်", "မတော်တဆ", "သွေးထွက်", "ဒဏ်ရာ", "မေ့လဲ", "emergency", "accident", "injury"],
+        },
+        {
+          category: "အထွေထွေခွဲစိတ်ဆရာဝန်ကြီး",
+          keywords: ["ခွဲစိတ်", "အူအတက်", "အနာကြီး", "အကျိတ်ခွဲ", "surgery", "appendix"],
+        },
+        {
+          category: "သွားဘက်ဆိုင်ရာ ဆရာဝန်",
+          keywords: ["သွား", "သွားနာ", "သွားပိုးစား", "သွားနုတ်", "သွားဖာ", "dental", "tooth"],
+        },
+        {
+          category: "အထွေထွေရောဂါကု ဆရာဝန် / မိသားစုဆရာဝန်",
+          keywords: ["ဖျား", "ကိုယ်ပူ", "ခေါင်းမူး", "နုံး", "မအီမသာ", "အထွေထွေ", "general", "fever", "flu"],
+        },
+      ];
+
+      function safeText(value) {
+        return String(value || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getJSON(key) {
+        try {
+          return JSON.parse(localStorage.getItem(key));
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function saveJSON(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      function normalizeText(text) {
+        return String(text || "")
+          .toLowerCase()
+          .replace(/[၊။,.!?;:(){}\[\]"']/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function detectBestCategory(inputText) {
+        const text = normalizeText(inputText);
+        let bestMatch = null;
+
+        DOCTOR_CATEGORY_KEYWORDS.forEach((group) => {
+          let score = 0;
+
+          group.keywords.forEach((keyword) => {
+            const key = normalizeText(keyword);
+
+            if (text.includes(key)) {
+              score += key.length > 5 ? 3 : 1;
+            }
+          });
+
+          if (!bestMatch || score > bestMatch.score) {
+            bestMatch = {
+              category: group.category,
+              score: score,
+            };
+          }
+        });
+
+        if (!bestMatch || bestMatch.score <= 0) return null;
+
+        return bestMatch.category;
+      }
+
+      function getSlotDateTime(slot) {
+        return new Date(`${slot.date}T${slot.time}:00`);
+      }
+
+      function getNearestAvailableSlot(doctor) {
+        if (!doctor.available_slots || doctor.available_slots.length === 0) {
+          return null;
+        }
+
+        const now = new Date();
+
+        const sortedSlots = doctor.available_slots
+          .map((slot) => ({
+            ...slot,
+            dateTime: getSlotDateTime(slot),
+          }))
+          .sort((a, b) => a.dateTime - b.dateTime);
+
+        const futureSlot = sortedSlots.find((slot) => slot.dateTime >= now);
+
+        return futureSlot || sortedSlots[0];
+      }
+
+      function findBestDoctorByCategory(category) {
+        if (typeof doctors_db === "undefined") return null;
+
+        const matchedDoctors = doctors_db.filter((doctor) => {
+          return doctor.category === category;
+        });
+
+        if (matchedDoctors.length === 0) return null;
+
+        const now = new Date();
+
+        const rankedDoctors = matchedDoctors
+          .map((doctor) => {
+            const nearestSlot = getNearestAvailableSlot(doctor);
+            const slotTime = nearestSlot ? getSlotDateTime(nearestSlot) : null;
+
+            return {
+              doctor,
+              nearestSlot,
+              timeDifference: slotTime ? Math.abs(slotTime - now) : Number.MAX_SAFE_INTEGER,
+            };
+          })
+          .sort((a, b) => {
+            if (a.timeDifference !== b.timeDifference) {
+              return a.timeDifference - b.timeDifference;
+            }
+
+            return Number(b.doctor.rating || 0) - Number(a.doctor.rating || 0);
+          });
+
+        return rankedDoctors[0];
+      }
+
+      function formatSlot(slot) {
+        if (!slot) return "အချိန်မရှိသေးပါ";
+        return `${slot.date} / ${slot.time}`;
+      }
+
+      function getSlotDate(slot) {
+        return slot && slot.date ? slot.date : "ရက် မသတ်မှတ်ရသေးပါ";
+      }
+
+      function getSlotTime(slot) {
+        return slot && slot.time ? slot.time : "အချိန် မသတ်မှတ်ရသေးပါ";
+      }
+
+      function getPatientSearchText(patient) {
+        return `
+          ${patient.patientName || ""}
+          ${patient.patientAge || ""}
+          ${patient.illnessDays || ""}
+          ${patient.currentSymptoms || ""}
+          ${patient.currentMedicine || ""}
+          ${patient.pastHistory || ""}
+        `;
+      }
+
+      function renderEmptyDoctorView() {
+        const resultBox = document.getElementById("doctorSearchResult");
+
+        resultBox.innerHTML = `
+          <div class="uiverse-empty-card">
+            <div class="blob"></div>
+
+            <div class="bg">
+              <div class="empty-card-content">
+                <img src="../images/ai_doctor.png" alt="AI Doctor" class="empty-card-img" />
+
+                <p class="empty-card-text">
+                  AI မှ ရှာဖွေပေးသော ဆရာဝန်ကို ဤနေရာတွင် ပြသပေးမည် ဖြစ်သည်။
+                </p>
+
+               <button class="cssbuttons-io-button" onclick="window.location.href='homepage.html'">
+        <div class="icon">
+          <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" fill="currentColor"></path>
+          </svg>
+        </div>
+        <span class="btn-text">ဆရာဝန်ရှာရန် ပြန်သွားမည်</span>
+      </button>
+                
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderNotFoundView() {
+        const resultBox = document.getElementById("doctorSearchResult");
+
+        resultBox.innerHTML = `
+          <div class="uiverse-result-card">
+            <div class="blob"></div>
+
+            <div class="bg">
+              <div class="empty-card-content">
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <p class="empty-card-text">
+                  သင့်ရေးထားသော ရောဂါလက္ခဏာနှင့် ကိုက်ညီသော ဆရာဝန်ကို မတွေ့ရှိပါ။
+                  ကျေးဇူးပြု၍ ရောဂါလက္ခဏာကို ပိုမိုရှင်းလင်းစွာ ရေးပါ။
+                </p>
+
+                <a href="homepage.html" class="search-doctor-btn">
+                  ပြန်ရှာမည်
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderDoctorResult(resultData) {
+        const resultBox = document.getElementById("doctorSearchResult");
+        const doctor = resultData.doctor;
+        const nearestSlot = resultData.nearestSlot;
+
+        resultBox.innerHTML = `
+          <div class="uiverse-result-card">
+            <div class="blob"></div>
+
+            <div class="bg">
+              <div class="doctor-result-inner">
+                <div class="doctor-result-header">
+                  <div class="doctor-icon-circle">
+                    <i class="fa-solid fa-user-doctor"></i>
+                  </div>
+
+                  <div class="doctor-title-box">
+                    <p class="doctor-label">AI မှ အကြံပြုသော ဆရာဝန်</p>
+                    <h3 class="doctor-name">${safeText(doctor.name)}</h3>
+                  </div>
+                </div>
+
+                <div class="doctor-info-list">
+                  <p>
+                    <b>ကိုက်ညီသော အထူးကု:</b>
+                    ${safeText(resultData.matchedCategory)}
+                  </p>
+
+                  <p>
+                    <b>ဆေးရုံ / ဆေးခန်း:</b>
+                    ${safeText(doctor.clinic || "N/A")}
+                  </p>
+
+                  <p>
+                    <b>အတွေ့အကြုံ:</b>
+                    ${safeText(doctor.experience || "N/A")}
+                  </p>
+
+                  <p>
+                    <b>Rating:</b>
+                    ⭐ ${safeText(doctor.rating || "N/A")}
+                  </p>
+
+                  <p>
+                    <b>အနီးဆုံး Available Slot:</b>
+                    ${safeText(formatSlot(nearestSlot))}
+                  </p>
+
+                  <p class="doctor-about">
+                    ${safeText(doctor.about || "")}
+                  </p>
+                </div>
+
+<div class="doctor-card-actions" style="display: flex; gap: 8px; margin-top: 15px; width: 100%;">
+  <button
+    type="button"
+    class="search-doctor-btn"
+    style="background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%); color: #ffffff; border: none; padding: 8px 10px; min-height: 36px; border-radius: 5px; cursor: pointer; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 12px; white-space: nowrap;"
+    onclick="bookMatchedDoctor()"
+  >
+    <i class="fa-solid fa-calendar-check" style="font-size: 12px;"></i>
+    ဘိုကင်ရယူရန်
+  </button>
+
+  <button
+    type="button"
+    class="search-doctor-btn cancel-doctor-btn"
+    style="background-color: #800020; color: #ffffff; border: none; padding: 8px 10px; min-height: 36px; border-radius: 5px; cursor: pointer; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 12px; white-space: nowrap;"
+    onclick="cancelDoctorRecommendation()"
+  >
+    <i class="fa-solid fa-xmark" style="font-size: 12px;"></i>
+    ဘိုကင် မယူတော့ပါ
+  </button>
+</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function cancelDoctorRecommendation() {
+        const isConfirmed = confirm("ပယ်ဖျက်ရန်သေချာပါသလား");
+
+        if (!isConfirmed) return;
+
+        localStorage.removeItem(AI_DOCTOR_REQUEST_KEY);
+        localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+        localStorage.removeItem(MEDICAL_FORM_LOCK_KEY);
+
+        renderEmptyDoctorView();
+      }
+
+      function getActiveGlobalAppointment() {
+        try {
+          return JSON.parse(localStorage.getItem("globalAppointmentAlert"));
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function updateAiDoctorBookingResult(updateData = {}) {
+        const currentResult = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (!currentResult) return null;
+
+        const updatedResult = {
+          ...currentResult,
+          ...updateData,
+        };
+
+        saveJSON(AI_DOCTOR_RESULT_KEY, updatedResult);
+        return updatedResult;
+      }
+
+      function activateAppointmentEnterButton() {
+        const enterBtn = document.querySelector("[data-appointment-enter-btn]");
+        const noteText = document.querySelector("[data-appointment-enter-note]");
+
+        if (!enterBtn) return;
+
+        enterBtn.disabled = false;
+        enterBtn.setAttribute("aria-disabled", "false");
+        enterBtn.dataset.appointmentReady = "true";
+
+        enterBtn.innerHTML = `
+    <i class="fa-solid fa-door-open" style="font-size: 14px;"></i>
+    ဝင်ရောက်မည်
+  `;
+
+        // Premium Enabled Style (Gradient Blue with Glow Effect)
+        enterBtn.style.opacity = "1";
+        enterBtn.style.cursor = "pointer";
+        enterBtn.style.pointerEvents = "auto";
+        enterBtn.style.filter = "none";
+        enterBtn.style.background = "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)";
+        enterBtn.style.color = "#ffffff";
+        enterBtn.style.boxShadow = "0 4px 14px rgba(59, 130, 246, 0.4)";
+        enterBtn.style.transform = "translateY(-1px)";
+
+        enterBtn.onclick = function () {
+          enterDoctorAppointment();
+        };
+
+        if (noteText) {
+          noteText.innerText = "ဆရာဝန်နဲ့ ချိန်းဆိုထားတာ နီးကပ်လာလို့ ကြိုတင်ဝင်ရောက်နိုင်ပါပြီ";
+          noteText.style.color = "#2563eb";
+          noteText.style.fontWeight = "700";
+        }
+
+        updateAiDoctorBookingResult({
+          bookingStatus: "ready",
+          canJoin: true,
+          readyAt: new Date().toLocaleString(),
+        });
+      }
+
+      function keepAppointmentButtonDisabled() {
+        const enterBtn = document.querySelector("[data-appointment-enter-btn]");
+        const noteText = document.querySelector("[data-appointment-enter-note]");
+
+        if (!enterBtn) return;
+
+        enterBtn.disabled = true;
+        enterBtn.setAttribute("aria-disabled", "true");
+        enterBtn.dataset.appointmentReady = "false";
+
+        // Premium Disabled Style (Soft modern slate grey)
+        enterBtn.style.background = "#e2e8f0";
+        enterBtn.style.color = "#94a3b8";
+        enterBtn.style.opacity = "1";
+        enterBtn.style.cursor = "not-allowed";
+        enterBtn.style.boxShadow = "none";
+        enterBtn.style.transform = "none";
+        enterBtn.style.pointerEvents = "none";
+
+        enterBtn.onclick = null;
+
+        if (noteText) {
+          noteText.innerText = "ယခုလက်ရှိ ဒီ ခလုတ်ကို အသုံးပြု၍ မရသေးပါ";
+          noteText.style.color = "#64748b";
+          noteText.style.fontWeight = "400";
+        }
+      }
+
+      function scheduleAiDoctorEnterButtonTimer(resultData) {
+        if (!resultData) return;
+
+        const globalAppointment = getActiveGlobalAppointment();
+        const notifyAt = Number(resultData.notifyAt || globalAppointment?.notifyAt);
+
+        if (!notifyAt) {
+          keepAppointmentButtonDisabled();
+          return;
+        }
+
+        const remainingTime = notifyAt - Date.now();
+
+        if (remainingTime <= 0 || resultData.bookingStatus === "ready" || resultData.canJoin === true) {
+          activateAppointmentEnterButton();
+          return;
+        }
+
+        keepAppointmentButtonDisabled();
+
+        setTimeout(() => {
+          activateAppointmentEnterButton();
+        }, remainingTime);
+      }
+
+      function enterDoctorAppointment() {
+        const resultData = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (!resultData || !resultData.doctor) {
+          alert("Appointment information မတွေ့ပါ။");
+          return;
+        }
+
+        const globalAppointment = getActiveGlobalAppointment();
+
+        updateAiDoctorBookingResult({
+          bookingStatus: "in_call",
+          canJoin: true,
+          enteredAt: new Date().toLocaleString(),
+        });
+
+        if (globalAppointment) {
+          const inCallData = {
+            ...globalAppointment,
+            status: "in_call",
+            canJoin: true,
+            enteredAt: Date.now(),
+          };
+
+          localStorage.setItem("globalAppointmentAlert", JSON.stringify(inCallData));
+          localStorage.setItem("activeDoctorAppointment", JSON.stringify(inCallData));
+        }
+
+        if (window.GlobalAppointmentAlert) {
+          window.GlobalAppointmentAlert.closePopup();
+        }
+
+        renderAiDoctorVideoCall(resultData);
+      }
+
+      let aiCallState = {
+        cameraOn: true,
+        micOn: true,
+        chatOpen: false,
+        startedAt: null,
+        timerInterval: null,
+        isEnding: false,
+      };
+
+      function renderAiDoctorVideoCall(resultData) {
+        const callScreen = document.getElementById("ai-doctor-call-screen");
+        const mainContent = document.getElementById("main-app-content");
+
+        if (!callScreen || !mainContent) return;
+
+        const doctor = resultData.doctor || {};
+        const patient = resultData.patient || {};
+
+        aiCallState.cameraOn = true;
+        aiCallState.micOn = true;
+        aiCallState.chatOpen = false;
+        aiCallState.startedAt = Date.now();
+        aiCallState.isEnding = false;
+
+        mainContent.style.display = "none";
+        callScreen.style.display = "flex";
+
+        callScreen.innerHTML = `
+    <div class="ai-video-call-stage">
+      <div class="ai-video-top-bar">
+        <div>
+          <p class="ai-call-status">
+            <span class="ai-live-dot"></span>
+            Live Consultation
+          </p>
+          <h3>${safeText(doctor.name || "Doctor")}</h3>
+          <p class="ai-call-subtitle">${safeText(doctor.category || "AI Doctor")}</p>
+        </div>
+
+        <div class="ai-call-timer" id="aiCallTimer">00:00</div>
+      </div>
+
+      <div class="ai-main-video-window" id="aiMainVideoWindow">
+        <div class="ai-video-gradient"></div>
+
+        <div class="ai-doctor-avatar-big">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+
+        <div class="ai-doctor-video-info">
+          <h2>${safeText(doctor.name || "Doctor")}</h2>
+          <p>${safeText(doctor.clinic || "Telehealth Room")}</p>
+        </div>
+
+        <div class="ai-camera-off-layer" id="aiCameraOffLayer" style="display: none">
+          <i class="fa-solid fa-video-slash"></i>
+          <p>Camera is off</p>
+        </div>
+      </div>
+
+      <div class="ai-self-preview-card">
+        <div class="ai-self-preview-inner">
+          <i class="fa-solid fa-user"></i>
+          <span>${safeText(patient.patientName || "You")}</span>
+        </div>
+      </div>
+
+      <div class="ai-call-chat-panel" id="aiCallChatPanel" style="display: none">
+        <div class="ai-chat-header">
+          <b>Chat</b>
+          <button type="button" onclick="toggleAiCallChat()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="ai-chat-body">
+          <div class="ai-chat-message doctor">
+            မင်္ဂလာပါ။ သင့်ရောဂါလက္ခဏာကို ပြန်လည်ရှင်းပြပေးပါ။
+          </div>
+        </div>
+
+        <div class="ai-chat-input-row">
+          <input type="text" id="aiChatInput" placeholder="Message..." />
+          <button type="button" onclick="sendAiChatMessage()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="ai-call-control-bar">
+        <button
+          type="button"
+          id="aiMicBtn"
+          class="ai-call-control-btn"
+          onclick="toggleAiMicrophone()"
+        >
+          <i class="fa-solid fa-microphone"></i>
+          <span>Mute</span>
+        </button>
+
+        <button
+          type="button"
+          id="aiVideoBtn"
+          class="ai-call-control-btn"
+          onclick="toggleAiCamera()"
+        >
+          <i class="fa-solid fa-video"></i>
+          <span>Video</span>
+        </button>
+
+        <button
+          type="button"
+          class="ai-call-control-btn"
+          onclick="toggleAiCallChat()"
+        >
+          <i class="fa-solid fa-comment-dots"></i>
+          <span>Chat</span>
+        </button>
+
+       <button
+  type="button"
+  id="aiEndCallBtn"
+  class="ai-call-control-btn ai-end-call-btn"
+>
+  <i class="fa-solid fa-phone-slash"></i>
+  <span>End</span>
+</button>
+
+      </div>
+    </div>
+  `;
+
+        attachAiEndCallButtonHandler();
+        startAiCallTimer();
+      }
+
+      function attachAiEndCallButtonHandler() {
+        const endCallBtn = document.getElementById("aiEndCallBtn");
+
+        if (!endCallBtn) return;
+
+        endCallBtn.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          endAiDoctorCall();
+        });
+      }
+
+      function startAiCallTimer() {
+        const timerBox = document.getElementById("aiCallTimer");
+
+        if (aiCallState.timerInterval) {
+          clearInterval(aiCallState.timerInterval);
+        }
+
+        aiCallState.startedAt = Date.now();
+
+        function updateCountdownTimer() {
+          const elapsedSeconds = Math.floor((Date.now() - aiCallState.startedAt) / 1000);
+          const remainingSeconds = Math.max(AI_CALL_DURATION_SECONDS - elapsedSeconds, 0);
+
+          const minutes = String(Math.floor(remainingSeconds / 60)).padStart(2, "0");
+          const seconds = String(remainingSeconds % 60).padStart(2, "0");
+
+          if (timerBox) {
+            timerBox.innerText = `${minutes}:${seconds}`;
+          }
+
+          if (remainingSeconds <= 0) {
+            endAiDoctorCall();
+          }
+        }
+
+        updateCountdownTimer();
+
+        aiCallState.timerInterval = setInterval(updateCountdownTimer, 1000);
+      }
+
+      function toggleAiCamera() {
+        aiCallState.cameraOn = !aiCallState.cameraOn;
+
+        const videoBtn = document.getElementById("aiVideoBtn");
+        const cameraOffLayer = document.getElementById("aiCameraOffLayer");
+
+        if (!videoBtn || !cameraOffLayer) return;
+
+        if (aiCallState.cameraOn) {
+          videoBtn.classList.remove("off");
+          videoBtn.innerHTML = `
+      <i class="fa-solid fa-video"></i>
+      <span>Video</span>
+    `;
+          cameraOffLayer.style.display = "none";
+        } else {
+          videoBtn.classList.add("off");
+          videoBtn.innerHTML = `
+      <i class="fa-solid fa-video-slash"></i>
+      <span>Off</span>
+    `;
+          cameraOffLayer.style.display = "flex";
+        }
+      }
+
+      function toggleAiMicrophone() {
+        aiCallState.micOn = !aiCallState.micOn;
+
+        const micBtn = document.getElementById("aiMicBtn");
+
+        if (!micBtn) return;
+
+        if (aiCallState.micOn) {
+          micBtn.classList.remove("off");
+          micBtn.innerHTML = `
+      <i class="fa-solid fa-microphone"></i>
+      <span>Mute</span>
+    `;
+        } else {
+          micBtn.classList.add("off");
+          micBtn.innerHTML = `
+      <i class="fa-solid fa-microphone-slash"></i>
+      <span>Muted</span>
+    `;
+        }
+      }
+
+      function toggleAiCallChat() {
+        aiCallState.chatOpen = !aiCallState.chatOpen;
+
+        const chatPanel = document.getElementById("aiCallChatPanel");
+
+        if (!chatPanel) return;
+
+        chatPanel.style.display = aiCallState.chatOpen ? "flex" : "none";
+      }
+
+      function sendAiChatMessage() {
+        const input = document.getElementById("aiChatInput");
+        const chatBody = document.querySelector(".ai-chat-body");
+
+        if (!input || !chatBody) return;
+
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        const messageBubble = document.createElement("div");
+        messageBubble.className = "ai-chat-message user";
+        messageBubble.innerText = message;
+
+        chatBody.appendChild(messageBubble);
+        input.value = "";
+
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      /*Add history functions*/
+      function getAiDoctorHistory() {
+        const history = getJSON(AI_DOCTOR_HISTORY_KEY);
+        return Array.isArray(history) ? history : [];
+      }
+
+      function saveAiDoctorHistory(history) {
+        saveJSON(AI_DOCTOR_HISTORY_KEY, history);
+      }
+
+      function createDemoConsultationSummary(resultData) {
+        const doctor = resultData?.doctor || {};
+        const patient = resultData?.patient || {};
+        const illness = resultData?.matchedCategory || doctor.category || "General Health Consultation";
+        const symptoms = patient.currentSymptoms || "the reported symptoms";
+
+        return {
+          conversationSummary: `During this demo consultation, the patient explained the main symptoms: "${symptoms}". ` + `The doctor reviewed the illness duration, current medicine allergy information, and past medical history. ` + `Based on the symptoms, the case was categorized under "${illness}". ` + `The doctor gave general guidance, explained possible warning signs, and recommended follow-up care if the symptoms continue or become worse.`,
+
+          doctorNotes: `ဆရာဝန် မှတ်ချက်: This is demo advice for the consultation record. ` + `Please take enough rest, drink clean water regularly, avoid self-medicating without professional guidance, ` + `and monitor the symptoms carefully. If chest pain, breathing difficulty, high fever, severe pain, fainting, ` + `or worsening symptoms occur, please visit the nearest hospital immediately.`,
+        };
+      }
+
+      function addConsultationToHistory(resultData) {
+        if (!resultData || !resultData.doctor) return;
+
+        const doctor = resultData.doctor;
+        const patient = resultData.patient || {};
+        const summary = createDemoConsultationSummary(resultData);
+
+        const historyRecord = {
+          id: `history_${Date.now()}`,
+          recordTitleMm: "ဆေးကုသမှု မှတ်တမ်း",
+
+          doctorName: doctor.name || "Doctor",
+          doctorCategory: doctor.category || resultData.matchedCategory || "N/A",
+          clinic: doctor.clinic || "N/A",
+
+          illnessDiagnosed: resultData.matchedCategory || doctor.category || "N/A",
+          patientSymptoms: patient.currentSymptoms || "N/A",
+
+          consultationDate: new Date().toLocaleString(),
+
+          conversationSummary: summary.conversationSummary,
+          doctorNotes: summary.doctorNotes,
+        };
+
+        const history = getAiDoctorHistory();
+        history.unshift(historyRecord);
+
+        saveAiDoctorHistory(history);
+      }
+
+      function endAiDoctorCall() {
+        if (aiCallState.isEnding) return;
+        aiCallState.isEnding = true;
+
+        if (aiCallState.timerInterval) {
+          clearInterval(aiCallState.timerInterval);
+          aiCallState.timerInterval = null;
+        }
+
+        const resultData = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (resultData && resultData.doctor) {
+          addConsultationToHistory(resultData);
+        }
+
+        localStorage.removeItem(AI_DOCTOR_REQUEST_KEY);
+        localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+        localStorage.removeItem(MEDICAL_FORM_LOCK_KEY);
+        localStorage.removeItem("globalAppointmentAlert");
+        localStorage.removeItem("activeDoctorAppointment");
+
+        try {
+          if (window.GlobalAppointmentAlert) {
+            const summaryData = {
+              doctorName: resultData?.doctor?.name || "Doctor",
+              summaryText: "Doctor consultation finished successfully.",
+              medicineAdvice: "Demo consultation summary generated.",
+            };
+
+            window.GlobalAppointmentAlert.endAppointment(summaryData);
+          }
+        } catch (error) {
+          console.warn("GlobalAppointmentAlert end failed:", error);
+        }
+
+        window.location.href = "ai_doctor.html";
+      }
+
+      function closeAiDoctorCallScreen() {
+        const callScreen = document.getElementById("ai-doctor-call-screen");
+        const mainContent = document.getElementById("main-app-content");
+
+        if (callScreen) {
+          callScreen.style.display = "none";
+          callScreen.innerHTML = "";
+        }
+
+        if (mainContent) {
+          mainContent.style.display = "block";
+        }
+      }
+
+      function renderCallEndedSummary(summaryData) {
+        const resultBox = document.getElementById("doctorSearchResult");
+
+        if (!resultBox) return;
+
+        resultBox.innerHTML = `
+    <div class="uiverse-result-card">
+      <div class="blob"></div>
+
+      <div class="bg">
+        <div class="doctor-result-inner">
+          <div class="doctor-result-header">
+            <div class="doctor-icon-circle">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div class="doctor-title-box">
+              <p class="doctor-label">Consultation Finished</p>
+              <h3 class="doctor-name">ဆရာဝန်နှင့် ချိန်းဆိုမှု ပြီးဆုံးပါပြီ</h3>
+            </div>
+          </div>
+
+          <div class="booking-info-box">
+            <p><b>ဆရာဝန်:</b> ${safeText(summaryData.doctorName)}</p>
+            <p><b>Summary:</b> ${safeText(summaryData.summaryText)}</p>
+            <p><b>Advice:</b> ${safeText(summaryData.medicineAdvice)}</p>
+          </div>
+
+          <a href="homepage.html" class="search-doctor-btn">
+            <i class="fa-solid fa-house"></i>
+            Home သို့ ပြန်သွားမည်
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+      }
+
+      window.addEventListener("globalAppointmentReady", () => {
+        activateAppointmentEnterButton();
+      });
+
+      function refreshDoctorBookingStateFromStorage() {
+        let resultData = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (!resultData || !resultData.doctor) return;
+
+        const activeBookingStatuses = ["waiting", "ready", "in_call"];
+
+        if (!activeBookingStatuses.includes(resultData.bookingStatus)) return;
+
+        resultData = syncActiveBookingState(resultData);
+
+        renderBookingNotificationCard(resultData);
+      }
+
+      window.addEventListener("focus", refreshDoctorBookingStateFromStorage);
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+          refreshDoctorBookingStateFromStorage();
+        }
+      });
+
+      function renderBookingNotificationCard(resultData) {
+        const resultBox = document.getElementById("doctorSearchResult");
+
+        const doctor = resultData.doctor;
+        const patient = resultData.patient || {};
+        const nearestSlot = resultData.nearestSlot;
+
+        const bookingDate = getSlotDate(nearestSlot);
+        const bookingTime = getSlotTime(nearestSlot);
+
+        const isReady = resultData.bookingStatus === "ready" || resultData.canJoin === true;
+
+        // Premium Button Dynamic Style
+        const btnStyle = isReady ? "background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: #ffffff; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transform: translateY(0); filter: none;" : "background: #e2e8f0; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; filter: none;";
+
+        resultBox.innerHTML = `
+    <div class="uiverse-result-card">
+      <div class="blob"></div>
+
+      <div class="bg">
+        <div class="doctor-result-inner">
+          <div class="doctor-result-header">
+            <div class="doctor-icon-circle">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+
+            <div class="doctor-title-box">
+              <p class="doctor-label">Booking Notification</p>
+              <h3 class="doctor-name">ဘိုကင်အချက်အလက်</h3>
+            </div>
+          </div>
+
+          <div class="booking-info-box">
+            <p><b>လူနာအမည်:</b> ${safeText(patient.patientName)}</p>
+            <p><b>အသက်:</b> ${safeText(patient.patientAge)}</p>
+            <p><b>ရောဂါဖြစ်သောရက်:</b> ${safeText(patient.illnessDays)}</p>
+            <p><b>ရောဂါလက္ခဏာ:</b> ${safeText(patient.currentSymptoms)}</p>
+            <p><b>ဓါတ်မတည့်သော ဆေးဝါးများ:</b> ${safeText(patient.currentMedicine)}</p>
+            <p><b>ရောဂါဟောင်း:</b> ${safeText(patient.pastHistory)}</p>
+          </div>
+
+          <div class="booking-info-box">
+            <p><b>ဆရာဝန်:</b> ${safeText(doctor.name)}</p>
+            <p><b>အထူးကု:</b> ${safeText(doctor.category || "N/A")}</p>
+            <p><b>ဆေးရုံ / ဆေးခန်း:</b> ${safeText(doctor.clinic || "N/A")}</p>
+            <p><b>အတွေ့အကြုံ:</b> ${safeText(doctor.experience || "N/A")}</p>
+            <p><b>Rating:</b> ⭐ ${safeText(doctor.rating || "N/A")}</p>
+            <p><b>Available Slot:</b> ${safeText(bookingDate)} / ${safeText(bookingTime)}</p>
+          </div>
+
+          <button
+            type="button"
+            ${isReady ? "" : "disabled"}
+            aria-disabled="${isReady ? "false" : "true"}"
+            data-appointment-enter-btn="true"
+            data-appointment-ready="${isReady ? "true" : "false"}"
+            class="search-doctor-btn"
+            style="width: 100%; border: none; padding: 12px 20px; min-height: 44px; border-radius: 8px; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; ${btnStyle}"
+            ${isReady ? "onclick='enterDoctorAppointment()'" : ""}
+          >
+            <i class="fa-solid fa-door-open" style="font-size: 14px;"></i>
+            ဝင်ရောက်မည်
+          </button>
+
+          <p class="empty-card-text" data-appointment-enter-note style="margin-top: 10px; font-size: 12px;">
+            ${isReady ? "ဆရာဝန်နဲ့ ချိန်းဆိုထားတာ နီးကပ်လာလို့ ကြိုတင်ဝင်ရောက်နိုင်ပါပြီ" : "ယခုလက်ရှိ ဒီ ခလုတ်ကို အသုံးပြု၍ မရသေးပါ"}
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+
+        if (isReady) {
+          activateAppointmentEnterButton();
+        } else {
+          scheduleAiDoctorEnterButtonTimer(resultData);
+        }
+      }
+
+      function renderDoctorHistory() {
+        const historyList = document.getElementById("doctorHistoryList");
+
+        if (!historyList) return;
+
+        const history = getAiDoctorHistory();
+
+        if (history.length === 0) {
+          historyList.innerHTML = `
+      <div class="history-empty-card">
+        မှတ်တမ်းများ မရှိသေးပါ
+      </div>
+    `;
+          return;
+        }
+
+        historyList.innerHTML = history
+          .map((record) => {
+            return `
+        <div class="doctor-history-card" onclick="openHistorySummaryModal('${safeText(record.id)}')">
+          <button
+            type="button"
+            class="history-delete-btn"
+            onclick="deleteDoctorHistory(event, '${safeText(record.id)}')"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+
+          <div class="history-doctor-icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+
+          <div class="history-card-content">
+
+  <h4>${safeText(record.recordTitleMm || "ဆေးကုသမှု မှတ်တမ်း")}</h4>
+
+  <p><b>Doctor's Name:</b> ${safeText(record.doctorName)}</p>
+  <p><b>Diagnosed Illness:</b> ${safeText(record.illnessDiagnosed)}</p>
+  <p><b>Specialist:</b> ${safeText(record.doctorCategory)}</p>
+
+  <span>${safeText(record.consultationDate)}</span>
+</div>
+
+        </div>
+      `;
+          })
+          .join("");
+      }
+
+      function deleteDoctorHistory(event, historyId) {
+        event.stopPropagation();
+
+        const history = getAiDoctorHistory();
+        const updatedHistory = history.filter((record) => record.id !== historyId);
+
+        saveAiDoctorHistory(updatedHistory);
+        renderDoctorHistory();
+      }
+
+      function openHistorySummaryModal(historyId) {
+        const history = getAiDoctorHistory();
+        const record = history.find((item) => item.id === historyId);
+
+        if (!record) return;
+
+        const modal = document.getElementById("historySummaryModal");
+        const modalContent = document.getElementById("historySummaryModalContent");
+
+        if (!modal || !modalContent) return;
+
+        modalContent.innerHTML = `
+    <div class="history-modal-header">
+      <div class="history-doctor-icon large">
+        <i class="fa-solid fa-file-medical"></i>
+      </div>
+
+      <div>
+        <h3>${safeText(record.recordTitleMm || "ဆေးကုသမှု မှတ်တမ်း")}</h3>
+      </div>
+    </div>
+
+    <div class="history-modal-info">
+      <p><b>Doctor's Name:</b> ${safeText(record.doctorName)}</p>
+      <p><b>Specialist:</b> ${safeText(record.doctorCategory)}</p>
+      <p><b>Clinic:</b> ${safeText(record.clinic)}</p>
+      <p><b>Diagnosed Illness:</b> ${safeText(record.illnessDiagnosed)}</p>
+      <p><b>Patient Symptoms:</b> ${safeText(record.patientSymptoms)}</p>
+      <p><b>Date:</b> ${safeText(record.consultationDate)}</p>
+    </div>
+
+    <div class="history-summary-box">
+      <h4>Summary / Transcript</h4>
+      <p>${safeText(record.conversationSummary)}</p>
+    </div>
+
+    <div class="history-summary-box doctor-note-box">
+      <h4>Doctor's Notes</h4>
+      <h5>ဆရာဝန် မှတ်ချက်</h5>
+      <p>${safeText(record.doctorNotes)}</p>
+    </div>
+  `;
+
+        modal.classList.add("show");
+      }
+
+      function closeHistorySummaryModal() {
+        const modal = document.getElementById("historySummaryModal");
+
+        if (modal) {
+          modal.classList.remove("show");
+        }
+      }
+
+      function syncActiveBookingState(resultData) {
+        if (!resultData || !resultData.doctor) return null;
+
+        const activeStatuses = ["waiting", "ready", "in_call"];
+
+        if (!activeStatuses.includes(resultData.bookingStatus)) {
+          return resultData;
+        }
+
+        const globalAppointment = getActiveGlobalAppointment();
+        const notifyAt = Number(resultData.notifyAt || globalAppointment?.notifyAt);
+
+        const isGlobalReady = globalAppointment && (globalAppointment.status === "ready" || globalAppointment.canJoin === true);
+
+        const isTimeReady = notifyAt && Date.now() >= notifyAt;
+
+        if (resultData.bookingStatus === "waiting" && (isTimeReady || isGlobalReady)) {
+          const updatedResult = {
+            ...resultData,
+            bookingStatus: "ready",
+            canJoin: true,
+            readyAt: resultData.readyAt || new Date().toLocaleString(),
+          };
+
+          saveJSON(AI_DOCTOR_RESULT_KEY, updatedResult);
+
+          if (globalAppointment) {
+            const updatedGlobalAppointment = {
+              ...globalAppointment,
+              status: "ready",
+              canJoin: true,
+              readyAt: globalAppointment.readyAt || Date.now(),
+            };
+
+            localStorage.setItem("globalAppointmentAlert", JSON.stringify(updatedGlobalAppointment));
+          }
+
+          return updatedResult;
+        }
+
+        return resultData;
+      }
+
+      function runAiDoctorSearch() {
+        const requestData = getJSON(AI_DOCTOR_REQUEST_KEY);
+        let oldResult = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        const activeBookingStatuses = ["waiting", "ready", "in_call"];
+
+        if (oldResult && oldResult.doctor && activeBookingStatuses.includes(oldResult.bookingStatus)) {
+          oldResult = syncActiveBookingState(oldResult);
+
+          renderBookingNotificationCard(oldResult);
+          return;
+        }
+
+        if (oldResult && oldResult.status === "found" && oldResult.doctor) {
+          renderDoctorResult(oldResult);
+          return;
+        }
+
+        if (!requestData) {
+          renderEmptyDoctorView();
+          return;
+        }
+
+        const fullPatientText = getPatientSearchText(requestData);
+        const matchedCategory = detectBestCategory(fullPatientText);
+
+        if (!matchedCategory) {
+          const notFoundResult = {
+            status: "not_found",
+            patient: requestData,
+            matchedCategory: null,
+            doctor: null,
+            nearestSlot: null,
+            searchedAt: new Date().toLocaleString(),
+          };
+
+          saveJSON(AI_DOCTOR_RESULT_KEY, notFoundResult);
+          renderNotFoundView();
+          return;
+        }
+
+        const bestDoctorResult = findBestDoctorByCategory(matchedCategory);
+
+        if (!bestDoctorResult || !bestDoctorResult.doctor) {
+          const notFoundResult = {
+            status: "not_found",
+            patient: requestData,
+            matchedCategory: matchedCategory,
+            doctor: null,
+            nearestSlot: null,
+            searchedAt: new Date().toLocaleString(),
+          };
+
+          saveJSON(AI_DOCTOR_RESULT_KEY, notFoundResult);
+          renderNotFoundView();
+          return;
+        }
+
+        const finalResult = {
+          status: "found",
+          patient: requestData,
+          matchedCategory: matchedCategory,
+          doctor: bestDoctorResult.doctor,
+          nearestSlot: bestDoctorResult.nearestSlot,
+          searchedAt: new Date().toLocaleString(),
+        };
+
+        saveJSON(AI_DOCTOR_RESULT_KEY, finalResult);
+        renderDoctorResult(finalResult);
+      }
+
+      function bookMatchedDoctor() {
+        const resultData = getJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (!resultData || !resultData.doctor) {
+          alert("Doctor information မတွေ့ပါ။");
+          return;
+        }
+
+        const doctor = resultData.doctor;
+        const nearestSlot = resultData.nearestSlot;
+
+        const bookingDate = getSlotDate(nearestSlot);
+        const bookingTime = getSlotTime(nearestSlot);
+
+        const appointmentId = `ai_booking_${Date.now()}`;
+        const notifyAt = Date.now() + 10000;
+
+        const bookedResult = {
+          ...resultData,
+          appointmentId: appointmentId,
+          bookingStatus: "waiting",
+          canJoin: false,
+          notifyAt: notifyAt,
+          bookedAt: new Date().toLocaleString(),
+        };
+
+        saveJSON(AI_DOCTOR_RESULT_KEY, bookedResult);
+        localStorage.setItem(MEDICAL_FORM_LOCK_KEY, "true");
+        renderBookingNotificationCard(bookedResult);
+
+        if (window.GlobalAppointmentAlert) {
+          window.GlobalAppointmentAlert.create({
+            id: appointmentId,
+            doctorId: doctor.id,
+            doctorName: doctor.name,
+            date: bookingDate,
+            time: bookingTime,
+            joinUrl: `doctor_call.html?doctor_id=${doctor.id}`,
+          });
+        }
+
+        scheduleAiDoctorEnterButtonTimer(bookedResult);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        runAiDoctorSearch();
+        renderDoctorHistory();
+      });
+    </script>
+  </body>
+</html>

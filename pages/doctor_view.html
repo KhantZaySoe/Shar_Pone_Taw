@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - ဆရာဝန်များ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/doctor_view.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+      <div class="doctor-header">
+        <a href="booking_hospital.html" class="back-btn"> <i class="fa-solid fa-chevron-left"></i> နောက်သို့ </a>
+        <h2>ဆရာဝန်များ</h2>
+        <div style="width: 40px"></div>
+      </div>
+
+      <div class="doctor-content">
+        <div id="doctor-list" class="doctor-list"></div>
+      </div>
+    </div>
+
+    <script src="../js/global_doctor_notification.js"></script>
+    <script src="../js/booking_doctor_db.js"></script>
+    <script>
+      const selectedHospitalId = Number(localStorage.getItem("selectedHospitalId"));
+      // ဆရာဝန်များကို hospital_id အလိုက် စစ်ထုတ်ပြီး Render လုပ်ပေးမည့် ဖန်ရှင်
+      function renderDoctorList() {
+        const listContainer = document.getElementById("doctor-list");
+        if (!listContainer || typeof doctors_db === "undefined") return;
+
+        const filteredDoctors = doctors_db.filter((doc) => doc.hospital_id === selectedHospitalId);
+
+        if (filteredDoctors.length === 0) {
+          listContainer.innerHTML = `<p class="no-data">ဤဆေးရုံတွင် လက်ရှိ ပြသနိုင်သော ဆရာဝန်မရှိသေးပါ။</p>`;
+          return;
+        }
+
+        listContainer.innerHTML = filteredDoctors
+          .map(
+            (doc) => `
+                <div class="doctor-card">
+                    <div class="doc-avatar-box">
+                        <img src="${doc.image}" alt="${doc.name}" class="doc-img" />
+                    </div>
+                    
+                    <div class="doc-card-info">
+                        <h3 class="doc-name">${doc.name}</h3>
+                        <p class="doc-cat">${doc.category}</p>
+                        
+                        <div class="doc-meta-row">
+                            <span class="doc-exp">
+                                <i class="fa-solid fa-briefcase"></i> ${doc.experience}
+                            </span>
+                            <span class="doc-rating">
+                                <i class="fa-solid fa-star"></i> ${doc.rating}
+                            </span>
+                        </div>
+                        
+                        <button class="doc-book-btn" onclick="goToAppointment(${doc.d_id})">
+                            ရက်ချိန်းယူမည်
+                        </button>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+
+function goToAppointment(doctorId) {
+
+localStorage.setItem(
+"selectedDoctorId",
+doctorId
+);
+
+window.location.href =
+"doctor_detail.html";
+
+}
+
+
+
+      document.addEventListener("DOMContentLoaded", renderDoctorList);
+    </script>
+  </body>
+</html>

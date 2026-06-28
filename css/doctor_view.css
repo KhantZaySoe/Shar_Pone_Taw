@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+}
+
+body {
+    background-color: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Container Core Logic (Desktop/Laptop Size) --- */
+.mobile-container {
+    width: 100%;
+    max-width: 360px; /* iPhone 15 Pro Max Standard Width */
+    height: 740px;
+    background: #f8fafc;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-container::-webkit-scrollbar {
+    width: 0px;
+}
+
+/* --- 📱 Responsive For ALL Mobiles and ALL Tablets --- */
+@media (max-width: 991px) {
+    .mobile-container {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+}
+
+/* --- Sticky Header --- */
+.doctor-header {
+    background: rgba(1, 41, 123, 0.75);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.doctor-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.back-btn {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* --- Doctor List Layout --- */
+.doctor-content {
+    padding: 16px;
+    flex: 1;
+}
+
+.doctor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* ကတ်တစ်ခုနှင့်တစ်ခုကြား အကွာအဝေး */
+}
+
+/* --- 💳 Compact Doctor Card Styling --- */
+.doctor-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 12px;
+    display: flex; /* ဘယ်/ညာ ပုံစံခွဲထုတ်ရန် */
+    gap: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    align-items: center;
+    min-height: 110px; /* height ကို အနိမ့်ကျစ်ကျစ်လစ်လစ်ပုံစံ ထိန်းထားခြင်း */
+}
+
+/* ဘယ်ဘက်ခြမ်း: ဆရာဝန်ပုံသေတ္တာ */
+.doc-avatar-box {
+    width: 85px;
+    height: 85px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0; /* ပုံ ပုံစံမပျက်သွားစေရန် */
+    background-color: #f1f5f9;
+}
+
+.doc-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* ညာဘက်ခြမ်း: အချက်အလက်များစုစည်းမှု */
+.doc-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.doc-name {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.doc-cat {
+    color:linear-gradient( bottom right, #0072ff, #00c6ff); /* အထူးကုဘာသာရပ်ကို အပြာရောင်လေးဖြင့် ထင်ရှားစေခြင်း */
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* Experience နှင့် Rating ပြသမည့် အတန်း */
+.doc-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.doc-exp, .doc-rating {
+    font-size: 11px;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.doc-meta-row i {
+    font-size: 10px;
+}
+
+.doc-rating i {
+    color: #ffb703; /* ကြယ်ပွင့်ကို ရွှေဝါရောင် ထည့်သွင်းခြင်း */
+}
+
+/* ရက်ချိန်းယူရန် ခလုတ်တို */
+.doc-book-btn {
+    align-self: flex-start; /* ခလုတ်အကျယ်ကို စာသားအတိုင်းပဲ ယူရန် */
+    background:  rgba(1, 41, 123, 0.75);
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: "Noto Sans Myanmar", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+    transition: background-color 0.2s;
+}
+
+.doc-book-btn:hover {
+    filter: brightness(1.1) contrast(1.05); 
+    box-shadow: 0 6px 16px rgba(0, 114, 255, 0.35);
+}
+
+/* No data message */
+.no-data {
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 40px;
+    font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/*Notification*/
+ .history-badge {
+    position: absolute;
+    top: -4px;
+    right: 10px;
+    background: #ef4444;
+    color: #ffffff;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    z-index: 50;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .appointment-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+
+  .appointment-popup-card {
+    width: 100%;
+    max-width: 340px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 22px;
+    text-align: center;
+    font-family: "Noto Sans Myanmar", sans-serif;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28);
+  }
+
+  .appointment-popup-card i {
+    font-size: 38px;
+    color: #ef4444;
+    margin-bottom: 12px;
+  }
+
+  .appointment-popup-card h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+
+  .appointment-popup-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #334155;
+    margin-bottom: 18px;
+  }
+
+  .appointment-enter-btn {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 12px;
+    background: rgba(1, 41, 123, 0.9);
+    color: #ffffff;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: "Noto Sans Myanmar", sans-serif;
+  }

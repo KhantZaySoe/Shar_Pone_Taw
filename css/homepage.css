@@ -1,0 +1,1507 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+}
+
+body {
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* --- Container Core Logic (Desktop/Laptop Size) --- */
+.mobile-container {
+  width: 100%;
+  max-width: 360px; /* Standard iPhone/Android Width */
+  height: 740px;
+  background: #f8fafc; /* ခပ်လင်းလင်း App နောက်ခံအရောင် */
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Content တွေများလာရင် အောက်ကို scroll ဆွဲနိုင်ရန် */
+  position: relative;
+}
+
+/* Scrollbar ကို ဖျောက်ထားခြင်း */
+.mobile-container::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* --- 📱 Responsive For ALL Mobiles and ALL Tablets --- */
+@media (max-width: 991px) {
+  .mobile-container {
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+}
+
+/* --- 📌 Sticky Header Section Styling --- */
+.header-profile {
+  background-color: #f8fafc;
+  position: sticky;
+  top: 0;
+  padding: 10px 12px; /* ခလုတ်တွေ ပိုကြွလာစေရန် spacing အနည်းငယ် တိုးထားပါတယ် bro */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 📌 ပြင်ဆင်ချက်: လိုဂိုပုံနှင့် စာသားကို ဘေးချင်းကပ် ညီညာနေစေရန် flex သုံးလိုက်ခြင်း */
+.welcome-text {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Logo နဲ့ စာသားပုံကြား အကွာအဝေး */
+}
+
+/* 🚀 အသစ်ထည့်လိုက်သော ရှာပုံတော် စာသားပုံ၏ Width/Height အား ထိန်းချုပ်မည့် CSS */
+.header-title-img {
+  width: 90%;
+  max-width: 110px; /* 📌 ပုံရဲ့ အကျယ်ကို ဖုန်း screen အလိုက် ၁၁၀px ထက်မကျော်အောင် အသေထိန်းထားခြင်း */
+  height: 90px; /* 📌 အမြင့် (Height) ကို ပုံရဲ့ မူလ Ratio အတိုင်း Auto တွက်ချက်စေပြီး ပုံမကွဲအောင် ထိန်းခြင်း */
+  object-fit: contain; /* ပုံ ပျက်မသွားစေရန် ကာကွယ်ခြင်း */
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -10px;
+  margin-left: -40px;
+}
+
+/* 📌 အသစ်ထည့်ရန်: လိုဂိုပုံအား Div ဘောင်အတွင်း ကွက်တိဖြစ်စေမည့် အရွယ်အစား */
+.header-logo-img {
+  width: 72px; /* မင်းရဲ့ Avatar နီးပါး အချိုးကျ အရွယ်အစားပေးထားခြင်း */
+  height: 72px;
+  object-fit: contain; /* ပုံထွက် မရှုံ့သွားစေရန် */
+  border-radius: 6px; /* လိုဂိုအနားလေးတွေ ဝိုင်းချင်ရင် သုံးနိုင်ပါတယ် (မလိုလျှင် ဖျက်နိုင်သည်) */
+  margin-left: -10px;
+}
+
+/* ညာဘက်ခြမ်း Layout (Wallet + Avatar) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px; /* Icon နှင့် Avatar ကြား အကွာအဝေး */
+}
+
+/* Wallet Icon Styling */
+.wallet-logo {
+  color: rgba(1, 41, 123, 0.75);
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s;
+  margin-top: -10px;
+}
+
+.wallet-logo:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+/* Avatar Styling */
+.avatar-container {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6); /* ပတ်ပတ်လည် အဖြူရောင် ဘောင်လိုင်းလေး */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: -10px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Dummy Main Content (စမ်းသပ်ရန်အမြင့်) --- */
+.main-content {
+  padding: 20px;
+  padding-bottom: 120px;
+  min-height: 100vh; /* Scroll ဆွဲလို့ရမှန်း သိသာစေရန် အမြင့် အများကြီး ကြိုပေးထားခြင်းဖြစ်ပါသည် */
+}
+
+/* --- 🎁 Promo Banner Styling --- */
+.promo-banner {
+  border-radius: 20px;
+  padding: 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  min-height: 120px;
+  box-shadow: 0 8px 20px rgba(30, 60, 114, 0.15);
+  background-image: linear-gradient(rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.5)), url("../images/hobg.png");
+  background-size: cover; /* ပုံကို Screen တစ်ခုလုံး အချိုးကျ အပြည့်အုပ်စေခြင်း */
+  background-position: center center; /* ဘယ်ဖုန်းမှာမဆို ဆေးရုံပုံရဲ့ ဗဟိုချက်ကို အလယ်မှာ အမြဲပြပေးခြင်း */
+  background-repeat: no-repeat; /* ပုံထပ်ခါထပ်ခါ ပွားမထွက်စေရန် တားဆီးခြင်း */
+  margin-top: -20px;
+}
+
+/* 📱 ပိုမိုသေးငယ်သော ဖုန်းမျက်နှာပြင်များ (ဥပမာ- Screen ပိုကျဉ်းသော ဖုန်းများ) အတွက် Media Query */
+@media (max-width: 340px) {
+  .promo-banner {
+    padding: 12px;
+    min-height: 100px;
+  }
+}
+
+/* ဘယ်ဘက်ခြမ်း ဆရာဝန်ပုံ Styling */
+.promo-doctor-img {
+  width: 33%; /* ဘန်နာရဲ့ ၄၀ ရာခိုင်နှုန်းကို ယူမည် */
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  align-self: flex-end; /* ပုံကို အောက်ခြေနဲ့ ကပ်လျက်ဖြစ်စေရန် */
+  margin-bottom: -20px; /* ပုံက ဘန်နာအောက်ခြေကနေ ထွက်နေသလို ပိုလှအောင် အနုတ် Margin သုံးခြင်း */
+  z-index: 2;
+}
+
+/* ညာဘက်ခြမ်း စာသားအုပ်စု Styling */
+.promo-text {
+  width: 55%; /* စာသားတွေကို ၅၅ ရာခိုင်နှုန်း နေရာပေးမည် */
+  color: #ffffff;
+  z-index: 2;
+  padding-bottom: 10px; /* Slider Dots တွေနဲ့ မညှိစေရန် */
+}
+
+.promo-text p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 12px;
+  font-weight: 900;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* From Uiverse.io by thisSasha */
+.promo-btn {
+  padding: 4px 25px;
+  border: 0;
+  border-radius: 15px;
+  color: rgba(1, 41, 123, 0.75);
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  font-weight: 1000;
+  font-size: 15px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+}
+
+.promo-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+.promo-btn:hover {
+  color: rgba(1, 41, 123, 0.75);
+}
+
+.promo-btn:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.promo-btn:active {
+  transform: scale(80%);
+}
+
+/* --- 🔘 Slider Dots Styling --- */
+.slider-dots {
+  position: absolute;
+  bottom: 12px;
+  right: 25px; /* စာသားတွေရှိတဲ့ ညာဘက်အောက်ခြေနားမှာ ပြပေးထားခြင်း */
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 14px; /* Active ဖြစ်နေတဲ့ Dot ကို ရှည်ရှည်လေးလုပ်ပြီး ပိုလှစေရန် */
+  background-color: #ffffff;
+  border-radius: 3px;
+}
+/* --- 🚨 Emergency Call Card Styling --- */
+.emergency-card {
+  /* အရေးပေါ် Vibe ရစေမည့် ရဲရဲတောက် Gradient အရောင် */
+  background: linear-gradient(135deg, #7e0015 0%, #ef233c 100%);
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(217, 4, 41, 0.25);
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+/* အရေးပေါ် Card ရဲ့ နောက်ခံမှာ လှိုင်းပုံစံ အလင်းလိုင်းလေး ထည့်ခြင်း (Attractive ဖြစ်စေရန်) */
+.emergency-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 100%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+/* ဘယ်ဘက်ခြမ်း စာသားအုပ်စု */
+.emergency-info {
+  width: 57%; /* Button ကျယ်လာမှုနှင့် အချိုးကျအောင် စာသားနေရာကို ၅၅ ရာခိုင်နှုန်း ညှိထားသည် */
+}
+
+.emergency-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* သတိပေးချက် အိုင်ကွန်ကို တုန်ခါနေစေရန် */
+.pulse-icon {
+  color: #ffb703; /* ထင်ရှားသည့် ဝါဝါဝင်းဝင်းအရောင် */
+  font-size: 16px;
+  animation: icon-shiver 0.5s infinite linear alternate;
+}
+
+.emergency-title h3 {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.emergency-info p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  line-height: 1.5;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  font-weight: 100;
+}
+
+/* --- 📞 ခေါ်ဆိုမည် Button Styling --- */
+.emergency-btn {
+  background-color: #ffffff;
+  color: #d90429;
+  text-decoration: none; /* Link လိုင်းကြောင်း ဖျောက်ရန် */
+  padding: 7px 22px;
+  border-radius: 20px;
+  font-size: 12px; /* Button ကို ပိုကျစ်လစ်သွားစေရန် font စိုက်ကို အနည်းငယ် ညှိထားသည် */
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* စာသားနှင့် icon ကို ခလုတ်အလယ်တည့်တည့် ရောက်စေရန် */
+  gap: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+  animation: button-pulse 1.5s infinite;
+  border: 1px solid white;
+}
+
+.emergency-btn:hover {
+  transform: scale(1.05);
+  background-color: #f8fafc;
+  color: #ef233c;
+}
+
+/* 2. MIDDLE MEDICAL FORM CARD (HOME) - Attractive 3D Professional Theme */
+.medical-form-card {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e0e9ff 100%);
+  border-radius: 24px;
+  padding: 26px 22px;
+  margin-top: 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 15px 35px rgba(30, 60, 114, 0.08),
+    0 5px 15px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* ADD ONLY THESE */
+  position: relative;
+  overflow: hidden;
+}
+
+.form-main-title {
+  color: #1e3c72;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 22px;
+  text-align: left;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  line-height: 1.4;
+
+  /* စာသားကိုပါ 3D ဆန်ဆန် ထင်ရှားစေရန် Shadow ခတ်ခြင်း */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.3px;
+}
+
+.inner-form-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 14px;
+  margin-bottom: 24px;
+  margin-top: 5px;
+}
+
+.form-field {
+  border: 1px solid rgba(30, 60, 114, 0.12);
+  border-radius: 14px;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 3D အချိုင့် Box ဖြစ်အောင် ဖန်တီးခြင်း (Soft White Glow + Soft Drop Shadow) */
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow:
+    inset 0 2px 4px rgba(30, 60, 114, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.form-field.full-width {
+  grid-column: span 2;
+}
+
+.form-field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #1a365d;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 14px 12px 14px;
+}
+
+/* 📌 Input ကို နှိပ်လိုက်တဲ့အခါ တကယ့် 3D Glow ပုံစံ လင်းပွင့်လာမည့် Effect */
+.form-field:focus-within {
+  border-color: #3b82f6;
+  background: #ffffff;
+  /* အပြင်ဘက်ဆီ 3D အလင်းတန်း ဖြာထွက်သွားမည့် Shadow */
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.15),
+    0 4px 10px rgba(59, 130, 246, 0.08);
+  transform: translateY(-1px); /* ခပ်ဖွဖွလေး ကြွတက်လာစေခြင်း */
+}
+
+.form-field legend {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2a5298;
+  margin-left: 14px;
+  padding: 0 8px;
+  line-height: 1;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.form-field input::placeholder {
+  color: #a0aec0;
+  font-size: 12px;
+}
+
+/* 📌 3D Tactile Button (တကယ့် ခလုတ်အစစ်ကို နှိပ်လိုက်ရသလို ခံစားချက်ပေးမည့် Styling) */
+.search-doctor-btn {
+  width: 100%;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%); /* 3D Gradient */
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+
+  /* ခလုတ်ကို အောက်ခြေကနေ ထောက်ပေးထားမယ့် 3D Dark Shadow */
+  border-bottom: 3px solid #1e40af;
+  box-shadow:
+    0 5px 15px rgba(29, 78, 216, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+}
+
+/* Hover လုပ်ရင် ပိုပြီး တောက်ပကြွတက်လာမယ် */
+.search-doctor-btn:hover {
+  background: rgba(1, 41, 123, 0.75);
+  box-shadow:
+    0 7px 20px rgba(29, 78, 216, 0.4),
+    0 3px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* 📌 ခလုတ်ကို နှိပ်လိုက်တဲ့အခါ (Click) အောက်သို့ ကျွံဝင်သွားမည့် တကယ့် 3D နှိပ်ချက် Effect */
+.search-doctor-btn:active {
+  transform: translateY(2px); /* 3D Depth အောက်သို့ နိမ့်ဆင်းသွားခြင်း */
+  border-bottom: 0px solid #1e40af; /* အောက်ခြေအထူ ပျောက်သွားမည် */
+  box-shadow:
+    0 2px 4px rgba(29, 78, 216, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2); /* အတွင်းထဲ ကျွံဝင်သွားသည့် Shadow */
+}
+/* --- 📱 Bottom Navigation Bar Styling --- */
+.menu-container {
+  /* position: absolute; မှ fixed သို့ ပြောင်းလဲလိုက်ခြင်း (ဒါမှ scroll ဆွဲလည်း အောက်မှာ အသေကပ်နေမှာပါ) */
+  position: fixed;
+  bottom: 20px; /* အောက်ခြေကနေ ကွာဝေးမယ့် အကွာအဝေး (ဖုန်းမျိုးစုံမှာ အဆင်ပြေအောင် 20px ညှိပေးထားပါတယ်) */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 360px; /* အရေးကြီးချက်: မင်းရဲ့ .mobile-container width အတိုင်း 360px အသေထိန်းပေးရပါမယ် */
+  display: flex;
+  justify-content: center;
+  z-index: 9999; /* တခြား ဘယ် content (ဥပမာ- modal သို့မဟုတ် card) ရဲ့ အောက်ကိုမှ ငုပ်မသွားစေရန် z-index ကို အမြင့်ဆုံး ထားခြင်း */
+}
+
+/* Home Indicator မြုပ်မသွားစေရန်နှင့် အောက်ခြေမှာ အသေလိုက်ကပ်နေဖို့ position: fixed ပြောင်းလဲခြင်း */
+.home-indicator {
+  position: fixed;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 9999;
+}
+
+.menu {
+  width: calc(100% - 40px);
+  max-width: 520px;
+  backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  background: rgba(0, 122, 255, 0.404);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  border-radius: 99rem;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 5px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 10px 4px;
+  border-radius: 999rem;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease-in-out;
+}
+
+.menu a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -1px 5px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  color: rgba(0, 122, 255, 0.7);
+}
+
+.menu a i {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.menu a span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+
+.menu a.active {
+  background: rgba(237, 237, 237, 0.6);
+  color: rgba(0, 122, 255, 0.9);
+}
+
+.menu a:active {
+  transform: scale(0.95);
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 11;
+}
+
+/* --- 📰 News Section & Cards Layout --- */
+#news-container {
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.news-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.news-card:active {
+  transform: scale(0.98); /* ဖုန်းနှင့် နှိပ်လိုက်လျှင် အနည်းငယ် ကျုံ့သွားမည့် နှိပ်ရသည့် အရသာ */
+}
+
+.news-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.news-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.news-cat {
+  font-size: 10px;
+  font-weight: 700;
+  color: #3b82f6;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.news-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.news-meta {
+  font-size: 11px;
+  color: #64748b;
+}
+/* --- 🏥 Hospital Booking Banner Card Styling --- */
+.hospital-booking-card {
+  position: relative;
+  background-image: url("../images/h1.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  margin-top: 20px;
+  padding: 24px 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  height: 150px;
+  box-sizing: border-box; /* Card အမြင့် 150px ကွက်တိဖြစ်စေရန် Padding အကျိုးသက်ရောက်မှုကို ထိန်းညှိခြင်း */
+}
+
+/* Image အပေါ်ကနေ စာသားတွေ ထင်းထွက်လာအောင် မှောင်မှောင်ဖျော့ဖျော့ Overlay ခံခြင်း */
+.hospital-booking-card .card-overlay {
+  position: absolute;
+  top: 0; /* 📌 ပြင်ဆင်ချက်: 8 ဖြစ်နေသည်ကို 0px ဖြစ်အောင် ပုံစံမှန်ပြင်ထားပါသည် */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.2); /* အမှောင် Overlay ခပ်ဖျော့ဖျော့ ခံပေးထားခြင်း */
+}
+
+/* Content များကို အမြင့်အပြည့်ယူခိုင်းပြီး Flex စနစ် အသက်သွင်းခြင်း */
+.booking-card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Card ရဲ့ ၁၅၀ ပစ်ဆယ် အမြင့်အပြည့် ယူထားသည် */
+}
+/* 📌 ခလုတ်ကို ညာဘက်ထောင့်အောက်ခြေ ကွက်တိ ပို့ပေးမည့် Styling (Responsive & Smaller Width) */
+.btn-donate {
+  font-size: 11px;
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  will-change: box-shadow, transform;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+  box-shadow:
+    0px 0.01em 0.01em rgb(45 35 66 / 40%),
+    0px 0.3em 0.7em -0.01em rgb(45 35 66 / 30%),
+    inset 0px -0.01em 0px rgb(58 65 111 / 50%);
+  padding: 0 1.5em; /* Padding နည်းနည်း လျှော့ပြီး ခလုတ်ကို ပိုကျစ်လစ်စေတယ် */
+  border-radius: 6px; /* em အစား တိကျတဲ့ px သုံးပြီး ကတ်ပြားနဲ့ လိုက်ဖက်အောင် ဝိုင်းထားတယ် */
+  color: #fff;
+  height: 36px; /* ဖုန်း view အတွက် အမြင့်ကို ပုံသေ 32px ညှိပေးထားတယ် */
+  text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+  box-sizing: border-box; /* Responsive အတွက် အရေးကြီး */
+}
+
+.btn-donate:hover {
+  box-shadow:
+    0px 0.1em 0.2em rgb(45 35 66 / 40%),
+    0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%),
+    inset 0px -0.1em 0px #3c4fe0;
+  transform: translateY(-1px);
+}
+
+.btn-donate:active {
+  box-shadow: inset 0px 0.1em 0.6em #3441a3;
+  transform: translateY(0px);
+}
+
+/* 📱 Parent Card ထဲမှာ ညာဘက်အောက်ခြေ ကပ်ဖို့နဲ့ Width ကန့်သတ်ချက် */
+.booking-card-content .btn-donate {
+  width: 125px; /* 150px ကနေ 125px သို့ ချုံ့ပေးလိုက်ပါတယ် (ပိုသေးသွားမယ်) */
+  max-width: 100%; /* ဖုန်း screen သေးရင် ကတ်ပြားထက် ကျော်မထွက်အောင် ကာကွယ်ပေးတယ် */
+  margin-top: auto; /* အောက်ခြေကို အသေတွန်းချတာ */
+  margin-left: auto; /* ညာဘက်ထောင့်ကို ကပ်ပေးတာ */
+  margin-right: 0;
+  display: flex; /* ခလုတ်ထဲက စာသားကို အလယ်ကွက်တိ ဖြစ်စေရန် */
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* ခလုတ်သေးသွားပေမဲ့ စာလုံးကို အောက်လိုင်း ဆင်းမသွားအောင် ထိန်းတာ */
+}
+/* --- 🚨 Emergency Notice Pop-up Modal CSS --- */
+.notice-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.7); /* အနောက်က UI အား မှောင်ချလိုက်ခြင်း */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* အားလုံးရဲ့ ထိပ်ဆုံးမှာ ရှိနေစေရန် */
+  padding: 20px;
+}
+
+.notice-modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 310px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  animation: popUpScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUpScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.notice-modal-icon {
+  width: 55px;
+  height: 55px;
+  background-color: #fef2f2;
+  color: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 16px auto;
+}
+
+.notice-modal-card h3 {
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.notice-text {
+  font-size: 12.5px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* ခလုတ်များ Layout */
+.notice-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-deposit-now {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-skip-now {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  transition: background-color 0.2s;
+}
+
+.btn-skip-now:hover {
+  background-color: #e2e8f0;
+}
+.btn-deposit-now:active,
+.btn-skip-now:active {
+  transform: scale(0.98);
+}
+/* --- 📱 In-App Calling Screen Premium CSS --- */
+.calling-screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #101f3d 0%, #0a1128 100%); /* Premium Calling Dark Background */
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 24px 80px 24px;
+  box-sizing: border-box;
+}
+
+/* ထိပ်ပိုင်းစာသားများ */
+.calling-status-info {
+  text-align: center;
+}
+.calling-lbl {
+  color: #3b82f6;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+.calling-hosp-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 🔄 ဆရာဝန်ပုံရိပ်နှင့် လှိုင်းထနေမည့် Animation ပုံစံ */
+.calling-avatar-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calling-avatar-box {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #3b82f6;
+  z-index: 5;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+.calling-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pulse Wave Rings Animation */
+.pulse-ring {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  animation: wavePulse 2s infinite linear;
+  z-index: 1;
+}
+.ring-2 {
+  animation-delay: 1s;
+}
+
+@keyframes wavePulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* --- 🆕 New Action Row & Button Modifications --- */
+.calling-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+  width: 100%;
+}
+
+.call-btn {
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #ffffff;
+}
+
+.call-btn:active {
+  transform: scale(0.9);
+}
+
+/* Main Decline Button (Larger for emphasis) */
+.decline-btn {
+  width: 64px;
+  height: 64px;
+  background-color: #ef4444;
+  font-size: 22px;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+}
+
+/* Side Action Buttons (Slightly smaller, sleek dark translucent glass style) */
+.video-mute-btn,
+.chat-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-mute-btn:hover,
+.chat-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ဆရာဝန်အချက်အလက် */
+.calling-doc-meta {
+  text-align: center;
+}
+.calling-doc-meta h3 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+.calling-doc-meta span {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 📞 ခလုတ်ဝိုင်းများ အပြင်အဆင် */
+.calling-action-row {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  width: 100%;
+}
+.call-btn {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+}
+.call-btn:active {
+  transform: scale(0.9);
+}
+/* ဖုန်းချရန်နီရောင် */
+.decline-btn {
+  background-color: #ef4444;
+}
+.decline-btn i {
+  transform: rotate(0deg); /* ဓါတ်ပုံအရ ဖုန်းချခလုတ်လှည့်ထားခြင်း */
+}
+
+/* Tab တလှည့်စီ ပိတ်/ဖွင့် လုပ်ရန် အရေးကြီးသော CSS ပုံစံ */
+.view-section {
+  width: 100%;
+  animation: fadeInEffect 0.4s ease-in-out;
+}
+
+.view-section.active {
+  display: block !important;
+}
+
+@keyframes fadeInEffect {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =======================================================
+   ✨ Normal Empty Card အတွက် Uiverse Glow Card Styling
+   ======================================================= */
+
+.uiverse-empty-card {
+  position: relative;
+  width: 100%; /* ဖုန်း Screen အပြည့် Responsive ဖြစ်စေရန် */
+  height: 250px; /* မင်းပြထားတဲ့ Uiverse ကတ်ရဲ့ မူရင်း Height အတိုင်း */
+  border-radius: 14px;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-top: 15px;
+}
+
+/* Glassmorphism နောက်ခံကတ်ပြား */
+.uiverse-empty-card .bg {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px); /* ဘယ်ညာ 5px စီ အချိုးကျချန်ပြီး အပြည့်ယူရန် */
+  height: 240px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 10px;
+  overflow: hidden;
+  outline: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔵 နောက်ခံက ကခုန်နေမည့် ဆေးဘက်ဆိုင်ရာ Glow Blob Animation */
+.uiverse-empty-card .blob {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: rgba(1, 41, 123, 0.75); /* Shar Pone Taw Blue-Green Theme */
+  opacity: 0.7;
+  filter: blur(16px);
+  animation: blob-bounce-normal 5s infinite ease;
+}
+
+@keyframes blob-bounce-normal {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
+
+/* ကတ်ပြားအတွင်းရှိ စာသားနှင့် ပုံစံများ */
+.empty-card-content {
+  text-align: center;
+  padding: 20px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.empty-card-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.empty-card-text {
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
+
+.doctor-payment-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(5px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 18px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.doctor-payment-modal.show {
+  display: flex;
+}
+
+.doctor-payment-card {
+  width: 100%;
+  max-width: 350px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  animation: doctorPayPop 0.25s ease;
+}
+
+@keyframes doctorPayPop {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/*ဆရာ၀န် ရှာလျင်  ေငွ ေပးချေရမဲ့ message box style */
+.doctor-payment-title {
+  margin: 0;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.doctor-payment-subtitle {
+  margin: 8px 0 16px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.doctor-payment-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.doctor-payment-tab {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  border-radius: 14px;
+  padding: 12px 8px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 13px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.doctor-payment-tab.active {
+  background: rgba(1, 41, 123, 0.9);
+  color: #ffffff;
+  border-color: rgba(1, 41, 123, 0.9);
+}
+
+.doctor-payment-panel {
+  display: none;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.doctor-payment-panel.active {
+  display: block;
+}
+
+.payment-logo-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.payment-logo-option {
+  width: 72px;
+  height: 60px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.payment-logo-option.active {
+  border-color: rgba(1, 41, 123, 0.9);
+  box-shadow: 0 0 0 3px rgba(1, 41, 123, 0.12);
+}
+
+.payment-logo-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+.wallet-pay-info {
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.doctor-payment-message {
+  min-height: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  margin: 8px 0 12px;
+}
+
+.doctor-payment-message.error {
+  color: #dc2626;
+}
+
+.doctor-payment-message.success {
+  color: #16a34a;
+}
+
+.doctor-payment-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.doctor-pay-btn,
+.doctor-cancel-btn {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.doctor-pay-btn {
+  background: rgba(1, 41, 123, 0.9);
+  color: white;
+}
+
+.doctor-cancel-btn {
+  background: #e5e7eb;
+  color: #334155;
+}
+
+/*medical form card overlay*/
+.medical-form-lock-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+
+  background: rgba(240, 244, 255, 0.72);
+  backdrop-filter: blur(2px);
+
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 28px 18px;
+  border-radius: 24px;
+
+  pointer-events: auto;
+}
+
+.medical-form-card.form-locked .medical-form-lock-overlay {
+  display: flex;
+}
+
+.medical-form-lock-text {
+  width: 100%;
+  max-width: 360px;
+
+  background: rgba(1, 41, 123, 0.88);
+  color: #ffffff;
+
+  padding: 12px 16px;
+  border-radius: 14px;
+
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+
+  box-shadow:
+    0 10px 24px rgba(1, 41, 123, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+/* Full-screen Loading Overlay */
+/* Loading Overlay - stays inside mobile app frame */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.96);
+  z-index: 10001;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.loading-text {
+  font-family: "Noto Sans Myanmar", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #1e3a8a;
+  text-align: center;
+  margin: 0;
+  padding: 0 20px;
+}
+
+/* From Uiverse.io by fanishah */
+.loader {
+  width: 8em;
+  height: 8em;
+}
+
+.loader__eye1,
+.loader__eye2,
+.loader__mouth1,
+.loader__mouth2 {
+  animation: eye1 3s ease-in-out infinite;
+}
+
+.loader__eye1,
+.loader__eye2 {
+  transform-origin: 64px 64px;
+}
+
+.loader__eye2 {
+  animation-name: eye2;
+}
+
+.loader__mouth1 {
+  animation-name: mouth1;
+}
+
+.loader__mouth2 {
+  animation-name: mouth2;
+  visibility: hidden;
+}
+
+@keyframes eye1 {
+  from {
+    transform: rotate(-260deg) translate(0, -56px);
+  }
+  50%,
+  60% {
+    animation-timing-function: cubic-bezier(0.17, 0, 0.58, 1);
+    transform: rotate(-40deg) translate(0, -56px) scale(1);
+  }
+  to {
+    transform: rotate(225deg) translate(0, -56px) scale(0.35);
+  }
+}
+
+@keyframes eye2 {
+  from {
+    transform: rotate(-260deg) translate(0, -56px);
+  }
+  50% {
+    transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1);
+  }
+  52.5% {
+    transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1, 0);
+  }
+  55%,
+  70% {
+    animation-timing-function: cubic-bezier(0, 0, 0.28, 1);
+    transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1);
+  }
+  to {
+    transform: rotate(150deg) translate(0, -56px) scale(0.4);
+  }
+}
+
+@keyframes mouth1 {
+  from {
+    animation-timing-function: ease-in;
+    stroke-dasharray: 0 351.86;
+    stroke-dashoffset: 0;
+  }
+  25% {
+    animation-timing-function: ease-out;
+    stroke-dasharray: 175.93 351.86;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    animation-timing-function: steps(1, start);
+    stroke-dasharray: 175.93 351.86;
+    stroke-dashoffset: -175.93;
+    visibility: visible;
+  }
+  75%,
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes mouth2 {
+  from {
+    animation-timing-function: steps(1, end);
+    visibility: hidden;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    visibility: visible;
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -351.86;
+  }
+}

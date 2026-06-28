@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - ဘိုကင်များ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/booking_list.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+      <div class="booking-header">
+        <h2>မှတ်တမ်းများ</h2>
+        <div style="width: 20px"></div>
+      </div>
+      <div id="appointment-alert-container"></div>
+      <div class="booking-content" id="booking-cards-container"></div>
+
+      <!--Bottom bar-->
+      <div class="menu-container">
+        <div class="menu">
+          <a href="booking_hospital.html" class="nav-item" data-view="news-view" title="ဆောင်းပါး" style="text-decoration: none"> <i class="fa-solid fa-hospital"></i><span>ဆေးရုံများ</span> </a>
+
+          <a href="news.html" class="nav-item" data-view="news-view" title="ဆောင်းပါး" style="text-decoration: none"> <i class="fa-solid fa-newspaper"></i> <span>ဆောင်းပါး</span> </a>
+
+          <a href="homepage.html" class="nav-item" data-view="home-view" title="အိမ်">
+            <i class="fa-solid fa-house"></i>
+            <span>အိမ်</span>
+          </a>
+
+          <a href="ai_doctor.html" class="nav-item" data-nav="doctor" title="ဒေါက်တာ">
+            <i class="fa-solid fa-stethoscope"></i>
+            <span>ဒေါက်တာ</span>
+          </a>
+
+          <a href="booking_list.html" class="nav-item active" data-view="booking-history-view" title="မှတ်တမ်း" style="text-decoration: none"> <i class="fa-solid fa-calendar-days"></i> <span>မှတ်တမ်း</span> </a>
+        </div>
+      </div>
+    </div>
+
+    
+    <script src="../js/global_doctor_notification.js"></script>
+    <script src="../js/hospital_db.js"></script>
+    <script src="../js/booking_doctor_db.js"></script>
+
+    <script>
+      function safeText(value) {
+        return String(value || "N/A")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getMyBookings() {
+        return JSON.parse(localStorage.getItem("myBookings")) || [];
+      }
+
+      function saveMyBookings(bookings) {
+        localStorage.setItem("myBookings", JSON.stringify(bookings));
+      }
+
+      function getHospitalByBooking(booking, doctor) {
+        if (typeof hospital_db === "undefined") return null;
+
+        const hospitalId = booking.hospitalId || doctor?.hospital_id;
+
+        if (!hospitalId) return null;
+
+        return hospital_db.find((hospital) => {
+          return Number(hospital.h_id) === Number(hospitalId);
+        });
+      }
+      function getDoctorByBooking(booking) {
+        if (typeof doctors_db === "undefined") return null;
+
+        let doctor = null;
+
+        if (booking.doctorId) {
+          doctor = doctors_db.find((doc) => {
+            return Number(doc.d_id) === Number(booking.doctorId);
+          });
+        }
+
+        if (!doctor && booking.doctorName) {
+          doctor = doctors_db.find((doc) => {
+            return String(doc.name).trim() === String(booking.doctorName).trim();
+          });
+        }
+
+        return doctor;
+      }
+
+      function displayMyBookings() {
+        const container = document.getElementById("booking-cards-container");
+        if (!container) return;
+
+        const bookings = getMyBookings();
+
+        if (bookings.length === 0) {
+          container.innerHTML = `
+        <div class="empty-booking-box">
+          <i class="fa-solid fa-calendar-xmark"></i>
+          <p>ရယူထားသော ဘိုကင်မှတ်တမ်း မရှိသေးပါဗျာ။</p>
+        </div>
+      `;
+          return;
+        }
+
+        container.innerHTML = bookings
+          .slice()
+          .reverse()
+          .map((booking) => {
+            const doctor = getDoctorByBooking(booking);
+            const hospital = getHospitalByBooking(booking, doctor);
+
+            const doctorName = booking.doctorName || doctor?.name || "N/A";
+            const doctorCategory = booking.doctorCategory || doctor?.category || "N/A";
+            const doctorImage = booking.doctorImage || doctor?.image || "../images/do2.png";
+
+            const hospitalName = hospital?.name || booking.hospitalName || "N/A";
+            const hospitalLocation = hospital?.location || booking.hospitalLocation || "N/A";
+
+            return `
+          <div class="notification-card offline-booking-card">
+            <div class="notif-badge">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div class="notif-body">
+              <div class="offline-booking-doctor-row">
+                <img
+                  src="${safeText(doctorImage)}"
+                  alt="${safeText(doctorName)}"
+                  class="offline-booking-doctor-img"
+                />
+
+                <div class="offline-booking-title-box">
+                  <h4>${safeText(doctorName)}</h4>
+                  <p>Offline Hospital Booking</p>
+                </div>
+              </div>
+
+              <p class="notif-msg">
+                လူကြီးမင်း၏ ဆေးရုံရက်ချိန်း ဘိုကင်ရယူမှု အောင်မြင်ပါသည်။
+              </p>
+
+              <div class="offline-booking-info-list">
+                <div>
+                  <i class="fa-solid fa-user-doctor"></i>
+                  <b>အထူးကု:</b> ${safeText(doctorCategory)}
+                </div>
+
+                <div>
+                  <i class="fa-solid fa-hospital"></i>
+                  <b>ဆေးရုံ:</b> ${safeText(hospitalName)}
+                </div>
+
+                <div>
+                  <i class="fa-solid fa-location-dot"></i>
+                  <b>နေရာ:</b> ${safeText(hospitalLocation)}
+                </div>
+
+                <div>
+                  <i class="fa-regular fa-calendar"></i>
+                  <b>Date:</b> ${safeText(booking.date)}
+                </div>
+
+                <div>
+                  <i class="fa-regular fa-clock"></i>
+                  <b>Time:</b> ${safeText(booking.time)}
+                </div>
+              </div>
+
+            </div>
+
+            <button
+              class="delete-booking-btn"
+              onclick="deleteBooking(${booking.id})"
+              title="ဖျက်မည်"
+            >
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+          })
+          .join("");
+      }
+
+      function viewBookingDetails(bookingId) {
+        const bookings = getMyBookings();
+        const booking = bookings.find((item) => String(item.id) === String(bookingId));
+
+        if (!booking) {
+          alert("Booking detail မတွေ့ပါ။");
+          return;
+        }
+
+        const doctor = getDoctorByBooking(booking);
+        const hospital = getHospitalByBooking(booking, doctor);
+
+        const doctorName = booking.doctorName || doctor?.name || "N/A";
+        const doctorCategory = booking.doctorCategory || booking.category || doctor?.category || "N/A";
+        const doctorExperience = booking.doctorExperience || doctor?.experience || "N/A";
+        const doctorRating = booking.doctorRating || doctor?.rating || "N/A";
+        const doctorImage = booking.doctorImage || doctor?.image || "../images/do2.png";
+
+        const hospitalName = booking.hospitalName || hospital?.name || "N/A";
+        const hospitalLocation = booking.hospitalLocation || hospital?.location || "N/A";
+        const hospitalPhone = booking.hospitalPhone || hospital?.phone || "N/A";
+        const hospitalImage = booking.hospitalImage || hospital?.image || "../images/h1.jpg";
+
+        const oldModal = document.getElementById("bookingDetailModal");
+        if (oldModal) oldModal.remove();
+
+        const modal = document.createElement("div");
+        modal.id = "bookingDetailModal";
+        modal.className = "booking-detail-modal";
+
+        modal.innerHTML = `
+      <div class="booking-detail-overlay">
+        <div class="booking-detail-card">
+          <div class="booking-detail-header">
+            <h3>Booking Details</h3>
+
+            <button
+              type="button"
+              class="booking-detail-close-btn"
+              onclick="closeBookingDetails()"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="booking-detail-hospital-banner">
+            <img
+              src="${safeText(hospitalImage)}"
+              alt="${safeText(hospitalName)}"
+              class="booking-detail-hospital-img"
+            />
+
+            <div class="booking-detail-hospital-info">
+              <h4>${safeText(hospitalName)}</h4>
+              <p>
+                <i class="fa-solid fa-location-dot"></i>
+                ${safeText(hospitalLocation)}
+              </p>
+            </div>
+          </div>
+
+          <div class="booking-detail-doctor-box">
+            <img
+              src="${safeText(doctorImage)}"
+              alt="${safeText(doctorName)}"
+              class="booking-detail-doctor-img"
+            />
+
+            <div>
+              <h4>${safeText(doctorName)}</h4>
+              <p>${safeText(doctorCategory)}</p>
+            </div>
+          </div>
+
+          <div class="booking-detail-info-list">
+            <div>
+              <b><i class="fa-solid fa-briefcase"></i> Doctor Experience:</b>
+              ${safeText(doctorExperience)}
+            </div>
+
+            <div>
+              <b><i class="fa-solid fa-star"></i> Doctor Rating:</b>
+              ${safeText(doctorRating)}
+            </div>
+
+            <div>
+              <b><i class="fa-solid fa-phone"></i> Hospital Phone:</b>
+              ${safeText(hospitalPhone)}
+            </div>
+
+            <div>
+              <b><i class="fa-regular fa-calendar"></i> Appointment Date:</b>
+              ${safeText(booking.date)}
+            </div>
+
+            <div>
+              <b><i class="fa-regular fa-clock"></i> Appointment Time:</b>
+              ${safeText(booking.time)}
+            </div>
+
+            <div>
+              <b><i class="fa-solid fa-circle-check"></i> Status:</b>
+              ${safeText(booking.status || "Confirmed")}
+            </div>
+
+            <div>
+              <b><i class="fa-solid fa-receipt"></i> Booking ID:</b>
+              ${safeText(booking.id)}
+            </div>
+
+            <div>
+              <b><i class="fa-solid fa-calendar-plus"></i> Booked At:</b>
+              ${safeText(booking.bookedAt)}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="booking-detail-done-btn"
+            onclick="closeBookingDetails()"
+          >
+            ပိတ်မည်
+          </button>
+        </div>
+      </div>
+    `;
+
+        document.body.appendChild(modal);
+      }
+
+      function closeBookingDetails() {
+        const modal = document.getElementById("bookingDetailModal");
+        if (modal) modal.remove();
+      }
+
+      function deleteBooking(id) {
+        if (!confirm("ဤဘိုကင်မှတ်တမ်းကို ပယ်ဖျက်ရန် သေချာပါသလား?")) return;
+
+        let bookings = getMyBookings();
+        bookings = bookings.filter((booking) => String(booking.id) !== String(id));
+
+        saveMyBookings(bookings);
+        displayMyBookings();
+      }
+
+      document.addEventListener("DOMContentLoaded", displayMyBookings);
+    </script>
+  </body>
+</html>

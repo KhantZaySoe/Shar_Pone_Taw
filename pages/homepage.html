@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/homepage.css" />
+  </head>
+
+  <body>
+    <!--Main content-->
+    <div class="mobile-container">
+      <!-- 📌 ၁။ မူလ App Content အားလုံးကို အုပ်ပေးမည့် Container အဖွင့် -->
+      <div id="main-app-content">
+        <div class="header-profile">
+          <div class="welcome-text">
+            <img src="../images/HealthCare.png" alt="App Logo" class="header-logo-img" />
+
+            <img src="../images/SPTlogo.png" alt="ရှာပုံတော်" class="header-title-img" />
+          </div>
+
+          <div class="header-actions">
+            <a href="wallet.html" style="text-decoration: none">
+              <i class="fa-solid fa-wallet wallet-logo"></i>
+            </a>
+
+            <div class="avatar-container">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="Profile" class="avatar" />
+            </div>
+          </div>
+        </div>
+
+        <!--ငွေဖြည့်ရန် သတိပေးစာ-->
+        <div id="emergency-notice-modal" class="notice-modal-overlay" style="display: none">
+          <div class="notice-modal-card">
+            <div class="notice-modal-icon">
+              <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+            </div>
+            <h3>အရေးကြီးသော သတိပေးချက်</h3>
+            <p class="notice-text">Emergency Case အသုံးပြုရန် အနည်းဆုံး <b>၃,၀၀၀ ကျပ်</b> ဖြည့်သွင်းရန် လိုအပ်ပါသည်။</p>
+            <div class="notice-action-buttons">
+              <button class="btn-deposit-now" style="color: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6dd5ed 100%)" onclick="handleNoticeAction('wallet.html')">ငွေဖြည့်မည်</button>
+              <button class="btn-skip-now" onclick="handleNoticeAction('close')">ကျော်မည်</button>
+            </div>
+          </div>
+        </div>
+
+        <!--Main content-->
+        <div class="main-content">
+          <div id="home-view" class="view-section active">
+            <!--DOctor banner-->
+            <div class="promo-banner">
+              <div class="promo-text">
+                <p>သင့်ကျန်းမာရေး အတွက် အမြဲရှိနေမည်။</p>
+                <button class="promo-btn">စစ်ဆေးမည်</button>
+              </div>
+              <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+              <img src="../images/doctor.png" alt="Doctor" class="promo-doctor-img" />
+            </div>
+
+            <!-- Emergency banner -->
+            <div class="emergency-card">
+              <div class="emergency-info">
+                <div class="emergency-title">
+                  <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+                  <h3>အရေးပေါ်ခေါ်ဆိုရန်</h3>
+                </div>
+                <p>မနက် ၉နာရီမှ ညနေ ၅နာရီ အတွင်း အရေးပေါ်ဆရာဝန်များနှင့် တိုက်ရိုက်ချိတ်ဆက်ပါ။</p>
+              </div>
+
+              <button type="button" class="emergency-btn" onclick="startEmergencyCall()">
+                <i class="fa-solid fa-phone"></i>
+                ခေါ်ဆိုမည်
+              </button>
+            </div>
+
+            <!--Madical form card-->
+            <div class="medical-form-card" id="medicalFormCard">
+              <div id="medicalFormLockOverlay" class="medical-form-lock-overlay">
+                <div class="medical-form-lock-text">လက်ရှိဆရာဝန်နှင့် ဆွေးနွေးပြီးမှသာ ပြန်လည်အသုံးပြုနိုင်မည်</div>
+              </div>
+
+              <h3 class="form-main-title">သင့်ရောဂါအတွက် အကောင်းဆုံး ဆရာဝန်ကို ရှာဖွေပါ</h3>
+
+              <form id="doctorSearchForm">
+                <div class="inner-form-group">
+                  <fieldset class="form-field full-width">
+                    <legend>လူနာအမည်</legend>
+                    <input type="text" id="patientName" required />
+                  </fieldset>
+
+                  <fieldset class="form-field">
+                    <legend>အသက်</legend>
+                    <input type="number" id="patientAge" min="1" max="90" required onkeypress="return event.charCode >= 48 && event.charCode <= 57;" />
+                  </fieldset>
+
+                  <fieldset class="form-field">
+                    <legend>ရောဂါဖြစ်သောရက်</legend>
+                    <input type="text" id="illnessDays" />
+                  </fieldset>
+
+                  <fieldset class="form-field full-width">
+                    <legend>ဖြစ်ပွားနေသော ရောဂါလက္ခဏာ</legend>
+                    <input type="text" id="currentSymptoms" required />
+                  </fieldset>
+
+                  <fieldset class="form-field full-width">
+                    <legend>ဓါတ်မတည့်သော ဆေးဝါးများ</legend>
+                    <input type="text" id="currentMedicine" />
+                  </fieldset>
+
+                  <fieldset class="form-field full-width">
+                    <legend>ရောဂါဟောင်း</legend>
+                    <input type="text" id="pastHistory" />
+                  </fieldset>
+                </div>
+
+                <button type="submit" class="search-doctor-btn"><i class="fa-solid fa-magnifying-glass"></i> ဆရာဝန် ရှာဖွေမည်</button>
+              </form>
+            </div>
+
+            <!--Hospital booking card-->
+            <div class="hospital-booking-card">
+              <div class="card-overlay"></div>
+              <div class="booking-card-content">
+                <div class="booking-info"></div>
+                <button class="btn-donate" onclick="window.location.href = 'booking_hospital.html'"><i class="fa-solid fa-calendar-check"></i> ဘိုကင်ရယူရန်</button>
+              </div>
+            </div>
+          </div>
+
+          <!--Bottom menu-->
+          <div class="menu-container">
+            <div class="menu">
+              <a href="booking_hospital.html" class="nav-item" data-view="news-view" title="ဆောင်းပါး" style="text-decoration: none"> <i class="fa-solid fa-hospital"></i><span>ဆေးရုံများ</span> </a>
+              <a href="news.html" class="nav-item" data-view="news-view" title="ဆောင်းပါး" style="text-decoration: none"> <i class="fa-solid fa-newspaper"></i> <span>ဆောင်းပါး</span> </a>
+              <a href="#" class="nav-item active" data-view="home-view" title="အိမ်">
+                <i class="fa-solid fa-house"></i>
+                <span>အိမ်</span>
+              </a>
+              <a href="ai_doctor.html" class="nav-item" data-nav="doctor" title="ဒေါက်တာ"> <i class="fa-solid fa-stethoscope"></i> <span>ဒေါက်တာ</span> </a>
+              <a href="booking_list.html" class="nav-item" data-view="booking-history-view" title="မှတ်တမ်း" style="text-decoration: none"> <i class="fa-solid fa-calendar-days"></i> <span>မှတ်တမ်း</span> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--loading effect-->
+      <div id="searchLoadingOverlay" class="loading-overlay" style="display: none">
+        <div>
+          <svg height="108px" width="108px" viewBox="0 0 128 128" class="loader">
+            <defs>
+              <clipPath id="loader-eyes">
+                <circle transform="rotate(-40,64,64) translate(0,-56)" r="8" cy="64" cx="64" class="loader__eye1"></circle>
+                <circle transform="rotate(40,64,64) translate(0,-56)" r="8" cy="64" cx="64" class="loader__eye2"></circle>
+              </clipPath>
+              <linearGradient y2="1" x2="0" y1="0" x1="0" id="loader-grad">
+                <stop stop-color="#000" offset="0%"></stop>
+                <stop stop-color="#fff" offset="100%"></stop>
+              </linearGradient>
+              <mask id="loader-mask">
+                <rect fill="url(#loader-grad)" height="128" width="128" y="0" x="0"></rect>
+              </mask>
+            </defs>
+            <g stroke-dasharray="175.93 351.86" stroke-width="12" stroke-linecap="round">
+              <g>
+                <rect clip-path="url(#loader-eyes)" height="64" width="128" fill="hsl(193,90%,50%)"></rect>
+                <g stroke="hsl(193,90%,50%)" fill="none">
+                  <circle transform="rotate(180,64,64)" r="56" cy="64" cx="64" class="loader__mouth1"></circle>
+                  <circle transform="rotate(0,64,64)" r="56" cy="64" cx="64" class="loader__mouth2"></circle>
+                </g>
+              </g>
+              <g mask="url(#loader-mask)">
+                <rect clip-path="url(#loader-eyes)" height="64" width="128" fill="hsl(223,90%,50%)"></rect>
+                <g stroke="hsl(223,90%,50%)" fill="none">
+                  <circle transform="rotate(180,64,64)" r="56" cy="64" cx="64" class="loader__mouth1"></circle>
+                  <circle transform="rotate(0,64,64)" r="56" cy="64" cx="64" class="loader__mouth2"></circle>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <p class="loading-text">AI မှ သင့်တော်သော ဆရာဝန်ကို ရှာဖွေနေပါပြီ...</p>
+      </div>
+
+      <!-- In-App Emergency Calling Screen UI -->
+      <div id="emergency-calling-screen" class="calling-screen-overlay" style="display: none">
+        <div class="calling-status-info">
+          <p class="calling-lbl">အထွေထွေဆရာဝန်ကို ခေါ်ဆိုနေပါသည်...</p>
+          <h2 class="calling-hosp-title">Shar Pone Taw Emergency</h2>
+        </div>
+
+        <div class="calling-avatar-wrapper">
+          <div class="pulse-ring ring-1"></div>
+          <div class="pulse-ring ring-2"></div>
+          <div class="calling-avatar-box">
+            <img src="../images/emergency_doctor_logo.jpeg" alt="Emergency Doctor" />
+          </div>
+        </div>
+
+        <div class="calling-action-row">
+          <button type="button" class="call-btn video-mute-btn" onclick="toggleEmergencyVideo()" title="ဗီဒီယို ပိတ်မည်">
+            <i class="fa-solid fa-video-slash"></i>
+          </button>
+
+          <button type="button" class="call-btn decline-btn" onclick="endEmergencyCall()" title="ဖုန်းချမည်">
+            <i class="fa-solid fa-phone-slash"></i>
+          </button>
+
+          <button type="button" class="call-btn chat-btn" onclick="openEmergencyChat()" title="စာပို့မည်">
+            <i class="fa-solid fa-comment-dots"></i>
+          </button>
+        </div>
+      </div>
+
+      <!--ဆရာ၀န် ရှာလျင်  ေငွ ေပးချေရမဲ့ message box-->
+      <div id="doctorPaymentModal" class="doctor-payment-modal">
+        <div class="doctor-payment-card">
+          <h3 class="doctor-payment-title">ဆရာဝန်ရှာဖွေမှုအတွက် ငွေပေးချေမည်</h3>
+          <p class="doctor-payment-subtitle">Doctor Search Service အသုံးပြုရန် 3,000 MMK ပေးချေရပါမည်။</p>
+
+          <div class="doctor-payment-tabs">
+            <button type="button" id="tabOtherPayment" class="doctor-payment-tab active" onclick="selectDoctorPaymentType('other')">Other Payments</button>
+            <button type="button" id="tabWalletPayment" class="doctor-payment-tab" onclick="selectDoctorPaymentType('wallet')">Pay with Wallet</button>
+          </div>
+
+          <div id="otherPaymentPanel" class="doctor-payment-panel active">
+            <div class="payment-logo-row">
+              <div id="doctorPayKpay" class="payment-logo-option active" onclick="selectOtherDoctorPayment('kpay')">
+                <img src="../images/kpay.jpeg" alt="KBZ Pay" />
+              </div>
+
+              <div id="doctorPayWave" class="payment-logo-option" onclick="selectOtherDoctorPayment('wave')">
+                <img src="../images/wave.jpeg" alt="Wave Pay" />
+              </div>
+
+              <div id="doctorPayAya" class="payment-logo-option" onclick="selectOtherDoctorPayment('aya')">
+                <img src="../images/aya.jpeg" alt="AYA Pay" />
+              </div>
+            </div>
+          </div>
+
+          <div id="walletPaymentPanel" class="doctor-payment-panel">
+            <p class="wallet-pay-info">
+              Wallet balance ကို စစ်ဆေးပြီး လက်ကျန်ငွေ လုံလောက်ပါက
+              <b>3,000 MMK</b> ကို အလိုအလျောက် ဖြတ်တောက်ပါမည်။
+            </p>
+          </div>
+
+          <div id="doctorPaymentMessage" class="doctor-payment-message"></div>
+
+          <div class="doctor-payment-actions">
+            <button type="button" class="doctor-cancel-btn" onclick="closeDoctorPaymentModal()">Cancel</button>
+            <button type="button" class="doctor-pay-btn" onclick="confirmDoctorSearchPayment()">Pay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/global_doctor_notification.js"></script>
+    <!--Ai doctor database-->
+    <script src="../js/ai_doctor.js"></script>
+
+    <script>
+      // Appကို စစဝင်ချင်း ငွေနည်းနေရင် ငွေဖြည့်ပါ ပြမဲ့ card
+      document.addEventListener("DOMContentLoaded", () => {
+        const showNotice = localStorage.getItem("show_announcement");
+        const currentBalance = Number(localStorage.getItem("wallet_balance")) || 0;
+
+        if (showNotice === "true" && currentBalance < 9000) {
+          document.getElementById("emergency-notice-modal").style.display = "flex";
+        }
+        localStorage.removeItem("show_announcement");
+      });
+
+      function handleNoticeAction(action) {
+        document.getElementById("emergency-notice-modal").style.display = "none";
+        if (action === "wallet.html") {
+          window.location.href = "wallet.html";
+        }
+      }
+
+      // 📞 📱 အရေးပေါ်ဖုန်းခေါ်ဆိုခြင်း စတင်သည့် Logic
+      const EMERGENCY_CALL_FEE = 3000;
+
+      function getWalletBalance() {
+        return Number(localStorage.getItem("wallet_balance")) || 0;
+      }
+
+      function setWalletBalance(amount) {
+        localStorage.setItem("wallet_balance", Math.max(0, amount));
+      }
+
+      function startEmergencyCall() {
+        const currentBalance = getWalletBalance();
+
+        if (currentBalance < EMERGENCY_CALL_FEE) {
+          alert("❌ လူကြီးမင်း၏ Wallet ထဲတွင် လက်ကျန်ငွေ မလုံလောက်ပါသဖြင့် အရေးပေါ်ဖုန်းခေါ်ဆိုမှုကို အသုံးမပြုနိုင်ပါ။ ကျေးဇူးပြု၍ ငွေအရင်ဖြည့်ပေးပါဗျာ။");
+
+          window.location.href = "wallet.html";
+          return;
+        }
+
+        const newBalance = currentBalance - EMERGENCY_CALL_FEE;
+        setWalletBalance(newBalance);
+
+        alert(`🎉 Emergency Call အတွက် Wallet မှ ${EMERGENCY_CALL_FEE.toLocaleString()} MMK ဖြတ်တောက်ပြီးပါပြီ။ လက်ကျန်: ${newBalance.toLocaleString()} MMK`);
+
+        const mainContent = document.getElementById("main-app-content");
+        const callingScreen = document.getElementById("emergency-calling-screen");
+
+        if (mainContent) {
+          mainContent.style.display = "none";
+        }
+
+        if (callingScreen) {
+          callingScreen.style.display = "flex";
+
+          const callingLabel = callingScreen.querySelector(".calling-lbl");
+          if (callingLabel) {
+            callingLabel.innerText = "အထွေထွေဆရာဝန်ကို ခေါ်ဆိုနေပါသည်...";
+          }
+        }
+      }
+
+      function endEmergencyCall() {
+        const callingScreen = document.getElementById("emergency-calling-screen");
+        const mainContent = document.getElementById("main-app-content");
+
+        if (callingScreen) {
+          callingScreen.style.display = "none";
+        }
+
+        if (mainContent) {
+          mainContent.style.display = "block";
+        }
+
+        alert("📞 အရေးပေါ်ခေါ်ဆိုမှု ပြီးဆုံးပါပြီ။");
+      }
+
+      function toggleEmergencyVideo() {
+        alert("Demo: Video mute / unmute feature.");
+      }
+
+      function openEmergencyChat() {
+        alert("Demo: Emergency chat feature.");
+      }
+    </script>
+
+    <script>
+      // Doctor Search Payment Lock Logic
+      const DOCTOR_SEARCH_FEE = 3000;
+
+      let pendingDoctorSearchData = null;
+      let selectedDoctorPaymentType = "other";
+      let selectedOtherPaymentMethod = "kpay";
+
+      function getDoctorSearchFormData() {
+        return {
+          patientName: document.getElementById("patientName").value.trim(),
+          patientAge: document.getElementById("patientAge").value.trim(),
+          illnessDays: document.getElementById("illnessDays").value.trim(),
+          currentSymptoms: document.getElementById("currentSymptoms").value.trim(),
+          currentMedicine: document.getElementById("currentMedicine").value.trim(),
+          pastHistory: document.getElementById("pastHistory").value.trim(),
+        };
+      }
+
+      function openDoctorPaymentModal(formData) {
+        pendingDoctorSearchData = formData;
+        selectedDoctorPaymentType = "other";
+        selectedOtherPaymentMethod = "kpay";
+
+        selectDoctorPaymentType("other");
+        selectOtherDoctorPayment("kpay");
+        setDoctorPaymentMessage("", "");
+
+        document.getElementById("doctorPaymentModal").classList.add("show");
+      }
+
+      function closeDoctorPaymentModal() {
+        document.getElementById("doctorPaymentModal").classList.remove("show");
+      }
+
+      function setDoctorPaymentMessage(message, type) {
+        const msgBox = document.getElementById("doctorPaymentMessage");
+        msgBox.innerText = message || "";
+        msgBox.className = "doctor-payment-message";
+
+        if (type) {
+          msgBox.classList.add(type);
+        }
+      }
+
+      function selectDoctorPaymentType(type) {
+        selectedDoctorPaymentType = type;
+
+        document.getElementById("tabOtherPayment").classList.toggle("active", type === "other");
+        document.getElementById("tabWalletPayment").classList.toggle("active", type === "wallet");
+
+        document.getElementById("otherPaymentPanel").classList.toggle("active", type === "other");
+        document.getElementById("walletPaymentPanel").classList.toggle("active", type === "wallet");
+
+        setDoctorPaymentMessage("", "");
+      }
+
+      function selectOtherDoctorPayment(method) {
+        selectedOtherPaymentMethod = method;
+
+        document.querySelectorAll(".payment-logo-option").forEach((option) => {
+          option.classList.remove("active");
+        });
+
+        if (method === "kpay") document.getElementById("doctorPayKpay").classList.add("active");
+        if (method === "wave") document.getElementById("doctorPayWave").classList.add("active");
+        if (method === "aya") document.getElementById("doctorPayAya").classList.add("active");
+
+        setDoctorPaymentMessage("", "");
+      }
+
+      function confirmDoctorSearchPayment() {
+        if (!pendingDoctorSearchData) {
+          setDoctorPaymentMessage("Patient information မတွေ့ပါ။ ထပ်မံရှာဖွေပေးပါ။", "error");
+          return;
+        }
+
+        if (selectedDoctorPaymentType === "other") {
+          if (!selectedOtherPaymentMethod) {
+            setDoctorPaymentMessage("Payment method တစ်ခုရွေးပေးပါ။", "error");
+            return;
+          }
+
+          closeDoctorPaymentModal();
+          alert("🎉 Payment အောင်မြင်ပါပြီ။ ဆရာဝန်ကို ရှာဖွေနေပါသည်။");
+          runDoctorSearchAfterSuccessfulPayment();
+          return;
+        }
+
+        if (selectedDoctorPaymentType === "wallet") {
+          let walletBalance = Number(localStorage.getItem("wallet_balance")) || 0;
+
+          if (walletBalance < DOCTOR_SEARCH_FEE) {
+            setDoctorPaymentMessage(`❌ Wallet balance မလုံလောက်ပါ။ လက်ရှိ balance: ${walletBalance.toLocaleString()} MMK`, "error");
+            return;
+          }
+
+          walletBalance -= DOCTOR_SEARCH_FEE;
+          localStorage.setItem("wallet_balance", walletBalance);
+
+          closeDoctorPaymentModal();
+          alert(`🎉 Wallet မှ ${DOCTOR_SEARCH_FEE.toLocaleString()} MMK ဖြတ်တောက်ပြီးပါပြီ။ လက်ကျန်: ${walletBalance.toLocaleString()} MMK`);
+
+          runDoctorSearchAfterSuccessfulPayment();
+        }
+      }
+
+      function runDoctorSearchAfterSuccessfulPayment() {
+        const data = pendingDoctorSearchData;
+        pendingDoctorSearchData = null;
+
+        const searchRequest = {
+          patientName: data.patientName,
+          patientAge: data.patientAge,
+          illnessDays: data.illnessDays,
+          currentSymptoms: data.currentSymptoms,
+          currentMedicine: data.currentMedicine,
+          pastHistory: data.pastHistory,
+          requestedAt: new Date().toLocaleString(),
+        };
+
+        localStorage.setItem("aiDoctorSearchRequest", JSON.stringify(searchRequest));
+        localStorage.removeItem("aiDoctorSearchResult");
+        localStorage.removeItem("medicalFormLocked");
+
+        // Loading Screen ကို ပြသပြီး ၃ စက္ကန့်ကြာမှ စာမျက်နှာရွှေ့မည်
+        const loadingOverlay = document.getElementById("searchLoadingOverlay");
+        const mobileContainer = document.querySelector(".mobile-container");
+
+        if (mobileContainer) {
+          mobileContainer.scrollTop = 0;
+        }
+
+        if (loadingOverlay) {
+          loadingOverlay.style.display = "flex";
+        }
+
+        setTimeout(() => {
+          window.location.href = "ai_doctor.html";
+        }, 3000); // ၃ စက္ကန့် (လိုအပ်သလို စက္ကန့်တိုး/လျှော့ လုပ်နိုင်ပါတယ်)
+      }
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("doctorSearchForm");
+        if (!form) return;
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = getDoctorSearchFormData();
+
+          if (!formData.patientName || !formData.patientAge || !formData.currentSymptoms) {
+            alert("ကျေးဇူးပြု၍ လူနာအမည်၊ အသက်နှင့် ရောဂါလက္ခဏာကို ဖြည့်ပေးပါ။");
+            return;
+          }
+
+          openDoctorPaymentModal(formData);
+        });
+      });
+    </script>
+
+    <script>
+      const MEDICAL_FORM_LOCK_KEY = "medicalFormLocked";
+      const AI_DOCTOR_RESULT_KEY = "aiDoctorSearchResult";
+
+      function getHomepageJSON(key) {
+        try {
+          return JSON.parse(localStorage.getItem(key));
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function hasActiveDoctorBooking() {
+        const resultData = getHomepageJSON(AI_DOCTOR_RESULT_KEY);
+
+        if (!resultData || !resultData.doctor) {
+          return false;
+        }
+
+        return ["waiting", "ready", "in_call"].includes(resultData.bookingStatus);
+      }
+
+      function applyMedicalFormLockState() {
+        const lockFlag = localStorage.getItem(MEDICAL_FORM_LOCK_KEY) === "true";
+        const shouldLock = lockFlag && hasActiveDoctorBooking();
+
+        const formCard = document.getElementById("medicalFormCard");
+        const form = document.getElementById("doctorSearchForm");
+
+        if (!formCard || !form) return;
+
+        if (!shouldLock) {
+          localStorage.removeItem(MEDICAL_FORM_LOCK_KEY);
+        }
+
+        formCard.classList.toggle("form-locked", shouldLock);
+
+        const formControls = form.querySelectorAll("input, textarea, select, button");
+
+        formControls.forEach((control) => {
+          control.disabled = shouldLock;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", applyMedicalFormLockState);
+
+      // document.addEventListener("DOMContentLoaded", () => {
+      //   localStorage.removeItem("unreadDoctorNotification");
+      // });
+    </script>
+  </body>
+</html>

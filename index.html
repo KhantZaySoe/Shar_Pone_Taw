@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor App - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+<div class="mobile-container">
+    <div class="top-gradient">
+        <a href="./pages/welcomepage.html" class="back-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>နောက်သို့</span>
+        </a>
+    </div>
+
+    <div class="form-card">
+        <h2>အကောင့်ဝင်ရန်</h2> <form id="loginForm">
+            <div class="input-group">
+                <label>ဖုန်းနံပါတ်</label>
+                <input type="tel" id="phone"  required>
+            </div>
+
+            <div class="input-group">
+                <label>စကားဝှက်</label>
+                <input type="password" id="password"  required>
+            </div>
+
+            <div class="action-row">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" checked>
+                    <label for="remember">မှတ်ထားပါ</label>
+                </div>
+                <a href="#" class="forgot-pass">စကားဝှက်မေ့နေသည်</a>
+            </div>
+
+            <button type="submit" class="btn-submit">အကောင့်ဝင်မည်</button>
+        </form>
+
+        <div class="divider">အခြားနည်းလမ်းဖြင့် ဝင်မည်</div>
+
+        <div class="social-group">
+            <a href="#" class="social-icon fb"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon tw"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="social-icon gg"><i class="fa-brands fa-google"></i></a>
+            <a href="#" class="social-icon ap"><i class="fa-brands fa-apple"></i></a>
+        </div>
+
+        <div class="bottom-text">
+            အကောင့်မရှိသေးလျှင် <a href="./pages/signup.html">အကောင့်အသစ်ဖွင့်ပါ</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        const defaultPhone = "09123456789";
+        const defaultPassword = "admin123";
+
+        if (phone === defaultPhone && password === defaultPassword) {
+            // 📌 ဖြည့်စွက်ချက်: လော့ဂ်အင်ဝင်ပြီးကြောင်း အလံထောင်လိုက်ခြင်း
+            localStorage.setItem("show_announcement", "true");
+            window.location.href = "../pages/homepage.html";
+        } else {
+            alert("ဖုန်းနံပါတ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။");
+        }
+    });
+
+
+    
+</script>
+
+</body>
+</html>

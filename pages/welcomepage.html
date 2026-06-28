@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shar Pone Taw - ကြိုဆိုပါသည်</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/welcomepage.css" />
+  </head>
+  <body>
+    <div class="mobile-container">
+
+      <!-- 🤖 🔥 အပေါ်ခြမ်း Header နှင့် Lottie Robot Container အသစ် -->
+      <div class="welcome-top-section">
+        
+        <lottie-player 
+            src="../js/welcomerobot.json"  
+            background="transparent"  
+            speed="1"  
+            style="width: 320px; height: 320px;" 
+            loop 
+            autoplay>
+        </lottie-player>
+      </div>
+
+      <!-- 🟦 အောက်ခြေ Navy Blue Panel -->
+      <div class="welcome-bottom-panel">
+        <div class="welcome-slider-dots">
+          <span class="welcome-dot active"></span>
+          <span class="welcome-dot"></span>
+          <span class="welcome-dot"></span>
+        </div>
+
+        <div class="welcome-text-content">
+          <h1 class="welcome-main-title">ရှာပုံတော်မှ ကြိုဆိုပါသည်</h1>
+          <p class="welcome-sub-desc">
+            သင့်ကျန်းမာရေးအတွက် အကောင်းဆုံး ဆရာဝန်များနှင့် ဆေးရုံများကို တစ်နေရာတည်းတွင် အလွယ်တကူ ရှာဖွေဘိုကင် ရယူလိုက်ပါ။
+          </p>
+        </div>
+
+        <button class="welcome-continue-btn" onclick="goToHome()">
+            <span>ဆက်လုပ်မည်</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function goToHome() {
+        window.location.href = "../index.html";
+      }
+    </script>
+
+    <!-- Lottie Player Script -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </body>
+</html>

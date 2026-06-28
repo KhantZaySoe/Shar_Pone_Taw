@@ -1,0 +1,355 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", "Noto Sans Myanmar", sans-serif;
+}
+
+body {
+  background-color: #eef2f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* --- Container Core Logic (Desktop/Laptop Size) --- */
+.mobile-container {
+  width: 100%;
+  max-width: 360px; /* iPhone 15 Pro Max Size အတိုင်း Fixed ပြန်ဖြစ်မည် */
+  height: 740px;
+  background: #f8fafc;
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-container::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* --- 📱 Responsive For ALL Mobiles and ALL Tablets --- */
+@media (max-width: 991px) {
+  .mobile-container {
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+}
+
+/* --- Sticky Header --- */
+.hospital-header {
+  background:linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.hospital-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+.back-btn {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+}
+
+/* --- Hospital Grid Layout (၁ တန်း လျှင် ၂ ကွက်စီ ညှိခြင်း) --- */
+.hospital-content {
+  padding: 16px;
+  flex: 1;
+}
+
+.hospital-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ကွက်တိ ၁ တန်းလျှင် ၂ ကွက်စီ ထွက်စေရန် */
+  gap: 12px; /* ကတ်တစ်ခုနှင့်တစ်ခုကြား Space အကွာအဝေး */
+}
+
+/* --- Hospital Card Styling --- */
+.hospital-card {
+  position: relative;
+  height: 130px; /* ဖုန်း Screen တွင် ကြည့်ကောင်းမည့် အမြင့်ပမာဏ */
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end; /* စာသားများကို ကတ်၏အောက်ခြေတွင် ကပ်ထားရန် */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.hospital-card:active {
+  transform: scale(0.96); /* ဖုန်းဖြင့် နှိပ်လိုက်လျှင် အနည်းငယ် ကျုံ့ဝင်သွားမည့် Touch Effect */
+}
+
+/* ပုံနောက်ခံပေါ်တွင် စာလုံးများ ဖြူဖြူထင်းထင်း ပေါ်စေရန် Gradient Overlay ခံခြင်း */
+.hospital-card .card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 70%);
+  z-index: 1;
+}
+
+/* စာသားအချက်အလက်များ တည်ဆောက်ပုံ */
+.hospital-card-info {
+  position: relative;
+  z-index: 2; /* Overlay ၏ အပေါ်သို့ တင်ထားခြင်း */
+  padding: 12px;
+  width: 100%;
+}
+
+.hospital-name {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  /* စာသား အလွန်ရှည်ပါက Layout မပျက်ဘဲ ... ဖြင့် အလိုအလျောက် ဖြတ်ရန် */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hospital-details {
+  display: flex;
+  align-items: center;
+}
+
+.hospital-loc {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 10px;
+  font-weight: 400;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.hospital-loc i {
+  color: #3b82f6; /* တည်နေရာ Icon အား သုံးနေကျ အပြာရောင်လေး ထည့်ထားခြင်း */
+  font-size: 9px;
+}
+
+/* --- 🎯 Hover Effect & Middle Button Styling --- */
+
+/* ကတ်ကို ထောက်လိုက်လျှင် အနောက်က Overlay အား ပိုမှောင်စေပြီး Backdrop Blur ဖြင့် ဝါးပစ်ခြင်း */
+.hospital-card:hover .card-overlay {
+  background: rgba(15, 23, 42, 0.75); /* Overlay အား ပိုမှောင်လိုက်ခြင်း */
+  backdrop-filter: blur(3px); /* ဓာတ်ပုံအား ဝါးသွားစေမည့် လှပသော Effect */
+  transition: all 0.3s ease;
+}
+
+
+/* 📌 ရွေးမည် ခလုတ်အား ပုံမှန်အချိန်တွင် ပုန်းနေစေရန် အောက်ခြေတွင် တည်ဆောက်ခြင်း */
+.select-hosp-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7); 
+  opacity: 0; 
+  z-index: 3; 
+  pointer-events: none; 
+  display: inline-block;
+  padding: 8px 34px; /* အချိုးအစား ပြေပြစ်အောင် Padding ကို ပြန်ညှိထားသည် */
+  white-space: nowrap; 
+  font-size: 13px; /* စာသားကို ရှင်းရှင်းလင်းလင်း မြင်ရစေရန် အရွယ်အစား အနည်းငယ် တိုးထားသည် */
+  font-weight: bold;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  color: #fff;
+  background-image: linear-gradient(to bottom right, #00c6ff, #0072ff); 
+  border: none;
+  border-radius: 12px; 
+  box-shadow: 0px 4px 0px #0072ff; 
+  cursor: pointer;
+  
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, background-image 0.2s ease;
+}
+
+/* 📌 ကတ်ကို ထောက်လိုက်သည့်အခါ (Hover) အလယ်ကနေ ရွေးမည်ခလုတ် ထင်းခနဲ ပွင့်တက်လာမည့်ပုံစံ */
+.hospital-card:hover .select-hosp-btn {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1); 
+  pointer-events: auto; 
+}
+
+/* 📌 ရွေးမည်ခလုတ်ကို ထပ်ပြီး Mouse တင်လျှင် */
+.select-hosp-btn:hover {
+  transform: translate(-50%, -54%) scale(1); 
+  box-shadow: 0px 6px 0px #0072ff; 
+}
+
+/* 📌 ခလုတ်ကို ကလစ်နှိပ်လိုက်သည့်အခါ ကျွံဝင်သွားမည့် 3D Active Effect */
+.select-hosp-btn:active {
+  transform: translate(-50%, -48%) scale(1); 
+  box-shadow: 0px 0px 0px #0072ff; 
+  background-image: linear-gradient(to bottom right, #0072ff, #00c6ff); 
+}
+
+/* 📌 အနားသတ် လိုင်းလေးများ (Border Corners) */
+.select-hosp-btn:before,
+.select-hosp-btn:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.select-hosp-btn:before {
+  top: -3px;
+  left: -3px;
+  border-radius: 12px; 
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+}
+
+.select-hosp-btn:after {
+  bottom: -3px;
+  right: -3px;
+  border-radius: 12px; 
+  border-bottom: 3px solid #fff;
+  border-right: 3px solid #fff;
+}
+/* --- 📱 Bottom Navigation Bar Styling --- */
+.menu-container {
+  /* position: absolute; မှ fixed သို့ ပြောင်းလဲလိုက်ခြင်း (ဒါမှ scroll ဆွဲလည်း အောက်မှာ အသေကပ်နေမှာပါ) */
+  position: fixed;
+  bottom: 20px; /* အောက်ခြေကနေ ကွာဝေးမယ့် အကွာအဝေး (ဖုန်းမျိုးစုံမှာ အဆင်ပြေအောင် 20px ညှိပေးထားပါတယ်) */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 360px; /* အရေးကြီးချက်: မင်းရဲ့ .mobile-container width အတိုင်း 360px အသေထိန်းပေးရပါမယ် */
+  display: flex;
+  justify-content: center;
+  z-index: 9999; /* တခြား ဘယ် content (ဥပမာ- modal သို့မဟုတ် card) ရဲ့ အောက်ကိုမှ ငုပ်မသွားစေရန် z-index ကို အမြင့်ဆုံး ထားခြင်း */
+}
+
+/* Home Indicator မြုပ်မသွားစေရန်နှင့် အောက်ခြေမှာ အသေလိုက်ကပ်နေဖို့ position: fixed ပြောင်းလဲခြင်း */
+.home-indicator {
+  position: fixed;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 9999;
+}
+
+.menu {
+  width: calc(100% - 40px);
+  max-width: 520px;
+  backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) contrast(200%);
+  background: rgba(0, 122, 255, 0.404);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  border-radius: 99rem;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 5px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 10px 4px;
+  border-radius: 999rem;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease-in-out;
+}
+
+.menu a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.4),
+    inset -2px -1px 5px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+  color: rgba(0, 122, 255, 0.7);
+}
+
+.menu a i {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.menu a span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+
+.menu a.active {
+  background: rgba(237, 237, 237, 0.6);
+  color: rgba(0, 122, 255, 0.9);
+}
+
+.menu a:active {
+  transform: scale(0.95);
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background-color: var(--indicator-color);
+  transition: background-color 0.4s ease;
+  border-radius: 10px;
+  z-index: 11;
+}
