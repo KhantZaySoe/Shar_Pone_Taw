@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Shar Pone Taw - Doctor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet" />
@@ -108,6 +108,8 @@
       const MEDICAL_FORM_LOCK_KEY = "medicalFormLocked";
       const AI_CALL_DURATION_SECONDS = 45 * 60;
 
+      const AI_DOCTOR_BOOKED_SLOTS_KEY = "aiDoctorBookedSlots";
+
       const DOCTOR_CATEGORY_KEYWORDS = [
         {
           category: "နှလုံးအထူးကု ဆရာဝန်",
@@ -202,7 +204,7 @@
         },
         {
           category: "အစာအိမ်နှင့် အူလမ်းကြောင်း အထူးကုဆရာဝန်",
-          keywords: ["အစာအိမ်", "ဗိုက်နာ","ဗိုက်အောင့်", "အူ", "ဝမ်း", "ဝမ်းလျှော", "အန်", "အသည်း", "stomach", "gastric", "diarrhea", "liver"],
+          keywords: ["အစာအိမ်", "ဗိုက်နာ", "ဗိုက်အောင့်", "အူ", "ဝမ်း", "ဝမ်းလျှော", "အန်", "အသည်း", "stomach", "gastric", "diarrhea", "liver"],
         },
         {
           category: "ဟော်မုန်းနှင့် ဆီးချို၊ သိုင်းရွိက် အထူးကုဆရာဝန်",
@@ -275,6 +277,54 @@
         localStorage.setItem(key, JSON.stringify(value));
       }
 
+      function getBookedDoctorSlots() {
+        const bookedSlots = getJSON(AI_DOCTOR_BOOKED_SLOTS_KEY);
+        return Array.isArray(bookedSlots) ? bookedSlots : [];
+      }
+
+      function saveBookedDoctorSlots(bookedSlots) {
+        saveJSON(AI_DOCTOR_BOOKED_SLOTS_KEY, bookedSlots);
+      }
+
+      function createDoctorSlotKey(doctor, slot) {
+        if (!doctor || !slot) return "";
+        return `${doctor.id}|${slot.date}|${slot.time}`;
+      }
+
+      function isSlotBooked(doctor, slot) {
+        const slotKey = createDoctorSlotKey(doctor, slot);
+        if (!slotKey) return false;
+
+        return getBookedDoctorSlots().some((bookedSlot) => bookedSlot.slotKey === slotKey);
+      }
+
+      function blockDoctorSlot(doctor, slot, appointmentId) {
+        const slotKey = createDoctorSlotKey(doctor, slot);
+        if (!slotKey) return false;
+
+        const bookedSlots = getBookedDoctorSlots();
+
+        const alreadyBooked = bookedSlots.some((bookedSlot) => bookedSlot.slotKey === slotKey);
+
+        if (alreadyBooked) {
+          return false;
+        }
+
+        bookedSlots.push({
+          slotKey: slotKey,
+          doctorId: doctor.id,
+          doctorName: doctor.name,
+          category: doctor.category,
+          date: slot.date,
+          time: slot.time,
+          appointmentId: appointmentId,
+          bookedAt: new Date().toISOString(),
+        });
+
+        saveBookedDoctorSlots(bookedSlots);
+        return true;
+      }
+
       function normalizeText(text) {
         return String(text || "")
           .toLowerCase()
@@ -316,22 +366,26 @@
       }
 
       function getNearestAvailableSlot(doctor) {
-        if (!doctor.available_slots || doctor.available_slots.length === 0) {
+        if (!doctor || !doctor.available_slots || doctor.available_slots.length === 0) {
           return null;
         }
 
         const now = new Date();
 
-        const sortedSlots = doctor.available_slots
+        const availableSlots = doctor.available_slots
           .map((slot) => ({
             ...slot,
             dateTime: getSlotDateTime(slot),
           }))
+          .filter((slot) => {
+            const isFutureSlot = slot.dateTime >= now;
+            const isBooked = isSlotBooked(doctor, slot);
+
+            return isFutureSlot && !isBooked;
+          })
           .sort((a, b) => a.dateTime - b.dateTime);
 
-        const futureSlot = sortedSlots.find((slot) => slot.dateTime >= now);
-
-        return futureSlot || sortedSlots[0];
+        return availableSlots[0] || null;
       }
 
       function findBestDoctorByCategory(category) {
@@ -353,8 +407,11 @@
             return {
               doctor,
               nearestSlot,
-              timeDifference: slotTime ? Math.abs(slotTime - now) : Number.MAX_SAFE_INTEGER,
+              timeDifference: slotTime ? slotTime - now : Number.MAX_SAFE_INTEGER,
             };
+          })
+          .filter((item) => {
+            return item.nearestSlot !== null;
           })
           .sort((a, b) => {
             if (a.timeDifference !== b.timeDifference) {
@@ -364,7 +421,7 @@
             return Number(b.doctor.rating || 0) - Number(a.doctor.rating || 0);
           });
 
-        return rankedDoctors[0];
+        return rankedDoctors[0] || null;
       }
 
       function formatSlot(slot) {
@@ -977,6 +1034,11 @@
         const patient = resultData.patient || {};
         const summary = createDemoConsultationSummary(resultData);
 
+        // Use booked appointment slot instead of real current time
+        const bookedSlot = resultData.nearestSlot || resultData.bookedSlot || null;
+
+        const consultationDate = bookedSlot && bookedSlot.date && bookedSlot.time ? `${bookedSlot.date} / ${bookedSlot.time}` : "Appointment time မသတ်မှတ်ရသေးပါ";
+
         const historyRecord = {
           id: `history_${Date.now()}`,
           recordTitleMm: "ဆေးကုသမှု မှတ်တမ်း",
@@ -988,7 +1050,7 @@
           illnessDiagnosed: resultData.matchedCategory || doctor.category || "N/A",
           patientSymptoms: patient.currentSymptoms || "N/A",
 
-          consultationDate: new Date().toLocaleString(),
+          consultationDate: consultationDate,
 
           conversationSummary: summary.conversationSummary,
           doctorNotes: summary.doctorNotes,
@@ -999,7 +1061,6 @@
 
         saveAiDoctorHistory(history);
       }
-
       function endAiDoctorCall() {
         if (aiCallState.isEnding) return;
         aiCallState.isEnding = true;
@@ -1365,8 +1426,15 @@
         }
 
         if (oldResult && oldResult.status === "found" && oldResult.doctor) {
-          renderDoctorResult(oldResult);
-          return;
+          const oldSlotStillAvailable = oldResult.nearestSlot && !isSlotBooked(oldResult.doctor, oldResult.nearestSlot);
+
+          if (oldSlotStillAvailable) {
+            renderDoctorResult(oldResult);
+            return;
+          }
+
+          localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+          oldResult = null;
         }
 
         if (!requestData) {
@@ -1433,11 +1501,37 @@
         const doctor = resultData.doctor;
         const nearestSlot = resultData.nearestSlot;
 
+        if (!nearestSlot) {
+          alert("ဤဆရာဝန်အတွက် Available Slot မရှိတော့ပါ။ ထပ်မံရှာဖွေပေးပါ။");
+          localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+          runAiDoctorSearch();
+          return;
+        }
+
+        // Re-check before booking, because the slot may already be occupied.
+        if (isSlotBooked(doctor, nearestSlot)) {
+          alert("ဤအချိန် Slot ကို အခြား Booking တစ်ခုက ယူထားပြီးပါပြီ။ နောက်ထပ် Available Slot ကို ပြန်ရှာပေးပါမည်။");
+
+          localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+          runAiDoctorSearch();
+          return;
+        }
+
         const bookingDate = getSlotDate(nearestSlot);
         const bookingTime = getSlotTime(nearestSlot);
 
         const appointmentId = `ai_booking_${Date.now()}`;
         const notifyAt = Date.now() + 10000;
+
+        const slotBlocked = blockDoctorSlot(doctor, nearestSlot, appointmentId);
+
+        if (!slotBlocked) {
+          alert("ဤ Slot ကို Booking ပြုလုပ်၍ မရတော့ပါ။ နောက်ထပ် Available Slot ကို ပြန်ရှာပေးပါမည်။");
+
+          localStorage.removeItem(AI_DOCTOR_RESULT_KEY);
+          runAiDoctorSearch();
+          return;
+        }
 
         const bookedResult = {
           ...resultData,
@@ -1446,10 +1540,19 @@
           canJoin: false,
           notifyAt: notifyAt,
           bookedAt: new Date().toLocaleString(),
+
+          bookedSlot: {
+            doctorId: doctor.id,
+            doctorName: doctor.name,
+            date: bookingDate,
+            time: bookingTime,
+            slotKey: createDoctorSlotKey(doctor, nearestSlot),
+          },
         };
 
         saveJSON(AI_DOCTOR_RESULT_KEY, bookedResult);
         localStorage.setItem(MEDICAL_FORM_LOCK_KEY, "true");
+
         renderBookingNotificationCard(bookedResult);
 
         if (window.GlobalAppointmentAlert) {

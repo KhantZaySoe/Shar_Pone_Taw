@@ -23,6 +23,70 @@
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  function getBookedDoctorSlots() {
+    const bookedSlots = getJSON(AI_DOCTOR_BOOKED_SLOTS_KEY);
+    return Array.isArray(bookedSlots) ? bookedSlots : [];
+  }
+
+  function saveBookedDoctorSlots(bookedSlots) {
+    saveJSON(AI_DOCTOR_BOOKED_SLOTS_KEY, bookedSlots);
+  }
+
+  function createDoctorSlotKey(doctor, slot) {
+    if (!doctor || !slot || !slot.date || !slot.time) return "";
+    return `${doctor.id}|${slot.date}|${slot.time}`;
+  }
+
+  function isSlotBooked(doctor, slot) {
+    const slotKey = createDoctorSlotKey(doctor, slot);
+    if (!slotKey) return false;
+
+    return getBookedDoctorSlots().some((bookedSlot) => {
+      return bookedSlot.slotKey === slotKey;
+    });
+  }
+
+  function lockDoctorSlot(doctor, slot, appointmentId, patient = {}) {
+    const slotKey = createDoctorSlotKey(doctor, slot);
+    if (!slotKey) return false;
+
+    const bookedSlots = getBookedDoctorSlots();
+
+    const alreadyBooked = bookedSlots.some((bookedSlot) => {
+      return bookedSlot.slotKey === slotKey;
+    });
+
+    if (alreadyBooked) {
+      return false;
+    }
+
+    bookedSlots.push({
+      slotKey: slotKey,
+      doctorId: doctor.id,
+      doctorName: doctor.name,
+      doctorCategory: doctor.category,
+      date: slot.date,
+      time: slot.time,
+      appointmentId: appointmentId,
+      patientName: patient.patientName || "Demo Patient",
+      bookedAt: new Date().toISOString(),
+      status: "booked",
+    });
+
+    saveBookedDoctorSlots(bookedSlots);
+    return true;
+  }
+
+  function unlockDoctorSlotByAppointmentId(appointmentId) {
+    const bookedSlots = getBookedDoctorSlots();
+
+    const updatedSlots = bookedSlots.filter((slot) => {
+      return slot.appointmentId !== appointmentId;
+    });
+
+    saveBookedDoctorSlots(updatedSlots);
+  }
+
   function injectDoctorNotificationStyles() {
     if (document.getElementById("globalDoctorNotificationStyles")) return;
 
@@ -177,11 +241,7 @@
   }
 
   function findDoctorNavItem() {
-    return (
-      document.querySelector('.nav-item[data-nav="doctor"]') ||
-      document.querySelector('.nav-item[data-nav="doctors"]') ||
-      document.querySelector('a[href*="ai_doctor.html"]')
-    );
+    return document.querySelector('.nav-item[data-nav="doctor"]') || document.querySelector('.nav-item[data-nav="doctors"]') || document.querySelector('a[href*="ai_doctor.html"]');
   }
 
   function getUnreadDoctorNotificationCount() {
@@ -272,11 +332,7 @@
     const globalAppointment = getJSON(GLOBAL_APPOINTMENT_KEY);
     const notifyAt = Number(resultData.notifyAt || globalAppointment?.notifyAt || 0);
 
-    const isAlreadyReady =
-      resultData.bookingStatus === "ready" ||
-      resultData.canJoin === true ||
-      globalAppointment?.status === "ready" ||
-      globalAppointment?.canJoin === true;
+    const isAlreadyReady = resultData.bookingStatus === "ready" || resultData.canJoin === true || globalAppointment?.status === "ready" || globalAppointment?.canJoin === true;
 
     const isTimeReady = notifyAt && Date.now() >= notifyAt;
 
@@ -433,12 +489,7 @@
   }
 
   window.addEventListener("storage", (event) => {
-    if (
-      event.key === AI_DOCTOR_RESULT_KEY ||
-      event.key === GLOBAL_APPOINTMENT_KEY ||
-      event.key === UNREAD_DOCTOR_NOTIFICATION_KEY ||
-      event.key === UNREAD_DOCTOR_NOTIFICATION_COUNT_KEY
-    ) {
+    if (event.key === AI_DOCTOR_RESULT_KEY || event.key === GLOBAL_APPOINTMENT_KEY || event.key === UNREAD_DOCTOR_NOTIFICATION_KEY || event.key === UNREAD_DOCTOR_NOTIFICATION_COUNT_KEY) {
       scheduleDoctorReadyNotification();
       renderDoctorNotificationBadge();
     }
